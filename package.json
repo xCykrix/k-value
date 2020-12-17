@@ -1,7 +1,7 @@
 {
   "name": "k-value",
   "description": "Consistent key-value storage with multiple backend adapters.",
-  "version": "0.0.8",
+  "version": "0.0.1",
   "license": "MIT",
   "author": "Samuel J Voeller <samuel.voeller@amethyst.live> (https://chat.amethyst.live/)",
   "contributors": [],
@@ -59,7 +59,9 @@
     "better-sqlite3": "^7.1.1"
   },
   "dependencies": {
-    "@types/better-sqlite3": "^5.4.1"
+    "@types/better-sqlite3": "^5.4.1",
+    "@types/luxon": "^1.25.0",
+    "luxon": "^1.25.0"
   },
   "root": true
 }
