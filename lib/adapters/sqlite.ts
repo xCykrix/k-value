@@ -1,14 +1,25 @@
 import { fromJSON, toJSON } from 'javascript-serializer'
 import { DateTime, Duration } from 'luxon'
+import { Sql, TableWithColumns } from 'sql-ts'
 
 import { GenericAdapter } from '../generic'
 import { InternalMapper, MapperOptions } from '../types/generics.type'
 
-export class MemoryAdapter extends GenericAdapter {
+export class SQLiteAdapter extends GenericAdapter {
   private readonly map = new Map<string, InternalMapper>()
+  private sql: Sql
+  private _keys: TableWithColumns<KeyTable>
 
   async configure (): Promise<void> {
-    throw new Error('[err] This function has been disabled in this specific adapter. [NOT_USED]')
+    this.sql = new Sql('sqlite')
+    this._keys = this.sql.define<KeyTable>({
+      name: 'key_map',
+      columns: ['keys']
+    })
+    // this._storage = this.sql.define<ValueTable>({
+    //   name: 'value_map',
+    //   columns: ['k']
+    // })
   }
 
   async clear (): Promise<void> {
@@ -47,4 +58,8 @@ export class MemoryAdapter extends GenericAdapter {
       modifiedAt: DateTime.local().toUTC().toISO()
     })
   }
+}
+
+interface KeyTable {
+  key: string
 }

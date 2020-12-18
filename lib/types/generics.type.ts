@@ -1,10 +1,10 @@
 export interface InternalMapper {
-  ctx: any
-  expiresAt: string | null
   key: string
+  ctx: any
+  lifetime: string | null
   modifiedAt: string
 }
 
-export interface Setter {
-  expiresIn: number
+export interface MapperOptions {
+  lifetime: number
 }
