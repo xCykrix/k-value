@@ -1,9 +1,9 @@
 import { DateTime } from 'luxon'
 
 import { InternalMapper } from './types/generics.type'
-import { AdapterUtils } from './utils'
+import { PseudoMap } from './utils'
 
-export abstract class GenericAdapter extends AdapterUtils {
+export abstract class GenericAdapter extends PseudoMap {
   abstract configure (): Promise<void>
 
   /**

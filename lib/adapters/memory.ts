@@ -5,6 +5,7 @@ import { GenericAdapter } from '../generic'
 import { InternalMapper, MapperOptions } from '../types/generics.type'
 
 export class MemoryAdapter extends GenericAdapter {
+  // Internal Map
   private readonly map = new Map<string, InternalMapper>()
 
   async configure (): Promise<void> {
@@ -22,6 +23,7 @@ export class MemoryAdapter extends GenericAdapter {
   async get (key: string): Promise<any> {
     const value = await this.map.get(key)
     if (await this.expired(value)) {
+      await this.delete(key)
       return undefined
     }
     return fromJSON(value?.ctx)
@@ -44,6 +46,7 @@ export class MemoryAdapter extends GenericAdapter {
       ctx: toJSON(value),
       lifetime,
       key,
+      createdAt: DateTime.local().toUTC().toISO(),
       modifiedAt: DateTime.local().toUTC().toISO()
     })
   }

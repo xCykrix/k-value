@@ -1,4 +1,4 @@
-export abstract class AdapterUtils {
+export abstract class PseudoMap {
   size: number
   [Symbol.toStringTag]: string
 
