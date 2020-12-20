@@ -1,7 +1,7 @@
 const { expect } = require('chai')
-const { MemoryAdapter } = require('../../dist/index')
+const { SQLiteAdapter } = require('../../dist/index')
 
-describe('Adapter - Memory', function () {
+describe('Adapter - SQLite', function () {
   let kv = null
   const state = {
     buffer: Buffer.from('son of a buffer'),
@@ -10,7 +10,11 @@ describe('Adapter - Memory', function () {
     set: new Set(['world', 'hello'])
   }
   it('should-initialize', async function () {
-    kv = new MemoryAdapter()
+    await require('fs').rmSync(require('path').resolve(__dirname, './sqlite.db'), { force: true, recursive: false })
+    kv = new SQLiteAdapter({
+      table: 'kv-store',
+      file: require('path').resolve(__dirname, './sqlite.db')
+    })
     await kv.configure()
   })
   it('should-write-data', async function () {
@@ -44,5 +48,9 @@ describe('Adapter - Memory', function () {
     await kv.clear()
     expect(await kv.has('clear-test')).to.equal(false)
     expect(await kv.keys()).to.have.lengthOf(0)
+  })
+  it('close-and-clean', async function () {
+    await kv.close()
+    await require('fs').rmSync(require('path').resolve(__dirname, './sqlite.db'), { force: true, recursive: false })
   })
 })

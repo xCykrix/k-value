@@ -18,11 +18,14 @@
     ],
     "outDir": "./dist/",
     "declaration": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
-    "strictNullChecks": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "removeComments": false,
+    "forceConsistentCasingInFileNames": true,
   },
   "include": [
     "./index.ts",

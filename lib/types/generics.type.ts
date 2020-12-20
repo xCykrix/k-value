@@ -3,7 +3,6 @@ export interface InternalMapper {
   ctx: any
   lifetime: string | null
   createdAt: string
-  modifiedAt: string
 }
 
 export interface MapperOptions {
@@ -11,5 +10,5 @@ export interface MapperOptions {
 }
 
 export interface GenericOptions {
-  namespace: string | 'global'
+  table: string | 'global'
 }

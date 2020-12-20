@@ -1,10 +1,11 @@
 import { DateTime } from 'luxon'
 
+import { PseudoMap } from './shared'
 import { InternalMapper } from './types/generics.type'
-import { PseudoMap } from './utils'
 
 export abstract class GenericAdapter extends PseudoMap {
   abstract configure (): Promise<void>
+  abstract close (): Promise<void>
 
   /**
    * Checks the specified entry for its lifetime in which it is considered valid.

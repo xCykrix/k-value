@@ -18,7 +18,7 @@ export abstract class PseudoMap {
    *
    * @param key - The key index for the respective value.
    *
-   * @returns - The value associated with the key index. If no value exists, this will return NULL.
+   * @returns - The value associated with the key index. If no value exists, this will return null.
    */
   abstract get (key: string): Promise<any | null>
 
