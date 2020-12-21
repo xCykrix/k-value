@@ -1,14 +1,12 @@
 import { fromJSON, toJSON } from 'javascript-serializer'
 import { DateTime, Duration } from 'luxon'
+import * as MySQL2 from 'mysql2/promise'
 import { Sql, TableWithColumns } from 'sql-ts'
-
 import { GenericAdapter } from '../generic'
 import { InternalMapper, MapperOptions } from '../types/generics.type'
-import { SQLite3Options } from '../types/sqlite.type'
+import { MySQL2Options } from '../types/mysql.type'
 
-import type BetterSqlite3 from 'better-sqlite3'
-
-export class SQLiteAdapter extends GenericAdapter {
+export class MySQLAdapter extends GenericAdapter {
   // Internal Map
   private readonly map = new Map<string, InternalMapper>()
 
@@ -18,42 +16,42 @@ export class SQLiteAdapter extends GenericAdapter {
   private _storage: TableWithColumns<ValueTable>
 
   // Instancing
-  private readonly _options: SQLite3Options
-  private readonly _engine: typeof BetterSqlite3
-  private _database: BetterSqlite3.Database
+  private readonly _options: MySQL2Options
+  private readonly _engine: typeof MySQL2
+  private _database: MySQL2.Pool
 
   /**
-   * Initialize the SQLite3 Adapter
+   * Initialize the MySQL2 Adapter
    *
    * @remarks
    *
-   * Make sure to call SQLiteAdapter#configure() before attempting to use the database.
+   * Make sure to call MySQLAdapter#configure() before attempting to use the database.
    *
    * This will asynchronously configure the database and tables before usage.
    *
-   * @param options - The SQLite3Options used to configure the state of the database.
+   * @param options - The MySQL2Options used to configure the state of the database.
    */
-  constructor (options: SQLite3Options) {
+  constructor (options: MySQL2Options) {
     super()
     this._options = options
 
     try {
-      this._engine = require('better-sqlite3')
+      this._engine = require('mysql2/promise')
     } catch (err) {
       const error = err as Error
-      throw new Error(`[init] NAMESPACE(${this._options.table}): Failed to detect installation of SQLite3. Please install 'better-sqlite3' with your preferred package manager to enable this adapter.\n${(error.stack !== undefined ? error.stack : error.message)}`)
+      throw new Error(`[init] NAMESPACE(${this._options.table}): Failed to detect installation of MySQL2. Please install 'mysql2' with your preferred package manager to enable this adapter.\n${(error.stack !== undefined ? error.stack : error.message)}`)
     }
 
-    if (options?.file === undefined || options?.table === undefined) {
-      throw new Error(`[init] NAMESPACE(${this._options?.table}): Failed to detect SQlite3Options. Please specify both the 'file' and the 'table' you wish to use.`)
+    if (options?.authentication === undefined || options?.table === undefined) {
+      throw new Error(`[init] NAMESPACE(${this._options?.table}): Failed to detect MySQL2Options. Please specify both the 'file' and the 'table' you wish to use.`)
     }
   }
 
   /**
-   * Asynchronously configure the SQLite3Adapter to enable usage.
+   * Asynchronously configure the MySQL2Adapter to enable usage.
    */
   async configure (): Promise<void> {
-    this.sql = new Sql('sqlite')
+    this.sql = new Sql('mysql')
 
     // Initialize Keys
     this._keys = this.sql.define<KeyTable>({
@@ -99,10 +97,10 @@ export class SQLiteAdapter extends GenericAdapter {
   }
 
   /**
-   * Terminate the SQLite Database Connection and end active service.
+   * Terminate the MySQL Database Connection and end active service.
    */
   async close (): Promise<void> {
-    this._database.close()
+    await this._database.end()
   }
 
   /**
@@ -122,7 +120,6 @@ export class SQLiteAdapter extends GenericAdapter {
    */
   async delete (key: string): Promise<boolean> {
     this.validate(key)
-
     await this._run(this._keys.delete().where({ key }).toString())
     await this._run(this._storage.delete().where({ key }).toString())
     return true
@@ -137,7 +134,6 @@ export class SQLiteAdapter extends GenericAdapter {
    */
   async get (key: string): Promise<any> {
     this.validate(key)
-
     const snapshot = await this._get(this._storage.select().where({ key }).toString())
     if (snapshot === undefined || snapshot.value === undefined) return undefined
     const parser = fromJSON(JSON.parse(snapshot.value))
@@ -159,7 +155,6 @@ export class SQLiteAdapter extends GenericAdapter {
    */
   async has (key: string): Promise<boolean> {
     this.validate(key)
-
     const snapshot = await this._get(this._keys.select().where({ key }).toString())
     if (snapshot === undefined || snapshot.key === '') return false
     else return true
@@ -186,17 +181,16 @@ export class SQLiteAdapter extends GenericAdapter {
    */
   async set (key: string, value: any, options?: MapperOptions): Promise<void> {
     this.validate(key)
-
     let lifetime = null
     if (options?.lifetime !== undefined) {
       lifetime = DateTime.local().toUTC().plus(Duration.fromObject({ milliseconds: options.lifetime })).toUTC().toISO()
     }
-    const serialized = toJSON({
+    const serialized = JSON.stringify(toJSON({
       key,
       ctx: value,
       lifetime,
       createdAt: DateTime.local().toUTC().toISO()
-    })
+    }))
     await this._run(this._storage.replace({
       key,
       value: serialized
@@ -209,45 +203,48 @@ export class SQLiteAdapter extends GenericAdapter {
   // Lock Database Connection
   private async _lock_database (): Promise<void> {
     try {
-      this._database = new this._engine(this._options.file.toString())
+      this._database = await this._engine.createPool({
+        host: this._options?.authentication?.host,
+        port: this._options?.authentication?.port,
+        user: this._options?.authentication?.username,
+        password: this._options?.authentication?.password,
+        database: this._options?.authentication?.database,
+        connectionLimit: 5
+      })
     } catch (err) {
       const error = err as Error
-      throw new Error(`[runtime:lock NAMESPACE(${this._options.table}): Failed to initialize SQLite3 adapter due to an unexpected error.\n${(error.stack !== undefined ? error.stack : error.message)}`)
+      throw new Error(`[runtime:lock NAMESPACE(${this._options.table}): Failed to initialize MySQL2 adapter due to an unexpected error.\n${(error.stack !== undefined ? error.stack : error.message)}`)
     }
   }
 
   // Execute no-response Query
   private async _run (sql: string): Promise<void> {
-    return await new Promise((resolve, reject) => {
-      try {
-        this._database.prepare(sql).run()
-        return resolve()
-      } catch (err) {
-        return reject(err)
-      }
-    })
+    await this._database.execute(sql)
   }
 
   // Execute response Query
   private async _get (sql: string): Promise<ValueTable> {
-    return await new Promise((resolve, reject) => {
-      try {
-        return resolve(this._database.prepare(sql).get())
-      } catch (err) {
-        return reject(err)
+    const rows = await this._database.query(sql)
+    const result = rows[0] as MySQL2.RowDataPacket[]
+    const table = result[0] as unknown as ValueTable
+
+    if (table === undefined) {
+      return {
+        key: '',
+        value: undefined
       }
-    })
+    }
+    return {
+      key: table.key,
+      value: table.value
+    }
   }
 
-  // Execute all-response Query
   private async _all (sql: string): Promise<ValueTable[]> {
-    return await new Promise((resolve, reject) => {
-      try {
-        return resolve(this._database.prepare(sql).all())
-      } catch (err) {
-        return reject(err)
-      }
-    })
+    const rows = await this._database.query(sql)
+    const result = rows[0] as MySQL2.RowDataPacket[]
+    const table = result as unknown as ValueTable[]
+    return table
   }
 }
 

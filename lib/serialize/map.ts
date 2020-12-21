@@ -5,17 +5,17 @@ class SerializableMap {
 
   toJSON (): SerialMap {
     return {
-      i: JSON.stringify(Array.from(this.map.entries()))
+      i: Array.from(this.map.entries())
     }
   }
 
   static fromJSON (map: SerialMap): Map<any, any> {
-    return new Map(JSON.parse(map.i))
+    return new Map([...map.i])
   }
 }
 
 interface SerialMap {
-  i: string
+  i: any[]
 }
 
 export function hook (): void {

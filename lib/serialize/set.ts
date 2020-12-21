@@ -5,17 +5,17 @@ class SerializableSet {
 
   toJSON (): SerialSet {
     return {
-      i: JSON.stringify(Array.from(this.set.values()))
+      i: Array.from(this.set.values())
     }
   }
 
   static fromJSON (set: SerialSet): Set<any> {
-    return new Set(JSON.parse(set.i))
+    return new Set([...set.i])
   }
 }
 
 interface SerialSet {
-  i: string
+  i: any[]
 }
 
 export function hook (): void {

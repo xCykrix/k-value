@@ -1,4 +1,5 @@
 import { MemoryAdapter } from './lib/adapters/memory'
+import { MySQLAdapter } from './lib/adapters/mysql'
 import { SQLiteAdapter } from './lib/adapters/sqlite'
 import { hook as BufferSerialize } from './lib/serialize/buffer'
 import { hook as MapSerialize } from './lib/serialize/map'
@@ -10,5 +11,6 @@ SetSerialize()
 
 export {
   MemoryAdapter,
+  MySQLAdapter,
   SQLiteAdapter
 }

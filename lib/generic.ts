@@ -34,4 +34,9 @@ export abstract class GenericAdapter extends PseudoMap {
     }
     return false
   }
+
+  validate (key: string): void {
+    if (typeof key !== 'string') throw new Error('key must by typeof string')
+    if (key.length === 0 || key === '') throw new Error('key must contain at least one character')
+  }
 }

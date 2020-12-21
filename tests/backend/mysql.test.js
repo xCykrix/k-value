@@ -1,37 +1,40 @@
 const { expect } = require('chai')
-const { SQLiteAdapter } = require('../../dist/index')
+const { MySQLAdapter } = require('../../dist/index')
 
-describe('Adapter - SQLite', function () {
+describe('Adapter - MySQLAdapter', function () {
   let kv = null
-  const complex = {
+  const state = {
     buffer: Buffer.from('son of a buffer'),
     date: new Date(),
     map: new Map([['world', 'hello'], ['hello', 'world']]),
     set: new Set(['world', 'hello'])
   }
   it('should-initialize', async function () {
-    this.timeout(10000)
     await require('fs').rmSync(require('path').resolve(__dirname, './sqlite.db'), { force: true, recursive: false })
-    kv = new SQLiteAdapter({
-      table: 'kv-store',
-      file: require('path').resolve(__dirname, './sqlite.db')
+    kv = new MySQLAdapter({
+      authentication: {
+        host: 'eu-east.vsg.amethyst.live',
+        username: 'kvalue',
+        password: '52v6BAveLuvu122e1ApufAGi24bi4A',
+        database: 'kvalue'
+      },
+      table: 'kv-store'
     })
     await kv.configure()
   })
   it('should-write-data', async function () {
-    this.timeout(10000)
     await kv.set('clear-test', true)
     await kv.set('delete-test', true)
     await kv.set('expire-test', true, { lifetime: 1 })
     await kv.set('has-test', true)
-    await kv.set('write-test', complex)
+    await kv.set('write-test', state)
   })
   it('should-read-data', async function () {
-    const kvr = await kv.get('write-test')
-    expect(kvr.buffer.toString('base64')).to.equal(complex.buffer.toString('base64'))
-    expect(kvr.date.getUTCMilliseconds()).to.equal(complex.date.getUTCMilliseconds())
-    expect(kvr.map).to.deep.equal(complex.map)
-    expect(kvr.set).to.deep.equal(complex.set)
+    const read = await kv.get('write-test')
+    expect(read.buffer.toString('base64')).to.equal(state.buffer.toString('base64'))
+    expect(read.date.getUTCMilliseconds()).to.equal(state.date.getUTCMilliseconds())
+    expect(read.map).to.deep.equal(state.map)
+    expect(read.set).to.deep.equal(state.set)
   })
   it('should-delete-data', async function () {
     expect(await kv.delete('delete-test')).to.equal(true)
