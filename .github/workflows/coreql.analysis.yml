@@ -23,6 +23,6 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Initialize Project
-        run: npm install
+        run: npm install && npm install --no-save mysql2 better-sqlite3
       - name: Analyze Project
         run: npm run quick
