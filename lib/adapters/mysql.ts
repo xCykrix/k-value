@@ -10,13 +10,19 @@ import { GenericAdapter } from './generic'
 
 export class MySQLAdapter extends GenericAdapter {
   // Builders
+  /** SQLBuilder Instance */
   private readonly _sqlBuilder = new SQLBuilder('mysql')
+  /** SQLBuilder IKeyTable Instantiated Instance */
   private _keys: TableWithColumns<IKeyTable>
+  /** SQLBuilder IValueTable Instantiated Instance */
   private _storage: TableWithColumns<IValueTable>
 
   // Instancing
+  /** MySQL2Options Instance */
   private readonly _options: MySQL2Options
+  /** SQL Engine */
   private readonly _engine: typeof MySQL2
+  /** SQL Engine Instance */
   private _database: MySQL2.Pool
 
   /**
@@ -97,7 +103,7 @@ export class MySQLAdapter extends GenericAdapter {
    * @returns - If the value assigned to the key was deleted.
    */
   async delete (key: string): Promise<boolean> {
-    this._validate(key)
+    this.validateKey(key)
     await this._r(this._keys.delete().where({ key }).toString())
     await this._r(this._storage.delete().where({ key }).toString())
     return true
@@ -111,13 +117,13 @@ export class MySQLAdapter extends GenericAdapter {
    * @returns - The value assigned to the key.
    */
   async get (key: string): Promise<any> {
-    this._validate(key)
+    this.validateKey(key)
 
     const snapshot = await this._g(this._storage.select().where({ key }).toString())
     if (snapshot === undefined || snapshot.value === undefined) return undefined
     const parser = fromJSON(JSON.parse(snapshot.value))
 
-    if (await this._expired(parser)) {
+    if (this.validateLifetime(parser)) {
       await this.delete(key)
       return undefined
     }
@@ -133,7 +139,7 @@ export class MySQLAdapter extends GenericAdapter {
    * @returns - If the key exists.
    */
   async has (key: string): Promise<boolean> {
-    this._validate(key)
+    this.validateKey(key)
 
     const snapshot = await this._g(this._keys.select().where({ key }).toString())
     if (snapshot === undefined || snapshot.key === '') return false
@@ -162,7 +168,7 @@ export class MySQLAdapter extends GenericAdapter {
    * @param options - The MapperOptions to control the aspects of the stored key.
    */
   async set (key: string, value: any, options?: MapperOptions): Promise<void> {
-    this._validate(key)
+    this.validateKey(key)
 
     const serialized = JSON.stringify(toJSON({
       key,

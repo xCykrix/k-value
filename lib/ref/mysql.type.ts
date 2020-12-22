@@ -1,5 +1,6 @@
 import { DBGeneric as SQLOptions } from './generics.type'
 
+/** The representation of the MySQL Adapter Options */
 export interface MySQL2Options extends SQLOptions {
   authentication: {
     host: string

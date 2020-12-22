@@ -4,7 +4,9 @@ import { PseudoMap } from '../builder/pseudo'
 import { InternalMapper } from '../ref/generics.type'
 
 export abstract class GenericAdapter extends PseudoMap {
+  /** Abstract State Configuration - Optional */
   abstract configure (): Promise<void>
+  /** Abstract Close State - Optional */
   abstract close (): Promise<void>
 
   /**
@@ -19,7 +21,7 @@ export abstract class GenericAdapter extends PseudoMap {
    * @readonly
    * @sealed
    */
-  async _expired (state: InternalMapper | undefined): Promise<boolean> {
+  validateLifetime (state: InternalMapper | undefined): boolean {
     if (state === undefined) return true
     if (state.lifetime === undefined || state.lifetime === null) return false
 
@@ -40,7 +42,7 @@ export abstract class GenericAdapter extends PseudoMap {
    *
    * @param key - The key to be validated.
    */
-  _validate (key: string): void {
+  validateKey (key: string): void {
     if (typeof key !== 'string') throw new Error('InvalidState: key must be a valid string')
     if (key.length === 0 || key.trim() === '') throw new Error('InvalidState: key must be greater than 0 and less than 192 characters')
   }

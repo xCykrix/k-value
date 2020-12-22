@@ -4,9 +4,12 @@ import { InternalMapper, MapperOptions } from '../ref/generics.type'
 import { GenericAdapter } from './generic'
 
 export class MemoryAdapter extends GenericAdapter {
+  /** Internal Storage Map */
   private readonly map = new Map<string, InternalMapper>()
 
+  /** Method not Implemented */
   async configure (): Promise<void> {}
+  /** Method not Implemented */
   async close (): Promise<void> {}
 
   /**
@@ -24,7 +27,7 @@ export class MemoryAdapter extends GenericAdapter {
    * @returns - If the value assigned to the key was deleted.
    */
   async delete (key: string): Promise<boolean> {
-    this._validate(key)
+    this.validateKey(key)
 
     return this.map.delete(key)
   }
@@ -37,12 +40,12 @@ export class MemoryAdapter extends GenericAdapter {
    * @returns - The value assigned to the key.
    */
   async get (key: string): Promise<any> {
-    this._validate(key)
+    this.validateKey(key)
 
     const value = await this.map.get(key)
     if (value === undefined || value.ctx === undefined) return undefined
 
-    if (await this._expired(value)) {
+    if (this.validateLifetime(value)) {
       await this.delete(key)
       return undefined
     }
@@ -58,7 +61,7 @@ export class MemoryAdapter extends GenericAdapter {
    * @returns - If the key exists.
    */
   async has (key: string): Promise<boolean> {
-    this._validate(key)
+    this.validateKey(key)
 
     return this.map.has(key)
   }
@@ -80,7 +83,7 @@ export class MemoryAdapter extends GenericAdapter {
    * @param options - The MapperOptions to control the aspects of the stored key.
    */
   async set (key: string, value: any, options?: MapperOptions): Promise<void> {
-    this._validate(key)
+    this.validateKey(key)
 
     await this.map.set(key, {
       ctx: value,

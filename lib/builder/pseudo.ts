@@ -1,7 +1,7 @@
 export abstract class PseudoMap {
-  size: number
-  [Symbol.toStringTag]: string
-
+  /**
+   * Permanently removes all entries from the Storage Backend Adapter.
+   */
   abstract clear (): Promise<void>
 
   /**
