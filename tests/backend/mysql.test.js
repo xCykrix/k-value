@@ -81,6 +81,5 @@ describe('Adapter - MySQLAdapter', function () {
   })
   it('close-and-clean', async function () {
     await kv.close()
-    await require('fs').rmSync(require('path').resolve(__dirname, './sqlite.db'), { force: true, recursive: false })
   })
 })

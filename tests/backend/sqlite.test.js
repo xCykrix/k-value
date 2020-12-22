@@ -13,7 +13,7 @@ describe('Adapter - SQLite', function () {
     this.timeout(10000)
     kv = new SQLiteAdapter({
       table: 'kv-store',
-      file: require('path').resolve(__dirname, './sqlite.db')
+      file: require('path').resolve(__dirname, './.cache/sqlite.db')
     })
     await kv.configure()
   })
@@ -76,6 +76,5 @@ describe('Adapter - SQLite', function () {
   })
   it('close-and-clean', async function () {
     await kv.close()
-    await require('fs').rmSync(require('path').resolve(__dirname, './sqlite.db'), { force: true, recursive: false })
   })
 })

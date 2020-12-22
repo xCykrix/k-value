@@ -1,3 +1,5 @@
+# Custom Ignore Entries
+/tests/backend/.cache/
 
 # Created by https://www.toptal.com/developers/gitignore/api/node,visualstudiocode,webstorm+all
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,visualstudiocode,webstorm+all
