@@ -1,19 +1,17 @@
 import { fromJSON, toJSON } from 'javascript-serializer'
 import { DateTime, Duration } from 'luxon'
-import { Sql, TableWithColumns } from 'sql-ts'
+import { TableWithColumns } from 'sql-ts'
 
-import { GenericAdapter } from '../generic'
-import { InternalMapper, MapperOptions } from '../types/generics.type'
-import { SQLite3Options } from '../types/sqlite.type'
+import { KeyTable, SQLBuilder, ValueTable } from '../builder/sql'
+import { MapperOptions } from '../ref/generics.type'
+import { SQLite3Options } from '../ref/sqlite.type'
+import { GenericAdapter } from './generic'
 
 import type BetterSqlite3 from 'better-sqlite3'
 
 export class SQLiteAdapter extends GenericAdapter {
-  // Internal Map
-  private readonly map = new Map<string, InternalMapper>()
-
   // Builders
-  private sql: Sql
+  private readonly _sqlBuilder = new SQLBuilder('sqlite')
   private _keys: TableWithColumns<KeyTable>
   private _storage: TableWithColumns<ValueTable>
 
@@ -53,37 +51,16 @@ export class SQLiteAdapter extends GenericAdapter {
    * Asynchronously configure the SQLite3Adapter to enable usage.
    */
   async configure (): Promise<void> {
-    this.sql = new Sql('sqlite')
-
-    // Initialize Keys
-    this._keys = this.sql.define<KeyTable>({
-      name: (this._options.table === undefined || this._options.table === '' ? 'global_map' : this._options.table + '_map'),
-      columns: [{
-        name: 'key',
-        primaryKey: true,
-        dataType: 'VARCHAR(192)'
-      }]
-    })
-
-    // Initialize Storage
-    this._storage = this.sql.define<ValueTable>({
-      name: (this._options.table === undefined || this._options.table === '' ? 'global' : this._options.table),
-      columns: [{
-        name: 'key',
-        primaryKey: true,
-        dataType: 'VARCHAR(192)'
-      }, {
-        name: 'value',
-        dataType: 'TEXT'
-      }]
-    })
+    // Initialize Keys and Storage
+    this._keys = this._sqlBuilder.getKTable(this._options?.table)
+    this._storage = this._sqlBuilder.getVTable(this._options?.table)
 
     // Lock Database Connection
-    await this._lock_database()
+    await this._ldb()
 
     // Create Keys Table
     try {
-      await this._run(this._keys.create().ifNotExists().toString())
+      await this._r(this._keys.create().ifNotExists().toString())
     } catch (err) {
       const error = err as Error
       throw new Error(`[runtime:configure NAMESPACE(${this._options.table}): Failed to configure key-storage table.\n${(error.stack !== undefined ? error.stack : error.message)}`)
@@ -91,7 +68,7 @@ export class SQLiteAdapter extends GenericAdapter {
 
     // Create Storage Table
     try {
-      await this._run(this._storage.create().ifNotExists().toString())
+      await this._r(this._storage.create().ifNotExists().toString())
     } catch (err) {
       const error = err as Error
       throw new Error(`[runtime:configure NAMESPACE(${this._options.table}): Failed to configure value-storage table.\n${(error.stack !== undefined ? error.stack : error.message)}`)
@@ -109,8 +86,8 @@ export class SQLiteAdapter extends GenericAdapter {
    * Permanently removes all entries from the referenced storage driver.
    */
   async clear (): Promise<void> {
-    await this._run(this._keys.delete().from().toString())
-    await this._run(this._storage.delete().from().toString())
+    await this._r(this._keys.delete().from().toString())
+    await this._r(this._storage.delete().from().toString())
   }
 
   /**
@@ -121,10 +98,10 @@ export class SQLiteAdapter extends GenericAdapter {
    * @returns - If the value assigned to the key was deleted.
    */
   async delete (key: string): Promise<boolean> {
-    this.validate(key)
+    this._validate(key)
 
-    await this._run(this._keys.delete().where({ key }).toString())
-    await this._run(this._storage.delete().where({ key }).toString())
+    await this._r(this._keys.delete().where({ key }).toString())
+    await this._r(this._storage.delete().where({ key }).toString())
 
     return true
   }
@@ -137,13 +114,13 @@ export class SQLiteAdapter extends GenericAdapter {
    * @returns - The value assigned to the key.
    */
   async get (key: string): Promise<any> {
-    this.validate(key)
+    this._validate(key)
 
-    const snapshot = await this._get(this._storage.select().where({ key }).toString())
+    const snapshot = await this._g(this._storage.select().where({ key }).toString())
     if (snapshot === undefined || snapshot.value === undefined) return undefined
     const parser = fromJSON(JSON.parse(snapshot.value))
 
-    if (await this.expired(parser)) {
+    if (await this._expired(parser)) {
       await this.delete(key)
       return undefined
     }
@@ -159,9 +136,9 @@ export class SQLiteAdapter extends GenericAdapter {
    * @returns - If the key exists.
    */
   async has (key: string): Promise<boolean> {
-    this.validate(key)
+    this._validate(key)
 
-    const snapshot = await this._get(this._keys.select().where({ key }).toString())
+    const snapshot = await this._g(this._keys.select().where({ key }).toString())
     if (snapshot === undefined || snapshot.key === '') return false
     else return true
   }
@@ -172,7 +149,7 @@ export class SQLiteAdapter extends GenericAdapter {
    * @returns - An array of all known keys in no particular order.
    */
   async keys (): Promise<string[]> {
-    const keys = await this._all(this._keys.select(this._keys.star()).from().toString())
+    const keys = await this._a(this._keys.select(this._keys.star()).from().toString())
 
     const r: string[] = []
     keys.map((k) => r.push(k.key))
@@ -188,7 +165,7 @@ export class SQLiteAdapter extends GenericAdapter {
    * @param options - The MapperOptions to control the aspects of the stored key.
    */
   async set (key: string, value: any, options?: MapperOptions): Promise<void> {
-    this.validate(key)
+    this._validate(key)
 
     const serialized = toJSON({
       key,
@@ -197,17 +174,17 @@ export class SQLiteAdapter extends GenericAdapter {
       createdAt: DateTime.local().toUTC().toISO()
     })
 
-    await this._run(this._storage.replace({
+    await this._r(this._storage.replace({
       key,
       value: serialized
     }).toString())
-    await this._run(this._keys.replace({
+    await this._r(this._keys.replace({
       key
     }).toString())
   }
 
   // Lock Database Connection
-  private async _lock_database (): Promise<void> {
+  private async _ldb (): Promise<void> {
     try {
       this._database = new this._engine(this._options.file.toString())
     } catch (err) {
@@ -217,7 +194,7 @@ export class SQLiteAdapter extends GenericAdapter {
   }
 
   // Execute no-response Query
-  private async _run (sql: string): Promise<void> {
+  private async _r (sql: string): Promise<void> {
     return await new Promise((resolve, reject) => {
       try {
         this._database.prepare(sql).run()
@@ -229,7 +206,7 @@ export class SQLiteAdapter extends GenericAdapter {
   }
 
   // Execute response Query
-  private async _get (sql: string): Promise<ValueTable> {
+  private async _g (sql: string): Promise<ValueTable> {
     return await new Promise((resolve, reject) => {
       try {
         return resolve(this._database.prepare(sql).get())
@@ -240,7 +217,7 @@ export class SQLiteAdapter extends GenericAdapter {
   }
 
   // Execute all-response Query
-  private async _all (sql: string): Promise<ValueTable[]> {
+  private async _a (sql: string): Promise<ValueTable[]> {
     return await new Promise((resolve, reject) => {
       try {
         return resolve(this._database.prepare(sql).all())
@@ -249,15 +226,4 @@ export class SQLiteAdapter extends GenericAdapter {
       }
     })
   }
-}
-
-// Keys Table Definition
-interface KeyTable {
-  key: string
-}
-
-// Value Table Definition
-interface ValueTable {
-  key: string
-  value: string | undefined
 }

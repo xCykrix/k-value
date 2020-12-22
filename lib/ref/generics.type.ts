@@ -9,6 +9,6 @@ export interface MapperOptions {
   lifetime: number
 }
 
-export interface GenericOptions {
+export interface DBGeneric {
   table: string | 'global'
 }

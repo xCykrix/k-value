@@ -1,7 +1,7 @@
 import { DateTime, Duration } from 'luxon'
 
-import { GenericAdapter } from '../generic'
-import { InternalMapper, MapperOptions } from '../types/generics.type'
+import { InternalMapper, MapperOptions } from '../ref/generics.type'
+import { GenericAdapter } from './generic'
 
 export class MemoryAdapter extends GenericAdapter {
   private readonly map = new Map<string, InternalMapper>()
@@ -24,7 +24,7 @@ export class MemoryAdapter extends GenericAdapter {
    * @returns - If the value assigned to the key was deleted.
    */
   async delete (key: string): Promise<boolean> {
-    this.validate(key)
+    this._validate(key)
 
     return this.map.delete(key)
   }
@@ -37,12 +37,12 @@ export class MemoryAdapter extends GenericAdapter {
    * @returns - The value assigned to the key.
    */
   async get (key: string): Promise<any> {
-    this.validate(key)
+    this._validate(key)
 
     const value = await this.map.get(key)
     if (value === undefined || value.ctx === undefined) return undefined
 
-    if (await this.expired(value)) {
+    if (await this._expired(value)) {
       await this.delete(key)
       return undefined
     }
@@ -58,7 +58,7 @@ export class MemoryAdapter extends GenericAdapter {
    * @returns - If the key exists.
    */
   async has (key: string): Promise<boolean> {
-    this.validate(key)
+    this._validate(key)
 
     return this.map.has(key)
   }
@@ -80,7 +80,7 @@ export class MemoryAdapter extends GenericAdapter {
    * @param options - The MapperOptions to control the aspects of the stored key.
    */
   async set (key: string, value: any, options?: MapperOptions): Promise<void> {
-    this.validate(key)
+    this._validate(key)
 
     await this.map.set(key, {
       ctx: value,

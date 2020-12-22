@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 
-import { PseudoMap } from './shared'
-import { InternalMapper } from './types/generics.type'
+import { PseudoMap } from '../builder/pseudo'
+import { InternalMapper } from '../ref/generics.type'
 
 export abstract class GenericAdapter extends PseudoMap {
   abstract configure (): Promise<void>
@@ -19,7 +19,7 @@ export abstract class GenericAdapter extends PseudoMap {
    * @readonly
    * @sealed
    */
-  async expired (state: InternalMapper | undefined): Promise<boolean> {
+  async _expired (state: InternalMapper | undefined): Promise<boolean> {
     if (state === undefined) return true
     if (state.lifetime === undefined || state.lifetime === null) return false
 
@@ -35,8 +35,13 @@ export abstract class GenericAdapter extends PseudoMap {
     return false
   }
 
-  validate (key: string): void {
-    if (typeof key !== 'string') throw new Error('key must by typeof string')
-    if (key.length === 0 || key === '') throw new Error('key must contain at least one character')
+  /**
+   * Validate the user input key.
+   *
+   * @param key - The key to be validated.
+   */
+  _validate (key: string): void {
+    if (typeof key !== 'string') throw new Error('InvalidState: key must be a valid string')
+    if (key.length === 0 || key.trim() === '') throw new Error('InvalidState: key must be greater than 0 and less than 192 characters')
   }
 }
