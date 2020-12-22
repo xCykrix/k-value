@@ -2,7 +2,7 @@
 name: Feature Request
 about: Suggest new features to K-Value
 title: '[FEATURE] Generalized Overview of the Feature Request'
-labels: ''
+labels: 'Type: Enhancement, State: Conversation, Status: Unassigned'
 assignees: ''
 ---
 

@@ -2,7 +2,7 @@
 name: Bug Report
 about: Report an issue with K-Value
 title: '[BUG] Generalized Overview of the Report Here'
-labels: ''
+labels: 'Type: Bug, State: Conversation, Status: Unassigned'
 assignees: ''
 ---
 
