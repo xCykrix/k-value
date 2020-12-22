@@ -21,6 +21,7 @@ describe('Adapter - MySQLAdapter', function () {
       table: 'kv-store'
     })
     await kv.configure()
+    await kv.clear()
   })
   it('should-write-data', async function () {
     this.timeout(10000)
