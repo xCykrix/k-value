@@ -25,4 +25,4 @@ jobs:
       - name: Initialize Project
         run: npm install
       - name: Analyze Project
-        run: npx eslint .
+        run: npm run quick

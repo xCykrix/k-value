@@ -125,6 +125,7 @@ export class SQLiteAdapter extends GenericAdapter {
 
     await this._run(this._keys.delete().where({ key }).toString())
     await this._run(this._storage.delete().where({ key }).toString())
+
     return true
   }
 
@@ -172,8 +173,10 @@ export class SQLiteAdapter extends GenericAdapter {
    */
   async keys (): Promise<string[]> {
     const keys = await this._all(this._keys.select(this._keys.star()).from().toString())
+
     const r: string[] = []
     keys.map((k) => r.push(k.key))
+
     return r
   }
 
@@ -187,16 +190,13 @@ export class SQLiteAdapter extends GenericAdapter {
   async set (key: string, value: any, options?: MapperOptions): Promise<void> {
     this.validate(key)
 
-    let lifetime = null
-    if (options?.lifetime !== undefined) {
-      lifetime = DateTime.local().toUTC().plus(Duration.fromObject({ milliseconds: options.lifetime })).toUTC().toISO()
-    }
     const serialized = toJSON({
       key,
       ctx: value,
-      lifetime,
+      lifetime: (options?.lifetime !== undefined ? DateTime.local().toUTC().plus(Duration.fromObject({ milliseconds: options.lifetime })).toUTC().toISO() : null),
       createdAt: DateTime.local().toUTC().toISO()
     })
+
     await this._run(this._storage.replace({
       key,
       value: serialized

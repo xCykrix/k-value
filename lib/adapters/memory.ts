@@ -82,13 +82,9 @@ export class MemoryAdapter extends GenericAdapter {
   async set (key: string, value: any, options?: MapperOptions): Promise<void> {
     this.validate(key)
 
-    let lifetime = null
-    if (options?.lifetime !== undefined) {
-      lifetime = DateTime.local().toUTC().plus(Duration.fromObject({ milliseconds: options.lifetime })).toUTC().toISO()
-    }
     await this.map.set(key, {
       ctx: value,
-      lifetime,
+      lifetime: (options?.lifetime !== undefined ? DateTime.local().toUTC().plus(Duration.fromObject({ milliseconds: options.lifetime })).toUTC().toISO() : null),
       key,
       createdAt: DateTime.local().toUTC().toISO()
     })

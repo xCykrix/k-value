@@ -23,7 +23,7 @@
     "/LICENSE.md"
   ],
   "scripts": {
-    "lint": "eslint . --fix",
+    "lint": "eslint .",
     "compile": "npx tsc --build",
     "test": "mocha './tests/**/*.js'",
     "quick": "npm run lint && npm run compile && npm run test",

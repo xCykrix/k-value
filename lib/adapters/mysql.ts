@@ -2,6 +2,7 @@ import { fromJSON, toJSON } from 'javascript-serializer'
 import { DateTime, Duration } from 'luxon'
 import * as MySQL2 from 'mysql2/promise'
 import { Sql, TableWithColumns } from 'sql-ts'
+
 import { GenericAdapter } from '../generic'
 import { InternalMapper, MapperOptions } from '../types/generics.type'
 import { MySQL2Options } from '../types/mysql.type'
@@ -134,6 +135,7 @@ export class MySQLAdapter extends GenericAdapter {
    */
   async get (key: string): Promise<any> {
     this.validate(key)
+
     const snapshot = await this._get(this._storage.select().where({ key }).toString())
     if (snapshot === undefined || snapshot.value === undefined) return undefined
     const parser = fromJSON(JSON.parse(snapshot.value))
@@ -155,6 +157,7 @@ export class MySQLAdapter extends GenericAdapter {
    */
   async has (key: string): Promise<boolean> {
     this.validate(key)
+
     const snapshot = await this._get(this._keys.select().where({ key }).toString())
     if (snapshot === undefined || snapshot.key === '') return false
     else return true
@@ -167,8 +170,10 @@ export class MySQLAdapter extends GenericAdapter {
    */
   async keys (): Promise<string[]> {
     const keys = await this._all(this._keys.select(this._keys.star()).from().toString())
+
     const r: string[] = []
     keys.map((k) => r.push(k.key))
+
     return r
   }
 
@@ -181,16 +186,14 @@ export class MySQLAdapter extends GenericAdapter {
    */
   async set (key: string, value: any, options?: MapperOptions): Promise<void> {
     this.validate(key)
-    let lifetime = null
-    if (options?.lifetime !== undefined) {
-      lifetime = DateTime.local().toUTC().plus(Duration.fromObject({ milliseconds: options.lifetime })).toUTC().toISO()
-    }
+
     const serialized = JSON.stringify(toJSON({
       key,
       ctx: value,
-      lifetime,
+      lifetime: (options?.lifetime !== undefined ? DateTime.local().toUTC().plus(Duration.fromObject({ milliseconds: options.lifetime })).toUTC().toISO() : null),
       createdAt: DateTime.local().toUTC().toISO()
     }))
+
     await this._run(this._storage.replace({
       key,
       value: serialized
