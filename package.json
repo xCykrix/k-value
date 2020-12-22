@@ -24,7 +24,7 @@
   ],
   "scripts": {
     "lint": "eslint .",
-    "docs": "typedoc --mode modules --out ./docs/ ./lib/",
+    "docs": "typedoc --mode file --out ./docs/ ./lib/",
     "build": "npx tsc --build",
     "tests": "mocha './tests/**/*.js'",
     "quick": "npm run lint && npm run build && npm run tests",
