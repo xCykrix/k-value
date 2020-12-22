@@ -30,11 +30,7 @@
   "include": [
     "./index.ts",
     "./lib/**/*.ts",
-    "./docs/",
     "./tests/**/*.test.js",
     "./.eslintrc.js",
-  ],
-  "exclude": [
-    "./docs/"
   ]
 }

@@ -17,7 +17,8 @@ module.exports = {
     'standard-with-typescript'
   ],
   ignorePatterns: [
-    '/dist/'
+    '/dist/',
+    '/docs/'
   ],
   env: {
     mocha: true
