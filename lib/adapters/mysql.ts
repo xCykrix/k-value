@@ -3,7 +3,7 @@ import { DateTime, Duration } from 'luxon'
 import * as MySQL2 from 'mysql2/promise'
 import { TableWithColumns } from 'sql-ts'
 
-import { KeyTable, SQLBuilder, ValueTable } from '../builder/sql'
+import { IKeyTable, IValueTable, SQLBuilder } from '../builder/sql'
 import { MapperOptions } from '../ref/generics.type'
 import { MySQL2Options } from '../ref/mysql.type'
 import { GenericAdapter } from './generic'
@@ -11,8 +11,8 @@ import { GenericAdapter } from './generic'
 export class MySQLAdapter extends GenericAdapter {
   // Builders
   private readonly _sqlBuilder = new SQLBuilder('mysql')
-  private _keys: TableWithColumns<KeyTable>
-  private _storage: TableWithColumns<ValueTable>
+  private _keys: TableWithColumns<IKeyTable>
+  private _storage: TableWithColumns<IValueTable>
 
   // Instancing
   private readonly _options: MySQL2Options
@@ -203,10 +203,10 @@ export class MySQLAdapter extends GenericAdapter {
   }
 
   // Execute response Query
-  private async _g (sql: string): Promise<ValueTable> {
+  private async _g (sql: string): Promise<IValueTable> {
     const rows = await this._database.query(sql)
     const result = rows[0] as MySQL2.RowDataPacket[]
-    const table = result[0] as unknown as ValueTable
+    const table = result[0] as unknown as IValueTable
 
     if (table === undefined) {
       return {
@@ -220,10 +220,10 @@ export class MySQLAdapter extends GenericAdapter {
     }
   }
 
-  private async _a (sql: string): Promise<ValueTable[]> {
+  private async _a (sql: string): Promise<IValueTable[]> {
     const rows = await this._database.query(sql)
     const result = rows[0] as MySQL2.RowDataPacket[]
-    const table = result as unknown as ValueTable[]
+    const table = result as unknown as IValueTable[]
     return table
   }
 }

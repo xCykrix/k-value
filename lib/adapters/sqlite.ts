@@ -2,7 +2,7 @@ import { fromJSON, toJSON } from 'javascript-serializer'
 import { DateTime, Duration } from 'luxon'
 import { TableWithColumns } from 'sql-ts'
 
-import { KeyTable, SQLBuilder, ValueTable } from '../builder/sql'
+import { IKeyTable, IValueTable, SQLBuilder } from '../builder/sql'
 import { MapperOptions } from '../ref/generics.type'
 import { SQLite3Options } from '../ref/sqlite.type'
 import { GenericAdapter } from './generic'
@@ -12,8 +12,8 @@ import type BetterSqlite3 from 'better-sqlite3'
 export class SQLiteAdapter extends GenericAdapter {
   // Builders
   private readonly _sqlBuilder = new SQLBuilder('sqlite')
-  private _keys: TableWithColumns<KeyTable>
-  private _storage: TableWithColumns<ValueTable>
+  private _keys: TableWithColumns<IKeyTable>
+  private _storage: TableWithColumns<IValueTable>
 
   // Instancing
   private readonly _options: SQLite3Options
@@ -206,7 +206,7 @@ export class SQLiteAdapter extends GenericAdapter {
   }
 
   // Execute response Query
-  private async _g (sql: string): Promise<ValueTable> {
+  private async _g (sql: string): Promise<IValueTable> {
     return await new Promise((resolve, reject) => {
       try {
         return resolve(this._database.prepare(sql).get())
@@ -217,7 +217,7 @@ export class SQLiteAdapter extends GenericAdapter {
   }
 
   // Execute all-response Query
-  private async _a (sql: string): Promise<ValueTable[]> {
+  private async _a (sql: string): Promise<IValueTable[]> {
     return await new Promise((resolve, reject) => {
       try {
         return resolve(this._database.prepare(sql).all())

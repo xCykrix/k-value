@@ -7,8 +7,8 @@ export class SQLBuilder {
     this.sql = new Sql(engine)
   }
 
-  getKTable (table: string): TableWithColumns<KeyTable> {
-    return this.sql.define<KeyTable>({
+  getKTable (table: string): TableWithColumns<IKeyTable> {
+    return this.sql.define<IKeyTable>({
       name: (table === undefined || table === '' ? 'global_map' : table + '_map'),
       columns: [{
         name: 'key',
@@ -18,8 +18,8 @@ export class SQLBuilder {
     })
   }
 
-  getVTable (table: string): TableWithColumns<ValueTable> {
-    return this.sql.define<ValueTable>({
+  getVTable (table: string): TableWithColumns<IValueTable> {
+    return this.sql.define<IValueTable>({
       name: (table === undefined || table === '' ? 'global' : table),
       columns: [{
         name: 'key',
@@ -34,12 +34,12 @@ export class SQLBuilder {
 }
 
 // Keys Table Definition
-export interface KeyTable {
+export interface IKeyTable {
   key: string
 }
 
 // Value Table Definition
-export interface ValueTable {
+export interface IValueTable {
   key: string
   value: string | undefined
 }
