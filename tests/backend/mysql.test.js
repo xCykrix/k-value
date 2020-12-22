@@ -18,7 +18,7 @@ describe('Adapter - MySQLAdapter', function () {
         password: '52v6BAveLuvu122e1ApufAGi24bi4A',
         database: 'kvalue'
       },
-      table: 'kv-store'
+      table: `kv-store-${require('crypto').randomBytes(4).toString('hex')}`
     })
     await kv.configure()
     await kv.clear()
