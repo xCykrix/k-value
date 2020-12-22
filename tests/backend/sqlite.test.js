@@ -11,7 +11,6 @@ describe('Adapter - SQLite', function () {
   }
   it('should-initialize', async function () {
     this.timeout(10000)
-    await require('fs').rmSync(require('path').resolve(__dirname, './sqlite.db'), { force: true, recursive: false })
     kv = new SQLiteAdapter({
       table: 'kv-store',
       file: require('path').resolve(__dirname, './sqlite.db')

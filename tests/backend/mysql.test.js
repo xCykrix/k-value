@@ -10,7 +10,7 @@ describe('Adapter - MySQLAdapter', function () {
     set: new Set(['world', 'hello'])
   }
   it('should-initialize', async function () {
-    await require('fs').rmSync(require('path').resolve(__dirname, './sqlite.db'), { force: true, recursive: false })
+    this.timeout(10000)
     kv = new MySQLAdapter({
       authentication: {
         host: 'eu-east.vsg.amethyst.live',
@@ -23,6 +23,7 @@ describe('Adapter - MySQLAdapter', function () {
     await kv.configure()
   })
   it('should-write-data', async function () {
+    this.timeout(10000)
     await kv.set('clear-test', true)
     await kv.set('delete-test', true)
     await kv.set('expire-test', true, { lifetime: 1 })
