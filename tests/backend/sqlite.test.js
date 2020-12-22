@@ -13,7 +13,7 @@ describe('Adapter - SQLite', function () {
     this.timeout(10000)
     kv = new SQLiteAdapter({
       table: 'kv-store',
-      file: require('path').resolve(__dirname, './.cache/sqlite.db')
+      file: require('path').resolve(__dirname, './ci.database')
     })
     await kv.configure()
   })
