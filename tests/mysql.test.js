@@ -1,5 +1,5 @@
 const { expect } = require('chai')
-const { MySQLAdapter } = require('../../dist/index')
+const { MySQLAdapter } = require('../dist/index')
 
 describe('Adapter - MySQLAdapter', function () {
   let kv = null

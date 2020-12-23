@@ -26,8 +26,8 @@
     "lint": "eslint .",
     "docs": "typedoc --mode file --out ./docs/ ./lib/",
     "build": "npx tsc --build",
-    "tests": "mocha './tests/**/*.js'",
-    "quick": "npm run lint && npm run build && npm run tests",
+    "test": "mocha './tests/**/*.js'",
+    "quick": "npm run lint && npm run build && npm run test",
     "prepack": "npm run quick"
   },
   "husky": {
