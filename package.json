@@ -24,9 +24,9 @@
   ],
   "scripts": {
     "lint": "eslint .",
-    "docs": "typedoc --mode file --out ./docs/ ./lib/ && git reset && git add ./docs/ && git commit -m 'chore(docs, auto): Auto-generated Documentation with TypeDocs.' --no-verify",
     "build": "npx tsc --build",
     "test": "mocha './tests/**/*.js'",
+    "docs": "typedoc --mode file --out ./docs/ ./lib/ && git reset && git add ./docs/ && git commit -m 'chore(docs, auto): Auto-generated Documentation with TypeDocs.' --no-verify",
     "quick": "npm run lint && npm run build && npm run test",
     "prepack": "npm run quick"
   },
