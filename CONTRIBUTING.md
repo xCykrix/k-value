@@ -19,7 +19,7 @@ Firstly being TypeScript, which is the branch of JavaScript we use while writing
 
 Following TypeScript, our next most prominent tool is ESLint, which allows us to strictly maintain the styling and flow of our project. We strictly follow StandardJS/TS to style our project. You can find more on it at [ts-standard on npm](https://www.npmjs.com/package/ts-standard).
 
-Mocha and Chai allow us to execute tests on the code that would be published to NPM when we make a release, allowing for 100% certainty that changes will not break the active functionality of the library.
+Mocha and Chai allow us to execute tests on the code that would be published to npm when we make a release, allowing for 100% certainty that changes will not break the active functionality of the library.
 
 To enforce all of our requirements, we integrate [Husky](https://github.com/typicode/husky) to execute commands on certain Git hooks. To ensure this server side, we integrate with GitHub Workflow Actions to ensure that all of these requirements are followed when submissions are made. Such cases where actions will find an issue is when you do not correctly install the environment and make changes that may not follow our requirements.
 
