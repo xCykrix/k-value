@@ -9,7 +9,4 @@ export interface MySQL2Options extends SQLOptions {
     password: string
     database: string
   }
-  options?: {
-    backupInterval?: number
-  }
 }

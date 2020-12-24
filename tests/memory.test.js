@@ -1,5 +1,5 @@
 const { expect } = require('chai')
-const { MemoryAdapter } = require('../../dist/index')
+const { MemoryAdapter } = require('../dist/index')
 
 describe('Adapter - Memory', function () {
   let kv = null

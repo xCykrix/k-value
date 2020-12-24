@@ -1,9 +1,8 @@
-import { fromJSON, toJSON } from 'javascript-serializer'
 import { DateTime, Duration } from 'luxon'
 import * as MySQL2 from 'mysql2/promise'
 import { TableWithColumns } from 'sql-ts'
 
-import { IKeyTable, IValueTable, SQLBuilder } from '../builder/sql'
+import { IValueTable, SQLBuilder } from '../builder/sql'
 import { MapperOptions } from '../ref/generics.type'
 import { MySQL2Options } from '../ref/mysql.type'
 import { GenericAdapter } from './generic'
@@ -12,18 +11,16 @@ export class MySQLAdapter extends GenericAdapter {
   // Builders
   /** SQLBuilder Instance */
   private readonly _sqlBuilder = new SQLBuilder('mysql')
-  /** SQLBuilder IKeyTable Instantiated Instance */
-  private _keys: TableWithColumns<IKeyTable>
   /** SQLBuilder IValueTable Instantiated Instance */
-  private _storage: TableWithColumns<IValueTable>
+  private table: TableWithColumns<IValueTable>
 
   // Instancing
   /** MySQL2Options Instance */
-  private readonly _options: MySQL2Options
+  private readonly options: MySQL2Options
   /** SQL Engine */
-  private readonly _engine: typeof MySQL2
+  private readonly _sqlEngine: typeof MySQL2
   /** SQL Engine Instance */
-  private _database: MySQL2.Pool
+  private database: MySQL2.Pool
 
   /**
    * Initialize the MySQL2 Adapter
@@ -38,17 +35,17 @@ export class MySQLAdapter extends GenericAdapter {
    */
   constructor (options: MySQL2Options) {
     super()
-    this._options = options
+    this.options = options
 
     try {
-      this._engine = require('mysql2/promise')
+      this._sqlEngine = require('mysql2/promise')
     } catch (err) {
       const error = err as Error
-      throw new Error(`[init] NAMESPACE(${this._options.table}): Failed to detect installation of MySQL2. Please install 'mysql2' with your preferred package manager to enable this adapter.\n${(error.stack !== undefined ? error.stack : error.message)}`)
+      throw new Error(`[init] NAMESPACE(${this.options.table}): Failed to detect installation of MySQL2. Please install 'mysql2' with your preferred package manager to enable this adapter.\n${(error.stack !== undefined ? error.stack : error.message)}`)
     }
 
     if (options?.authentication === undefined || options?.table === undefined) {
-      throw new Error(`[init] NAMESPACE(${this._options?.table}): Failed to detect MySQL2Options. Please specify both the 'file' and the 'table' you wish to use.`)
+      throw new Error(`[init] NAMESPACE(${this.options?.table}): Failed to detect MySQL2Options. Please specify both the 'file' and the 'table' you wish to use.`)
     }
   }
 
@@ -57,26 +54,17 @@ export class MySQLAdapter extends GenericAdapter {
    */
   async configure (): Promise<void> {
     // Initialize Keys and Storage
-    this._keys = this._sqlBuilder.getKTable(this._options?.table)
-    this._storage = this._sqlBuilder.getVTable(this._options?.table)
+    this.table = this._sqlBuilder.getVTable(this.options?.table)
 
     // Lock Database Connection
-    await this._ldb()
-
-    // Create Keys Table
-    try {
-      await this._r(this._keys.create().ifNotExists().toString())
-    } catch (err) {
-      const error = err as Error
-      throw new Error(`[runtime:configure NAMESPACE(${this._options.table}): Failed to configure key-storage table.\n${(error.stack !== undefined ? error.stack : error.message)}`)
-    }
+    await this.lockDB()
 
     // Create Storage Table
     try {
-      await this._r(this._storage.create().ifNotExists().toString())
+      await this.run(this.table.create().ifNotExists().toString())
     } catch (err) {
       const error = err as Error
-      throw new Error(`[runtime:configure NAMESPACE(${this._options.table}): Failed to configure value-storage table.\n${(error.stack !== undefined ? error.stack : error.message)}`)
+      throw new Error(`[runtime:configure NAMESPACE(${this.options.table}): Failed to configure value-storage table.\n${(error.stack !== undefined ? error.stack : error.message)}`)
     }
   }
 
@@ -84,15 +72,14 @@ export class MySQLAdapter extends GenericAdapter {
    * Terminate the MySQL Database Connection and end active service.
    */
   async close (): Promise<void> {
-    await this._database.end()
+    await this.database.end()
   }
 
   /**
    * Permanently removes all entries from the referenced storage driver.
    */
   async clear (): Promise<void> {
-    await this._r(this._keys.delete().from().toString())
-    await this._r(this._storage.delete().from().toString())
+    await this.run(this.table.delete().from().toString())
   }
 
   /**
@@ -103,9 +90,10 @@ export class MySQLAdapter extends GenericAdapter {
    * @returns - If the value assigned to the key was deleted.
    */
   async delete (key: string): Promise<boolean> {
-    this.validateKey(key)
-    await this._r(this._keys.delete().where({ key }).toString())
-    await this._r(this._storage.delete().where({ key }).toString())
+    super._isKeyAcceptable(key)
+
+    await this.run(this.table.delete().where({ key }).toString())
+
     return true
   }
 
@@ -117,13 +105,13 @@ export class MySQLAdapter extends GenericAdapter {
    * @returns - The value assigned to the key.
    */
   async get (key: string): Promise<any> {
-    this.validateKey(key)
+    super._isKeyAcceptable(key)
 
-    const snapshot = await this._g(this._storage.select().where({ key }).toString())
-    if (snapshot === undefined || snapshot.value === undefined) return undefined
-    const parser = fromJSON(JSON.parse(snapshot.value))
+    const snapshot = await this.getOne(this.table.select().where({ key }).toString())
+    const parser = super._deserialize(snapshot)
+    if (parser === undefined) return parser
 
-    if (this.validateLifetime(parser)) {
+    if (super._isMapperExpired(parser)) {
       await this.delete(key)
       return undefined
     }
@@ -139,9 +127,9 @@ export class MySQLAdapter extends GenericAdapter {
    * @returns - If the key exists.
    */
   async has (key: string): Promise<boolean> {
-    this.validateKey(key)
+    super._isKeyAcceptable(key)
 
-    const snapshot = await this._g(this._keys.select().where({ key }).toString())
+    const snapshot = await this.getOne(this.table.select().where({ key }).toString())
     if (snapshot === undefined || snapshot.key === '') return false
     else return true
   }
@@ -152,12 +140,12 @@ export class MySQLAdapter extends GenericAdapter {
    * @returns - An array of all known keys in no particular order.
    */
   async keys (): Promise<string[]> {
-    const keys = await this._a(this._keys.select(this._keys.star()).from().toString())
+    const keys = await this.getAll(this.table.select(this.table.key).from().toString())
 
-    const r: string[] = []
-    keys.map((k) => r.push(k.key))
+    const result: string[] = []
+    keys.map((k) => result.push(k.key))
 
-    return r
+    return result
   }
 
   /**
@@ -168,49 +156,44 @@ export class MySQLAdapter extends GenericAdapter {
    * @param options - The MapperOptions to control the aspects of the stored key.
    */
   async set (key: string, value: any, options?: MapperOptions): Promise<void> {
-    this.validateKey(key)
+    super._isKeyAcceptable(key)
 
-    const serialized = JSON.stringify(toJSON({
+    await this.run(this.table.replace({
       key,
-      ctx: value,
-      lifetime: (options?.lifetime !== undefined ? DateTime.local().toUTC().plus(Duration.fromObject({ milliseconds: options.lifetime })).toUTC().toISO() : null),
-      createdAt: DateTime.local().toUTC().toISO()
-    }))
-
-    await this._r(this._storage.replace({
-      key,
-      value: serialized
-    }).toString())
-    await this._r(this._keys.replace({
-      key
+      value: super._serialize({
+        key,
+        ctx: value,
+        lifetime: (options?.lifetime !== undefined ? DateTime.local().toUTC().plus(Duration.fromObject({ milliseconds: options.lifetime })).toUTC().toISO() : null),
+        createdAt: DateTime.local().toUTC().toISO()
+      })
     }).toString())
   }
 
   // Lock Database Connection
-  private async _ldb (): Promise<void> {
+  private async lockDB (): Promise<void> {
     try {
-      this._database = await this._engine.createPool({
-        host: this._options?.authentication?.host,
-        port: this._options?.authentication?.port,
-        user: this._options?.authentication?.username,
-        password: this._options?.authentication?.password,
-        database: this._options?.authentication?.database,
+      this.database = await this._sqlEngine.createPool({
+        host: this.options?.authentication?.host,
+        port: this.options?.authentication?.port,
+        user: this.options?.authentication?.username,
+        password: this.options?.authentication?.password,
+        database: this.options?.authentication?.database,
         connectionLimit: 5
       })
     } catch (err) {
       const error = err as Error
-      throw new Error(`[runtime:lock NAMESPACE(${this._options.table}): Failed to initialize MySQL2 adapter due to an unexpected error.\n${(error.stack !== undefined ? error.stack : error.message)}`)
+      throw new Error(`[runtime:lock NAMESPACE(${this.options.table}): Failed to initialize MySQL2 adapter due to an unexpected error.\n${(error.stack !== undefined ? error.stack : error.message)}`)
     }
   }
 
-  // Execute no-response Query
-  private async _r (sql: string): Promise<void> {
-    await this._database.execute(sql)
+  /** No-Result Query */
+  private async run (sql: string): Promise<void> {
+    await this.database.execute(sql)
   }
 
-  // Execute response Query
-  private async _g (sql: string): Promise<IValueTable> {
-    const rows = await this._database.query(sql)
+  /** Single-Result Query */
+  private async getOne (sql: string): Promise<IValueTable> {
+    const rows = await this.database.query(sql)
     const result = rows[0] as MySQL2.RowDataPacket[]
     const table = result[0] as unknown as IValueTable
 
@@ -226,8 +209,9 @@ export class MySQLAdapter extends GenericAdapter {
     }
   }
 
-  private async _a (sql: string): Promise<IValueTable[]> {
-    const rows = await this._database.query(sql)
+  /** All-Result Query */
+  private async getAll (sql: string): Promise<IValueTable[]> {
+    const rows = await this.database.query(sql)
     const result = rows[0] as MySQL2.RowDataPacket[]
     const table = result as unknown as IValueTable[]
     return table

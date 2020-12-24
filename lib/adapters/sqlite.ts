@@ -1,8 +1,7 @@
-import { fromJSON, toJSON } from 'javascript-serializer'
 import { DateTime, Duration } from 'luxon'
 import { TableWithColumns } from 'sql-ts'
 
-import { IKeyTable, IValueTable, SQLBuilder } from '../builder/sql'
+import { IValueTable, SQLBuilder } from '../builder/sql'
 import { MapperOptions } from '../ref/generics.type'
 import { SQLite3Options } from '../ref/sqlite.type'
 import { GenericAdapter } from './generic'
@@ -13,18 +12,16 @@ export class SQLiteAdapter extends GenericAdapter {
   // Builders
   /** SQLBuilder Instance */
   private readonly _sqlBuilder = new SQLBuilder('sqlite')
-  /** SQLBuilder IKeyTable Instantiated Instance */
-  private _keys: TableWithColumns<IKeyTable>
   /** SQLBuilder IValueTable Instantiated Instance */
-  private _storage: TableWithColumns<IValueTable>
+  private table: TableWithColumns<IValueTable>
 
   // Instancing
   /** SQLite3Options Instance */
-  private readonly _options: SQLite3Options
+  private readonly options: SQLite3Options
   /** SQL Engine */
-  private readonly _engine: typeof BetterSqlite3
+  private readonly _sqlEngine: typeof BetterSqlite3
   /** SQL Engine Instance */
-  private _database: BetterSqlite3.Database
+  private database: BetterSqlite3.Database
 
   /**
    * Initialize the SQLite3 Adapter
@@ -39,17 +36,17 @@ export class SQLiteAdapter extends GenericAdapter {
    */
   constructor (options: SQLite3Options) {
     super()
-    this._options = options
+    this.options = options
 
     try {
-      this._engine = require('better-sqlite3')
+      this._sqlEngine = require('better-sqlite3')
     } catch (err) {
       const error = err as Error
-      throw new Error(`[init] NAMESPACE(${this._options.table}): Failed to detect installation of SQLite3. Please install 'better-sqlite3' with your preferred package manager to enable this adapter.\n${(error.stack !== undefined ? error.stack : error.message)}`)
+      throw new Error(`[init] NAMESPACE(${this.options.table}): Failed to detect installation of SQLite3. Please install 'better-sqlite3' with your preferred package manager to enable this adapter.\n${(error.stack !== undefined ? error.stack : error.message)}`)
     }
 
     if (options?.file === undefined || options?.table === undefined) {
-      throw new Error(`[init] NAMESPACE(${this._options?.table}): Failed to detect SQlite3Options. Please specify both the 'file' and the 'table' you wish to use.`)
+      throw new Error(`[init] NAMESPACE(${this.options?.table}): Failed to detect SQlite3Options. Please specify both the 'file' and the 'table' you wish to use.`)
     }
   }
 
@@ -58,26 +55,17 @@ export class SQLiteAdapter extends GenericAdapter {
    */
   async configure (): Promise<void> {
     // Initialize Keys and Storage
-    this._keys = this._sqlBuilder.getKTable(this._options?.table)
-    this._storage = this._sqlBuilder.getVTable(this._options?.table)
+    this.table = this._sqlBuilder.getVTable(this.options?.table)
 
     // Lock Database Connection
-    await this._ldb()
-
-    // Create Keys Table
-    try {
-      await this._r(this._keys.create().ifNotExists().toString())
-    } catch (err) {
-      const error = err as Error
-      throw new Error(`[runtime:configure NAMESPACE(${this._options.table}): Failed to configure key-storage table.\n${(error.stack !== undefined ? error.stack : error.message)}`)
-    }
+    await this.lockDB()
 
     // Create Storage Table
     try {
-      await this._r(this._storage.create().ifNotExists().toString())
+      await this.run(this.table.create().ifNotExists().toString())
     } catch (err) {
       const error = err as Error
-      throw new Error(`[runtime:configure NAMESPACE(${this._options.table}): Failed to configure value-storage table.\n${(error.stack !== undefined ? error.stack : error.message)}`)
+      throw new Error(`[runtime:configure NAMESPACE(${this.options.table}): Failed to configure value-storage table.\n${(error.stack !== undefined ? error.stack : error.message)}`)
     }
   }
 
@@ -85,15 +73,14 @@ export class SQLiteAdapter extends GenericAdapter {
    * Terminate the SQLite Database Connection and end active service.
    */
   async close (): Promise<void> {
-    this._database.close()
+    this.database.close()
   }
 
   /**
    * Permanently removes all entries from the referenced storage driver.
    */
   async clear (): Promise<void> {
-    await this._r(this._keys.delete().from().toString())
-    await this._r(this._storage.delete().from().toString())
+    await this.run(this.table.delete().from().toString())
   }
 
   /**
@@ -104,10 +91,9 @@ export class SQLiteAdapter extends GenericAdapter {
    * @returns - If the value assigned to the key was deleted.
    */
   async delete (key: string): Promise<boolean> {
-    this.validateKey(key)
+    super._isKeyAcceptable(key)
 
-    await this._r(this._keys.delete().where({ key }).toString())
-    await this._r(this._storage.delete().where({ key }).toString())
+    await this.run(this.table.delete().where({ key }).toString())
 
     return true
   }
@@ -120,13 +106,13 @@ export class SQLiteAdapter extends GenericAdapter {
    * @returns - The value assigned to the key.
    */
   async get (key: string): Promise<any> {
-    this.validateKey(key)
+    super._isKeyAcceptable(key)
 
-    const snapshot = await this._g(this._storage.select().where({ key }).toString())
-    if (snapshot === undefined || snapshot.value === undefined) return undefined
-    const parser = fromJSON(JSON.parse(snapshot.value))
+    const snapshot = await this.getOne(this.table.select().where({ key }).toString())
+    const parser = super._deserialize(snapshot)
+    if (parser === undefined) return parser
 
-    if (this.validateLifetime(parser)) {
+    if (super._isMapperExpired(parser)) {
       await this.delete(key)
       return undefined
     }
@@ -142,9 +128,9 @@ export class SQLiteAdapter extends GenericAdapter {
    * @returns - If the key exists.
    */
   async has (key: string): Promise<boolean> {
-    this.validateKey(key)
+    super._isKeyAcceptable(key)
 
-    const snapshot = await this._g(this._keys.select().where({ key }).toString())
+    const snapshot = await this.getOne(this.table.select().where({ key }).toString())
     if (snapshot === undefined || snapshot.key === '') return false
     else return true
   }
@@ -155,12 +141,12 @@ export class SQLiteAdapter extends GenericAdapter {
    * @returns - An array of all known keys in no particular order.
    */
   async keys (): Promise<string[]> {
-    const keys = await this._a(this._keys.select(this._keys.star()).from().toString())
+    const keys = await this.getAll(this.table.select(this.table.key).toString())
 
-    const r: string[] = []
-    keys.map((k) => r.push(k.key))
+    const result: string[] = []
+    keys.map((k) => result.push(k.key))
 
-    return r
+    return result
   }
 
   /**
@@ -171,39 +157,34 @@ export class SQLiteAdapter extends GenericAdapter {
    * @param options - The MapperOptions to control the aspects of the stored key.
    */
   async set (key: string, value: any, options?: MapperOptions): Promise<void> {
-    this.validateKey(key)
+    super._isKeyAcceptable(key)
 
-    const serialized = toJSON({
+    await this.run(this.table.replace({
       key,
-      ctx: value,
-      lifetime: (options?.lifetime !== undefined ? DateTime.local().toUTC().plus(Duration.fromObject({ milliseconds: options.lifetime })).toUTC().toISO() : null),
-      createdAt: DateTime.local().toUTC().toISO()
-    })
-
-    await this._r(this._storage.replace({
-      key,
-      value: serialized
-    }).toString())
-    await this._r(this._keys.replace({
-      key
+      value: super._serialize({
+        key,
+        ctx: value,
+        lifetime: (options?.lifetime !== undefined ? DateTime.local().toUTC().plus(Duration.fromObject({ milliseconds: options.lifetime })).toUTC().toISO() : null),
+        createdAt: DateTime.local().toUTC().toISO()
+      })
     }).toString())
   }
 
-  // Lock Database Connection
-  private async _ldb (): Promise<void> {
+  /** Lock Database Service */
+  private async lockDB (): Promise<void> {
     try {
-      this._database = new this._engine(this._options.file.toString())
+      this.database = new this._sqlEngine(this.options.file.toString())
     } catch (err) {
       const error = err as Error
-      throw new Error(`[runtime:lock NAMESPACE(${this._options.table}): Failed to initialize SQLite3 adapter due to an unexpected error.\n${(error.stack !== undefined ? error.stack : error.message)}`)
+      throw new Error(`[runtime:lock NAMESPACE(${this.options.table}): Failed to initialize SQLite3 adapter due to an unexpected error.\n${(error.stack !== undefined ? error.stack : error.message)}`)
     }
   }
 
-  // Execute no-response Query
-  private async _r (sql: string): Promise<void> {
+  /** No-Result Query */
+  private async run (sql: string): Promise<void> {
     return await new Promise((resolve, reject) => {
       try {
-        this._database.prepare(sql).run()
+        this.database.prepare(sql).run()
         return resolve()
       } catch (err) {
         return reject(err)
@@ -211,22 +192,22 @@ export class SQLiteAdapter extends GenericAdapter {
     })
   }
 
-  // Execute response Query
-  private async _g (sql: string): Promise<IValueTable> {
+  /** Single-Result Query */
+  private async getOne (sql: string): Promise<IValueTable> {
     return await new Promise((resolve, reject) => {
       try {
-        return resolve(this._database.prepare(sql).get())
+        return resolve(this.database.prepare(sql).get())
       } catch (err) {
         return reject(err)
       }
     })
   }
 
-  // Execute all-response Query
-  private async _a (sql: string): Promise<IValueTable[]> {
+  /** All-Result Query */
+  private async getAll (sql: string): Promise<IValueTable[]> {
     return await new Promise((resolve, reject) => {
       try {
-        return resolve(this._database.prepare(sql).all())
+        return resolve(this.database.prepare(sql).all())
       } catch (err) {
         return reject(err)
       }
