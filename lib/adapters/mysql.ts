@@ -106,7 +106,7 @@ export class MySQLAdapter extends GenericAdapter {
   async get (key: string): Promise<any> {
     this.isKeyValid(key)
 
-    const snapshot = await this.one(this.table.select().where({ key }).toString())
+    const snapshot = await this.getOne(this.table.select().where({ key }).toString())
     if (snapshot === undefined || snapshot.value === undefined) return undefined
     const parser = fromJSON(JSON.parse(snapshot.value))
 
@@ -128,7 +128,7 @@ export class MySQLAdapter extends GenericAdapter {
   async has (key: string): Promise<boolean> {
     this.isKeyValid(key)
 
-    const snapshot = await this.one(this.table.select().where({ key }).toString())
+    const snapshot = await this.getOne(this.table.select().where({ key }).toString())
     if (snapshot === undefined || snapshot.key === '') return false
     else return true
   }
@@ -139,7 +139,7 @@ export class MySQLAdapter extends GenericAdapter {
    * @returns - An array of all known keys in no particular order.
    */
   async keys (): Promise<string[]> {
-    const keys = await this.all(this.table.select(this.table.key).from().toString())
+    const keys = await this.getAll(this.table.select(this.table.key).from().toString())
 
     const r: string[] = []
     keys.map((k) => r.push(k.key))
@@ -193,7 +193,7 @@ export class MySQLAdapter extends GenericAdapter {
   }
 
   /** Single-Result Query */
-  private async one (sql: string): Promise<IValueTable> {
+  private async getOne (sql: string): Promise<IValueTable> {
     const rows = await this.database.query(sql)
     const result = rows[0] as MySQL2.RowDataPacket[]
     const table = result[0] as unknown as IValueTable
@@ -211,7 +211,7 @@ export class MySQLAdapter extends GenericAdapter {
   }
 
   /** All-Result Query */
-  private async all (sql: string): Promise<IValueTable[]> {
+  private async getAll (sql: string): Promise<IValueTable[]> {
     const rows = await this.database.query(sql)
     const result = rows[0] as MySQL2.RowDataPacket[]
     const table = result as unknown as IValueTable[]

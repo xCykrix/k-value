@@ -109,7 +109,7 @@ export class SQLiteAdapter extends GenericAdapter {
   async get (key: string): Promise<any> {
     this.isKeyValid(key)
 
-    const snapshot = await this.one(this.table.select().where({ key }).toString())
+    const snapshot = await this.getOne(this.table.select().where({ key }).toString())
     if (snapshot === undefined || snapshot.value === undefined) return undefined
     const parser = fromJSON(JSON.parse(snapshot.value))
 
@@ -131,7 +131,7 @@ export class SQLiteAdapter extends GenericAdapter {
   async has (key: string): Promise<boolean> {
     this.isKeyValid(key)
 
-    const snapshot = await this.one(this.table.select().where({ key }).toString())
+    const snapshot = await this.getOne(this.table.select().where({ key }).toString())
     if (snapshot === undefined || snapshot.key === '') return false
     else return true
   }
@@ -196,7 +196,7 @@ export class SQLiteAdapter extends GenericAdapter {
   }
 
   /** Single-Result Query */
-  private async one (sql: string): Promise<IValueTable> {
+  private async getOne (sql: string): Promise<IValueTable> {
     return await new Promise((resolve, reject) => {
       try {
         return resolve(this.database.prepare(sql).get())
