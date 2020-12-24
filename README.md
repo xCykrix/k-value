@@ -22,7 +22,7 @@ If you are ever having any trouble, I would greatly recommend visiting the Wiki 
 
 ## API Documentation
 
-You can find our TSDoc API documentation available at our [GitHub Pages](https://amethyst-studio.github.io/k-value/index.html).
+You can find our TypeDoc API documentation available at our [GitHub Pages](https://amethyst-studio.github.io/k-value/index.html).
 
 Simply find the respective adapter you are trying to use and it will reference all the possible information and options that adapter can use.
 For example, with the MySQLAdapter the constructor will use the `MySQL2Options` which you can find at [API#MySQL2Options](https://amethyst-studio.github.io/k-value/interfaces/mysql2options.html) in order to allow the `Adapter#configure()` method to resolve correctly and initialize the connections.

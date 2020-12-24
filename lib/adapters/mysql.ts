@@ -1,4 +1,3 @@
-import { fromJSON, toJSON } from 'javascript-serializer'
 import { DateTime, Duration } from 'luxon'
 import * as MySQL2 from 'mysql2/promise'
 import { TableWithColumns } from 'sql-ts'
@@ -11,7 +10,7 @@ import { GenericAdapter } from './generic'
 export class MySQLAdapter extends GenericAdapter {
   // Builders
   /** SQLBuilder Instance */
-  private readonly builder = new SQLBuilder('mysql')
+  private readonly _sqlBuilder = new SQLBuilder('mysql')
   /** SQLBuilder IValueTable Instantiated Instance */
   private table: TableWithColumns<IValueTable>
 
@@ -19,7 +18,7 @@ export class MySQLAdapter extends GenericAdapter {
   /** MySQL2Options Instance */
   private readonly options: MySQL2Options
   /** SQL Engine */
-  private readonly SQLEngine: typeof MySQL2
+  private readonly _sqlEngine: typeof MySQL2
   /** SQL Engine Instance */
   private database: MySQL2.Pool
 
@@ -39,7 +38,7 @@ export class MySQLAdapter extends GenericAdapter {
     this.options = options
 
     try {
-      this.SQLEngine = require('mysql2/promise')
+      this._sqlEngine = require('mysql2/promise')
     } catch (err) {
       const error = err as Error
       throw new Error(`[init] NAMESPACE(${this.options.table}): Failed to detect installation of MySQL2. Please install 'mysql2' with your preferred package manager to enable this adapter.\n${(error.stack !== undefined ? error.stack : error.message)}`)
@@ -55,7 +54,7 @@ export class MySQLAdapter extends GenericAdapter {
    */
   async configure (): Promise<void> {
     // Initialize Keys and Storage
-    this.table = this.builder.getVTable(this.options?.table)
+    this.table = this._sqlBuilder.getVTable(this.options?.table)
 
     // Lock Database Connection
     await this.lockDB()
@@ -91,8 +90,10 @@ export class MySQLAdapter extends GenericAdapter {
    * @returns - If the value assigned to the key was deleted.
    */
   async delete (key: string): Promise<boolean> {
-    this.isKeyValid(key)
+    super._isKeyAcceptable(key)
+
     await this.run(this.table.delete().where({ key }).toString())
+
     return true
   }
 
@@ -104,13 +105,13 @@ export class MySQLAdapter extends GenericAdapter {
    * @returns - The value assigned to the key.
    */
   async get (key: string): Promise<any> {
-    this.isKeyValid(key)
+    super._isKeyAcceptable(key)
 
     const snapshot = await this.getOne(this.table.select().where({ key }).toString())
-    if (snapshot === undefined || snapshot.value === undefined) return undefined
-    const parser = fromJSON(JSON.parse(snapshot.value))
+    const parser = super._deserialize(snapshot)
+    if (parser === undefined) return parser
 
-    if (this.isExpired(parser)) {
+    if (super._isMapperExpired(parser)) {
       await this.delete(key)
       return undefined
     }
@@ -126,7 +127,7 @@ export class MySQLAdapter extends GenericAdapter {
    * @returns - If the key exists.
    */
   async has (key: string): Promise<boolean> {
-    this.isKeyValid(key)
+    super._isKeyAcceptable(key)
 
     const snapshot = await this.getOne(this.table.select().where({ key }).toString())
     if (snapshot === undefined || snapshot.key === '') return false
@@ -141,10 +142,10 @@ export class MySQLAdapter extends GenericAdapter {
   async keys (): Promise<string[]> {
     const keys = await this.getAll(this.table.select(this.table.key).from().toString())
 
-    const r: string[] = []
-    keys.map((k) => r.push(k.key))
+    const result: string[] = []
+    keys.map((k) => result.push(k.key))
 
-    return r
+    return result
   }
 
   /**
@@ -155,25 +156,23 @@ export class MySQLAdapter extends GenericAdapter {
    * @param options - The MapperOptions to control the aspects of the stored key.
    */
   async set (key: string, value: any, options?: MapperOptions): Promise<void> {
-    this.isKeyValid(key)
-
-    const serialized = JSON.stringify(toJSON({
-      key,
-      ctx: value,
-      lifetime: (options?.lifetime !== undefined ? DateTime.local().toUTC().plus(Duration.fromObject({ milliseconds: options.lifetime })).toUTC().toISO() : null),
-      createdAt: DateTime.local().toUTC().toISO()
-    }))
+    super._isKeyAcceptable(key)
 
     await this.run(this.table.replace({
       key,
-      value: serialized
+      value: super._serialize({
+        key,
+        ctx: value,
+        lifetime: (options?.lifetime !== undefined ? DateTime.local().toUTC().plus(Duration.fromObject({ milliseconds: options.lifetime })).toUTC().toISO() : null),
+        createdAt: DateTime.local().toUTC().toISO()
+      })
     }).toString())
   }
 
   // Lock Database Connection
   private async lockDB (): Promise<void> {
     try {
-      this.database = await this.SQLEngine.createPool({
+      this.database = await this._sqlEngine.createPool({
         host: this.options?.authentication?.host,
         port: this.options?.authentication?.port,
         user: this.options?.authentication?.username,
