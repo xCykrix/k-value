@@ -92,7 +92,7 @@ export class SQLiteAdapter extends GenericAdapter {
    * @returns - If the value assigned to the key was deleted.
    */
   async delete (key: string): Promise<boolean> {
-    this.validateKey(key)
+    this.isKeyValid(key)
 
     await this.run(this.table.delete().where({ key }).toString())
 
@@ -107,13 +107,13 @@ export class SQLiteAdapter extends GenericAdapter {
    * @returns - The value assigned to the key.
    */
   async get (key: string): Promise<any> {
-    this.validateKey(key)
+    this.isKeyValid(key)
 
     const snapshot = await this.one(this.table.select().where({ key }).toString())
     if (snapshot === undefined || snapshot.value === undefined) return undefined
     const parser = fromJSON(JSON.parse(snapshot.value))
 
-    if (this.validateLifetime(parser)) {
+    if (this.isExpired(parser)) {
       await this.delete(key)
       return undefined
     }
@@ -129,7 +129,7 @@ export class SQLiteAdapter extends GenericAdapter {
    * @returns - If the key exists.
    */
   async has (key: string): Promise<boolean> {
-    this.validateKey(key)
+    this.isKeyValid(key)
 
     const snapshot = await this.one(this.table.select().where({ key }).toString())
     if (snapshot === undefined || snapshot.key === '') return false
@@ -158,7 +158,7 @@ export class SQLiteAdapter extends GenericAdapter {
    * @param options - The MapperOptions to control the aspects of the stored key.
    */
   async set (key: string, value: any, options?: MapperOptions): Promise<void> {
-    this.validateKey(key)
+    this.isKeyValid(key)
 
     const serialized = toJSON({
       key,

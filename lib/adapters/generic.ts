@@ -21,7 +21,7 @@ export abstract class GenericAdapter extends PseudoMap {
    * @readonly
    * @sealed
    */
-  validateLifetime (state: InternalMapper | undefined): boolean {
+  isExpired (state: InternalMapper | undefined): boolean {
     if (state === undefined) return true
     if (state.lifetime === undefined || state.lifetime === null) return false
 
@@ -42,7 +42,7 @@ export abstract class GenericAdapter extends PseudoMap {
    *
    * @param key - The key to be validated.
    */
-  validateKey (key: string): void {
+  isKeyValid (key: string): void {
     if (typeof key !== 'string') throw new Error('InvalidState: key must be a valid string')
     if (key.length === 0 || key.trim() === '') throw new Error('InvalidState: key must be greater than 0 and less than 192 characters')
   }
