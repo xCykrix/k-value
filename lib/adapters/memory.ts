@@ -27,7 +27,7 @@ export class MemoryAdapter extends GenericAdapter {
    * @returns - If the value assigned to the key was deleted.
    */
   async delete (key: string): Promise<boolean> {
-    this.validateKey(key)
+    this.isKeyValid(key)
 
     return this.map.delete(key)
   }
@@ -40,12 +40,12 @@ export class MemoryAdapter extends GenericAdapter {
    * @returns - The value assigned to the key.
    */
   async get (key: string): Promise<any> {
-    this.validateKey(key)
+    this.isKeyValid(key)
 
     const value = await this.map.get(key)
     if (value === undefined || value.ctx === undefined) return undefined
 
-    if (this.validateLifetime(value)) {
+    if (this.isExpired(value)) {
       await this.delete(key)
       return undefined
     }
@@ -61,7 +61,7 @@ export class MemoryAdapter extends GenericAdapter {
    * @returns - If the key exists.
    */
   async has (key: string): Promise<boolean> {
-    this.validateKey(key)
+    this.isKeyValid(key)
 
     return this.map.has(key)
   }
@@ -83,7 +83,7 @@ export class MemoryAdapter extends GenericAdapter {
    * @param options - The MapperOptions to control the aspects of the stored key.
    */
   async set (key: string, value: any, options?: MapperOptions): Promise<void> {
-    this.validateKey(key)
+    this.isKeyValid(key)
 
     await this.map.set(key, {
       ctx: value,

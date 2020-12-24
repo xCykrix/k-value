@@ -1,5 +1,5 @@
 const { expect } = require('chai')
-const { SQLiteAdapter } = require('../../dist/index')
+const { SQLiteAdapter } = require('../dist/index')
 
 describe('Adapter - SQLite', function () {
   let kv = null

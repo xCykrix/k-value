@@ -14,24 +14,6 @@ export class SQLBuilder {
   }
 
   /**
-   * Returns the pre-initialized instance of the SQL definition for the KeyTable.
-   *
-   * @param table - The table to target for initialization.
-   *
-   * @returns - The TableWithColumns representation of KeyTable.
-   */
-  getKTable (table: string): TableWithColumns<IKeyTable> {
-    return this.sql.define<IKeyTable>({
-      name: (table === undefined || table === '' ? 'global_map' : table + '_map'),
-      columns: [{
-        name: 'key',
-        primaryKey: true,
-        dataType: 'VARCHAR(192)'
-      }]
-    })
-  }
-
-  /**
    * Returns the pre-initialized instance of the SQL definition for the ValueTable.
    *
    * @param table - The table to target for initialization.
@@ -51,11 +33,6 @@ export class SQLBuilder {
       }]
     })
   }
-}
-
-/** Representation of the KeyTable */
-export interface IKeyTable {
-  key: string
 }
 
 /** Representation of the ValueTable */

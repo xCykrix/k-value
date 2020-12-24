@@ -1,4 +1,4 @@
-export abstract class PseudoMap {
+export abstract class MapAPI {
   /**
    * Permanently removes all entries from the Storage Backend Adapter.
    */

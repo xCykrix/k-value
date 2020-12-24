@@ -24,10 +24,10 @@
   ],
   "scripts": {
     "lint": "eslint .",
-    "docs": "typedoc --mode file --out ./docs/ ./lib/",
+    "docs": "typedoc --mode file --out ./docs/ ./lib/ && git reset && git add ./docs/ && git commit -m 'chore(docs, auto): Auto-generated Documentation with TypeDocs.' --no-verify",
     "build": "npx tsc --build",
-    "tests": "mocha './tests/**/*.js'",
-    "quick": "npm run lint && npm run build && npm run tests",
+    "test": "mocha './tests/**/*.js'",
+    "quick": "npm run lint && npm run build && npm run test",
     "prepack": "npm run quick"
   },
   "husky": {
@@ -39,7 +39,7 @@
   "devDependencies": {
     "@types/chai": "^4.2.14",
     "@types/mocha": "^8.2.0",
-    "@types/node": "^14.14.13",
+    "@types/node": "^14.14.16",
     "@typescript-eslint/eslint-plugin": "^4.10.0",
     "@typescript-eslint/parser": "^4.11.0",
     "chai": "^4.2.0",
