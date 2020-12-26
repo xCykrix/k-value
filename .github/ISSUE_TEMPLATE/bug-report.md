@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Report an issue with K-Value
+about: Report an issue with ts.boilerplate.name
 title: '[BUG] Generalized Overview of the Report Here'
 labels: 'Type: Bug, State: Conversation, Status: Unassigned'
 assignees: ''
@@ -12,8 +12,8 @@ A clear and concise description of what the bug is.
 **To Reproduce**
 Steps to reproduce the behavior:
 1. Installation commands to use.
-2. Install dependencies for X adapter.
-3. Snippet of reproducible behavior, if applicable.
+2. Setup the environment in this way.
+3. Snippet of how you can reproduce it consistently
 4. Any errors that may be generated.
 
 **Expected behavior**
@@ -25,7 +25,7 @@ If applicable, add screenshots to help explain your problem.
 **Current Installation:**
  - Device: Desktop or Server
  - OS: `uname -a` or Windows Version if you are 32 or 64 bit OS.
- - Version: `npm list | grep 'k-value'`
+ - Version: `npm list | grep 'ts.boilerplate.name'`
 
 **Additional context**
 Add any other context about the problem here.

@@ -1,8 +1,6 @@
-# Custom Ignore Entries
-/tests/ci.database
 
-# Created by https://www.toptal.com/developers/gitignore/api/node,visualstudiocode,webstorm+all
-# Edit at https://www.toptal.com/developers/gitignore?templates=node,visualstudiocode,webstorm+all
+# Created by https://www.toptal.com/developers/gitignore/api/node,yarn,webstorm+all,visualstudiocode,vscode
+# Edit at https://www.toptal.com/developers/gitignore?templates=node,yarn,webstorm+all,visualstudiocode,vscode
 
 ### Node ###
 # Logs
@@ -126,6 +124,10 @@ dist
 .history
 .ionide
 
+### vscode ###
+!.vscode/settings.json
+!.vscode/extensions.json
+
 ### WebStorm+all ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
@@ -215,4 +217,20 @@ modules.xml
 # Sonarlint plugin
 .idea/sonarlint
 
-# End of https://www.toptal.com/developers/gitignore/api/node,visualstudiocode,webstorm+all
+### yarn ###
+# https://yarnpkg.com/advanced/qa#which-files-should-be-gitignored
+
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+
+# if you are NOT using Zero-installs, then:
+# comment the following lines
+!.yarn/cache
+
+# and uncomment the following lines
+# .pnp.*
+
+# End of https://www.toptal.com/developers/gitignore/api/node,yarn,webstorm+all,visualstudiocode,vscode
