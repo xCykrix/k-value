@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: Suggest new features to ts.boilerplate.name
+about: Suggest new features to k-value
 title: '[FEATURE] Generalized Overview of the Feature Request'
 labels: 'Type: Enhancement, State: Conversation, Status: Unassigned'
 assignees: ''

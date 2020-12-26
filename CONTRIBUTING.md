@@ -5,7 +5,7 @@
 Everything comes pre-packaged with just running `npm install`, which will configure TypeScript, ESLint StandardJS/TS, and other 3rd party development dependencies.
 
 ```bash
-git clone https://github.com/amethyst-studio/ts.boilerplate.name
+git clone https://github.com/amethyst-studio/k-value
 npm install
 npm install --no-save mysql2 better-sqlite3 # We use --no-save to keep the package lightweight, but allow testing internally. These are peer (optional) dependencies when published.
 npm run project:build # Confirm everything is working.
