@@ -5,6 +5,15 @@
   "license": "MIT",
   "author": "Samuel J Voeller <samuel.voeller@amethyst.live> (https://chat.amethyst.live/)",
   "contributors": [],
+  "keywords": [
+    "map",
+    "key",
+    "value",
+    "keyv",
+    "key-value",
+    "map-like",
+    "library"
+  ],
   "homepage": "https://github.com/amethyst-studio/k-value",
   "repository": {
     "url": "git@github.com/amethyst-studio/k-value.git"
