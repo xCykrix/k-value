@@ -37,7 +37,7 @@
     "stage:tests": "mocha './tests/**/*.js'",
     "project:build": "npm run stage:eslint && npm run stage:build && npm run stage:tests",
     "project:upgrade": "npx npm-check-updates -u --target latest && wget https://www.toptal.com/developers/gitignore/api/node,yarn,webstorm+all,visualstudiocode,vscode -O ./.gitignore",
-    "project:generate-docs": "typedoc --mode file --out ./docs/ ./src/",
+    "project:generate-docs": "typedoc --mode file --out ./docs/ ./lib/",
     "prepack": "npm run project:build"
   },
   "husky": {
