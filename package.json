@@ -5,9 +5,9 @@
   "license": "MIT",
   "author": "Samuel J Voeller <samuel.voeller@amethyst.live> (https://chat.amethyst.live/)",
   "contributors": [],
-  "homepage": "https://github.com/xCykrix/k-value",
+  "homepage": "https://github.com/amethyst-studio/k-value",
   "repository": {
-    "url": "git@github.com/xCykrix/k-value.git"
+    "url": "git@github.com/amethyst-studio/k-value.git"
   },
   "engines": {
     "node": ">=8.0.0",
