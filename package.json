@@ -1,7 +1,7 @@
 {
   "name": "k-value",
   "description": "Node.js Map-like API based key-value storage with multiple persistent backend adapters.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "license": "MIT",
   "author": "Samuel J Voeller <samuel.voeller@amethyst.live> (https://chat.amethyst.live/)",
   "contributors": [],
