@@ -3,10 +3,11 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>GenericAdapter | k-value</title>
+	<title>MemoryAdapter | k-value</title>
 	<meta name="description" content="Documentation for k-value">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
@@ -40,8 +41,6 @@
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
 							<input type="checkbox" id="tsd-filter-externals" checked />
 							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -53,13 +52,16 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../globals.html">Globals</a>
+					<a href="../modules.html">k-value</a>
 				</li>
 				<li>
-					<a href="genericadapter.html">GenericAdapter</a>
+					<a href="../modules/adapters_memory.html">adapters/memory</a>
+				</li>
+				<li>
+					<a href="adapters_memory.memoryadapter.html">MemoryAdapter</a>
 				</li>
 			</ul>
-			<h1>Class GenericAdapter</h1>
+			<h1>Class MemoryAdapter</h1>
 		</div>
 	</div>
 </header>
@@ -70,21 +72,10 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="mapapi.html" class="tsd-signature-type">MapAPI</a>
+						<a href="adapters_generic.genericadapter.html" class="tsd-signature-type" data-tsd-kind="Class">GenericAdapter</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">GenericAdapter</span>
-								<ul class="tsd-hierarchy">
-									<li>
-										<a href="memoryadapter.html" class="tsd-signature-type">MemoryAdapter</a>
-									</li>
-									<li>
-										<a href="mysqladapter.html" class="tsd-signature-type">MySQLAdapter</a>
-									</li>
-									<li>
-										<a href="sqliteadapter.html" class="tsd-signature-type">SQLiteAdapter</a>
-									</li>
-								</ul>
+								<span class="target">MemoryAdapter</span>
 							</li>
 						</ul>
 					</li>
@@ -95,26 +86,74 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Methods</h3>
+							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="genericadapter.html#_symbol_iterator_" class="tsd-kind-icon">[<wbr>Symbol.iterator]</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="genericadapter.html#_deserialize" class="tsd-kind-icon">_deserialize</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="genericadapter.html#_iskeyacceptable" class="tsd-kind-icon">_is<wbr>Key<wbr>Acceptable</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="genericadapter.html#_ismapperexpired" class="tsd-kind-icon">_is<wbr>Mapper<wbr>Expired</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="genericadapter.html#_serialize" class="tsd-kind-icon">_serialize</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="genericadapter.html#clear" class="tsd-kind-icon">clear</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="genericadapter.html#close" class="tsd-kind-icon">close</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="genericadapter.html#configure" class="tsd-kind-icon">configure</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="genericadapter.html#delete" class="tsd-kind-icon">delete</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="genericadapter.html#entries" class="tsd-kind-icon">entries</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="genericadapter.html#foreach" class="tsd-kind-icon">for<wbr>Each</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="genericadapter.html#get" class="tsd-kind-icon">get</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="genericadapter.html#has" class="tsd-kind-icon">has</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="genericadapter.html#keys" class="tsd-kind-icon">keys</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="genericadapter.html#set" class="tsd-kind-icon">set</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="genericadapter.html#values" class="tsd-kind-icon">values</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><a href="adapters_memory.memoryadapter.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
+						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="adapters_memory.memoryadapter.html#map" class="tsd-kind-icon">map</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_memory.memoryadapter.html#_symbol_iterator_" class="tsd-kind-icon">[<wbr>Symbol.iterator]</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_memory.memoryadapter.html#_deserialize" class="tsd-kind-icon">_deserialize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_memory.memoryadapter.html#_iskeyacceptable" class="tsd-kind-icon">_is<wbr>Key<wbr>Acceptable</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_memory.memoryadapter.html#_ismapperexpired" class="tsd-kind-icon">_is<wbr>Mapper<wbr>Expired</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_memory.memoryadapter.html#_serialize" class="tsd-kind-icon">_serialize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="adapters_memory.memoryadapter.html#clear" class="tsd-kind-icon">clear</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="adapters_memory.memoryadapter.html#close" class="tsd-kind-icon">close</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="adapters_memory.memoryadapter.html#configure" class="tsd-kind-icon">configure</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="adapters_memory.memoryadapter.html#delete" class="tsd-kind-icon">delete</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_memory.memoryadapter.html#entries" class="tsd-kind-icon">entries</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_memory.memoryadapter.html#foreach" class="tsd-kind-icon">for<wbr>Each</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="adapters_memory.memoryadapter.html#get" class="tsd-kind-icon">get</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="adapters_memory.memoryadapter.html#has" class="tsd-kind-icon">has</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="adapters_memory.memoryadapter.html#keys" class="tsd-kind-icon">keys</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="adapters_memory.memoryadapter.html#set" class="tsd-kind-icon">set</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_memory.memoryadapter.html#values" class="tsd-kind-icon">values</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Memory<wbr>Adapter<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="adapters_memory.memoryadapter.html" class="tsd-signature-type" data-tsd-kind="Class">MemoryAdapter</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="adapters_generic.genericadapter.html">GenericAdapter</a>.<a href="adapters_generic.genericadapter.html#constructor">constructor</a></p>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="adapters_memory.memoryadapter.html" class="tsd-signature-type" data-tsd-kind="Class">MemoryAdapter</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="map" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> map</h3>
+					<div class="tsd-signature tsd-kind-icon">map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/types_generics_types.internalmapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/adapters/memory.ts#L8">adapters/memory.ts:8</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Internal Storage Map</p>
+						</div>
 					</div>
 				</section>
 			</section>
@@ -129,9 +168,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="mapapi.html">MapAPI</a>.<a href="mapapi.html#_symbol_iterator_">[Symbol.iterator]</a></p>
+								<p>Inherited from <a href="adapters_generic.genericadapter.html">GenericAdapter</a>.<a href="adapters_generic.genericadapter.html#_symbol_iterator_">[Symbol.iterator]</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/builder/map.ts#L100">builder/map.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/builder/map.ts#L100">builder/map.ts:100</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -147,17 +186,18 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="_deserialize" class="tsd-anchor"></a>
 					<h3>_deserialize</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">_deserialize<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><a href="../interfaces/ivaluetable.html" class="tsd-signature-type">IValueTable</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/internalmapper.html" class="tsd-signature-type">InternalMapper</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">_deserialize<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><a href="../interfaces/builder_sql.ivaluetable.html" class="tsd-signature-type" data-tsd-kind="Interface">IValueTable</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/types_generics_types.internalmapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="adapters_generic.genericadapter.html">GenericAdapter</a>.<a href="adapters_generic.genericadapter.html#_deserialize">_deserialize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/adapters/generic.ts#L36">adapters/generic.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/adapters/generic.ts#L40">adapters/generic.ts:40</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -171,30 +211,31 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>state: <a href="../interfaces/ivaluetable.html" class="tsd-signature-type">IValueTable</a></h5>
+									<h5>state: <a href="../interfaces/builder_sql.ivaluetable.html" class="tsd-signature-type" data-tsd-kind="Interface">IValueTable</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>IValueTable Instance to Deserialize</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/internalmapper.html" class="tsd-signature-type">InternalMapper</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/types_generics_types.internalmapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a></h4>
 							<ul>
 								<li>The JSON.parse of the Serialized Instance.</li>
 							</ul>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="_iskeyacceptable" class="tsd-anchor"></a>
 					<h3>_is<wbr>Key<wbr>Acceptable</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">_is<wbr>Key<wbr>Acceptable<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="adapters_generic.genericadapter.html">GenericAdapter</a>.<a href="adapters_generic.genericadapter.html#_iskeyacceptable">_isKeyAcceptable</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/adapters/generic.ts#L74">adapters/generic.ts:74</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/adapters/generic.ts#L84">adapters/generic.ts:84</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -215,17 +256,18 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="_ismapperexpired" class="tsd-anchor"></a>
 					<h3>_is<wbr>Mapper<wbr>Expired</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">_is<wbr>Mapper<wbr>Expired<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><a href="../interfaces/internalmapper.html" class="tsd-signature-type">InternalMapper</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">_is<wbr>Mapper<wbr>Expired<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/types_generics_types.internalmapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="adapters_generic.genericadapter.html">GenericAdapter</a>.<a href="adapters_generic.genericadapter.html#_ismapperexpired">_isMapperExpired</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/adapters/generic.ts#L53">adapters/generic.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/adapters/generic.ts#L63">adapters/generic.ts:63</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -243,7 +285,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>state: <a href="../interfaces/internalmapper.html" class="tsd-signature-type">InternalMapper</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<h5>state: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/types_generics_types.internalmapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Row to validate if the lifetime has expired.</p>
 									</div>
@@ -256,17 +298,18 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="_serialize" class="tsd-anchor"></a>
 					<h3>_serialize</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">_serialize<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><a href="../interfaces/internalmapper.html" class="tsd-signature-type">InternalMapper</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">_serialize<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><a href="../interfaces/types_generics_types.internalmapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="adapters_generic.genericadapter.html">GenericAdapter</a>.<a href="adapters_generic.genericadapter.html#_serialize">_serialize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/adapters/generic.ts#L23">adapters/generic.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/adapters/generic.ts#L23">adapters/generic.ts:23</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -280,7 +323,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>state: <a href="../interfaces/internalmapper.html" class="tsd-signature-type">InternalMapper</a></h5>
+									<h5>state: <a href="../interfaces/types_generics_types.internalmapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>InternalMapper Instance to Serialize</p>
 									</div>
@@ -293,90 +336,92 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="clear" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> clear</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<h3>clear</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">clear<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="mapapi.html">MapAPI</a>.<a href="mapapi.html#clear">clear</a></p>
+								<p>Overrides <a href="adapters_generic.genericadapter.html">GenericAdapter</a>.<a href="adapters_generic.genericadapter.html#clear">clear</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/builder/map.ts#L5">builder/map.ts:5</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/adapters/memory.ts#L18">adapters/memory.ts:18</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Permanently removes all entries from the Storage Backend Adapter.</p>
+									<p>Permanently removes all entries from the referenced storage driver.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="close" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> close</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<h3>close</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="adapters_generic.genericadapter.html">GenericAdapter</a>.<a href="adapters_generic.genericadapter.html#close">close</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/adapters/generic.ts#L12">adapters/generic.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/adapters/memory.ts#L13">adapters/memory.ts:13</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Abstract Close State - Optional</p>
+									<p>Method not Implemented</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="configure" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> configure</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<h3>configure</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">configure<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="adapters_generic.genericadapter.html">GenericAdapter</a>.<a href="adapters_generic.genericadapter.html#configure">configure</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/adapters/generic.ts#L10">adapters/generic.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/adapters/memory.ts#L11">adapters/memory.ts:11</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Abstract State Configuration - Optional</p>
+									<p>Method not Implemented</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="delete" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> delete</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<h3>delete</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">delete<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="mapapi.html">MapAPI</a>.<a href="mapapi.html#delete">delete</a></p>
+								<p>Overrides <a href="adapters_generic.genericadapter.html">GenericAdapter</a>.<a href="adapters_generic.genericadapter.html#delete">delete</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/builder/map.ts#L14">builder/map.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/adapters/memory.ts#L29">adapters/memory.ts:29</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Permanently removes a specific key value pair from the Storage Backend Adapter for the provided key index.</p>
+									<p>Permanently removes the value assigned to the supplied key from the referenced storage driver.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -384,13 +429,13 @@
 								<li>
 									<h5>key: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The key index for the respective value.</p>
+										<p>The referenced key to remove from the storage adapter.</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<ul>
-								<li>Boolean stating if any changes were made to the database.</li>
+								<li>If the value assigned to the key was deleted.</li>
 							</ul>
 						</li>
 					</ul>
@@ -404,9 +449,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="mapapi.html">MapAPI</a>.<a href="mapapi.html#entries">entries</a></p>
+								<p>Inherited from <a href="adapters_generic.genericadapter.html">GenericAdapter</a>.<a href="adapters_generic.genericadapter.html#entries">entries</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/builder/map.ts#L74">builder/map.ts:74</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/builder/map.ts#L74">builder/map.ts:74</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -431,9 +476,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="mapapi.html">MapAPI</a>.<a href="mapapi.html#foreach">forEach</a></p>
+								<p>Inherited from <a href="adapters_generic.genericadapter.html">GenericAdapter</a>.<a href="adapters_generic.genericadapter.html#foreach">forEach</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/builder/map.ts#L61">builder/map.ts:61</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/builder/map.ts#L61">builder/map.ts:61</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -488,23 +533,23 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="get" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> get</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<h3>get</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="mapapi.html">MapAPI</a>.<a href="mapapi.html#get">get</a></p>
+								<p>Overrides <a href="adapters_generic.genericadapter.html">GenericAdapter</a>.<a href="adapters_generic.genericadapter.html#get">get</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/builder/map.ts#L23">builder/map.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/adapters/memory.ts#L42">adapters/memory.ts:42</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Obtains a specific value from the Storage Backend Adapter for the provided key index.</p>
+									<p>Retrieves the value assigned to the supplied key from the referenced storage driver.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -512,34 +557,34 @@
 								<li>
 									<h5>key: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The key index for the respective value.</p>
+										<p>The referenced key to obtain from the storage driver.</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<ul>
-								<li>The value associated with the key index. If no value exists, this will return null.</li>
+								<li>The value assigned to the key.</li>
 							</ul>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="has" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> has</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<h3>has</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">has<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="mapapi.html">MapAPI</a>.<a href="mapapi.html#has">has</a></p>
+								<p>Overrides <a href="adapters_generic.genericadapter.html">GenericAdapter</a>.<a href="adapters_generic.genericadapter.html#has">has</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/builder/map.ts#L32">builder/map.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/adapters/memory.ts#L63">adapters/memory.ts:63</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Checks the provided key for if its respective value exists on the configured Storage Backend Adapter.</p>
+									<p>Assert if the referenced storage driver contains the supplied key.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -547,60 +592,60 @@
 								<li>
 									<h5>key: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The key index for the respective value.</p>
+										<p>The referenced key to check existence in the storage driver.</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<ul>
-								<li>Boolean stating if the Storage Backend Adapter has knowledge of the key and has data is attached to it.</li>
+								<li>If the key exists.</li>
 							</ul>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="keys" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> keys</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<h3>keys</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">keys<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="mapapi.html">MapAPI</a>.<a href="mapapi.html#keys">keys</a></p>
+								<p>Overrides <a href="adapters_generic.genericadapter.html">GenericAdapter</a>.<a href="adapters_generic.genericadapter.html#keys">keys</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/builder/map.ts#L39">builder/map.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/adapters/memory.ts#L74">adapters/memory.ts:74</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Obtains the entire known list of keys from the master table. This table is automatically rebuilt and checks for missing entries every 5 minutes.</p>
+									<p>Retrieves all known keys from the storage driver.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<ul>
-								<li>String[] of known keys provided by the Storage Backend Adapter.</li>
+								<li>An array of all known keys in no particular order.</li>
 							</ul>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="set" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> set</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">set<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<h3>set</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">set<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/types_generics_types.mapperoptions.html" class="tsd-signature-type" data-tsd-kind="Interface">MapperOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="mapapi.html">MapAPI</a>.<a href="mapapi.html#set">set</a></p>
+								<p>Overrides <a href="adapters_generic.genericadapter.html">GenericAdapter</a>.<a href="adapters_generic.genericadapter.html#set">set</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/builder/map.ts#L47">builder/map.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/adapters/memory.ts#L85">adapters/memory.ts:85</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Inserts the value attached to its respective key in configured Storage Backend Adapter.</p>
+									<p>Insert the provided value at the referenced key.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -608,13 +653,19 @@
 								<li>
 									<h5>key: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The key index for the respective value.</p>
+										<p>The referenced key to insert the value in the storage driver.</p>
 									</div>
 								</li>
 								<li>
 									<h5>value: <span class="tsd-signature-type">any</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The value to be stored with the key index.</p>
+										<p>The provided value to insert at the referenced key.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/types_generics_types.mapperoptions.html" class="tsd-signature-type" data-tsd-kind="Interface">MapperOptions</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The MapperOptions to control the aspects of the stored key.</p>
 									</div>
 								</li>
 							</ul>
@@ -631,9 +682,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="mapapi.html">MapAPI</a>.<a href="mapapi.html#values">values</a></p>
+								<p>Inherited from <a href="adapters_generic.genericadapter.html">GenericAdapter</a>.<a href="adapters_generic.genericadapter.html#values">values</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/builder/map.ts#L87">builder/map.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/builder/map.ts#L87">builder/map.ts:87</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -654,8 +705,44 @@
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="../globals.html"><em>Globals</em></a>
+					<li class=" ">
+						<a href="../modules.html">Exports</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/adapters_generic.html">adapters/generic</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="../modules/adapters_memory.html">adapters/memory</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/adapters_mysql.html">adapters/mysql</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/adapters_sqlite.html">adapters/sqlite</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/builder_map.html">builder/map</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/builder_sql.html">builder/sql</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/serialize_buffer.html">serialize/buffer</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/serialize_map.html">serialize/map</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/serialize_set.html">serialize/set</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/types_generics_types.html">types/generics.types</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/types_mysql_types.html">types/mysql.types</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/types_sqlite_types.html">types/sqlite.types</a>
 					</li>
 				</ul>
 			</nav>
@@ -663,115 +750,67 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class">
-						<a href="genericadapter.html" class="tsd-kind-icon">Generic<wbr>Adapter</a>
+					<li class="current tsd-kind-class tsd-parent-kind-module">
+						<a href="adapters_memory.memoryadapter.html" class="tsd-kind-icon">Memory<wbr>Adapter</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="genericadapter.html#_symbol_iterator_" class="tsd-kind-icon">[<wbr>Symbol.iterator]</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+								<a href="adapters_memory.memoryadapter.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="genericadapter.html#_deserialize" class="tsd-kind-icon">_deserialize</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="genericadapter.html#_iskeyacceptable" class="tsd-kind-icon">_is<wbr>Key<wbr>Acceptable</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="genericadapter.html#_ismapperexpired" class="tsd-kind-icon">_is<wbr>Mapper<wbr>Expired</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="genericadapter.html#_serialize" class="tsd-kind-icon">_serialize</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="adapters_memory.memoryadapter.html#map" class="tsd-kind-icon">map</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="genericadapter.html#clear" class="tsd-kind-icon">clear</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="genericadapter.html#close" class="tsd-kind-icon">close</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="genericadapter.html#configure" class="tsd-kind-icon">configure</a>
+								<a href="adapters_memory.memoryadapter.html#_symbol_iterator_" class="tsd-kind-icon">[<wbr>Symbol.iterator]</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="genericadapter.html#delete" class="tsd-kind-icon">delete</a>
+								<a href="adapters_memory.memoryadapter.html#_deserialize" class="tsd-kind-icon">_deserialize</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="genericadapter.html#entries" class="tsd-kind-icon">entries</a>
+								<a href="adapters_memory.memoryadapter.html#_iskeyacceptable" class="tsd-kind-icon">_is<wbr>Key<wbr>Acceptable</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="genericadapter.html#foreach" class="tsd-kind-icon">for<wbr>Each</a>
+								<a href="adapters_memory.memoryadapter.html#_ismapperexpired" class="tsd-kind-icon">_is<wbr>Mapper<wbr>Expired</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="genericadapter.html#get" class="tsd-kind-icon">get</a>
+								<a href="adapters_memory.memoryadapter.html#_serialize" class="tsd-kind-icon">_serialize</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+								<a href="adapters_memory.memoryadapter.html#clear" class="tsd-kind-icon">clear</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+								<a href="adapters_memory.memoryadapter.html#close" class="tsd-kind-icon">close</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+								<a href="adapters_memory.memoryadapter.html#configure" class="tsd-kind-icon">configure</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+								<a href="adapters_memory.memoryadapter.html#delete" class="tsd-kind-icon">delete</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="genericadapter.html#has" class="tsd-kind-icon">has</a>
+								<a href="adapters_memory.memoryadapter.html#entries" class="tsd-kind-icon">entries</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="genericadapter.html#keys" class="tsd-kind-icon">keys</a>
+								<a href="adapters_memory.memoryadapter.html#foreach" class="tsd-kind-icon">for<wbr>Each</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+								<a href="adapters_memory.memoryadapter.html#get" class="tsd-kind-icon">get</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+								<a href="adapters_memory.memoryadapter.html#has" class="tsd-kind-icon">has</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+								<a href="adapters_memory.memoryadapter.html#keys" class="tsd-kind-icon">keys</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+								<a href="adapters_memory.memoryadapter.html#set" class="tsd-kind-icon">set</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="genericadapter.html#set" class="tsd-kind-icon">set</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="genericadapter.html#values" class="tsd-kind-icon">values</a>
+								<a href="adapters_memory.memoryadapter.html#values" class="tsd-kind-icon">values</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class">
-						<a href="mapapi.html" class="tsd-kind-icon">MapAPI</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="memoryadapter.html" class="tsd-kind-icon">Memory<wbr>Adapter</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="mysqladapter.html" class="tsd-kind-icon">MySQLAdapter</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="sqlbuilder.html" class="tsd-kind-icon">SQLBuilder</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="sqliteadapter.html" class="tsd-kind-icon">SQLite<wbr>Adapter</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="serializablebuffer.html" class="tsd-kind-icon">Serializable<wbr>Buffer</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="serializablemap.html" class="tsd-kind-icon">Serializable<wbr>Map</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="serializableset.html" class="tsd-kind-icon">Serializable<wbr>Set</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/dbgeneric.html" class="tsd-kind-icon">DBGeneric</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/ivaluetable.html" class="tsd-kind-icon">IValue<wbr>Table</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/internalmapper.html" class="tsd-kind-icon">Internal<wbr>Mapper</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/mapperoptions.html" class="tsd-kind-icon">Mapper<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/mysql2options.html" class="tsd-kind-icon">MySQL2<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/sqlite3options.html" class="tsd-kind-icon">SQLite3<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/serialbuffer.html" class="tsd-kind-icon">Serial<wbr>Buffer</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/serialmap.html" class="tsd-kind-icon">Serial<wbr>Map</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/serialset.html" class="tsd-kind-icon">Serial<wbr>Set</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#hook" class="tsd-kind-icon">hook</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -782,22 +821,21 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-			</ul>
-			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
 			</ul>
 		</div>
 	</div>

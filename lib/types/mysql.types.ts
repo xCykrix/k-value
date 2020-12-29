@@ -1,3 +1,4 @@
+import { Encoding } from 'crypto'
 import { DBGeneric as SQLOptions } from './generics.types'
 
 /** The representation of the MySQL Adapter Options */
@@ -8,5 +9,10 @@ export interface MySQL2Options extends SQLOptions {
     username: string
     password: string
     database: string
+  }
+  encoder: {
+    use: boolean
+    store: Encoding
+    parse: Encoding
   }
 }

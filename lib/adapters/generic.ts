@@ -21,6 +21,10 @@ export abstract class GenericAdapter extends MapAPI {
    * @sealed
    */
   _serialize (state: InternalMapper): string {
+    if (state.encoder?.use) {
+      state.ctx = { save: Buffer.from(JSON.stringify(toJSON(state.ctx))).toString(state.encoder.store) }
+    }
+
     return JSON.stringify(toJSON(state))
   }
 
@@ -35,7 +39,13 @@ export abstract class GenericAdapter extends MapAPI {
    */
   _deserialize (state: IValueTable): InternalMapper | undefined {
     if (state === undefined || state.value === undefined) return undefined
-    return fromJSON(JSON.parse(state.value))
+    const response = fromJSON(JSON.parse(state.value)) as InternalMapper
+
+    if (response.encoder?.use) {
+      response.ctx = fromJSON(JSON.parse(Buffer.from(response.ctx.save, response.encoder.store).toString(response.encoder.parse)))
+    }
+
+    return response
   }
 
   /**

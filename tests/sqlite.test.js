@@ -13,7 +13,12 @@ describe('Adapter - SQLite', function () {
     this.timeout(10000)
     kv = new SQLiteAdapter({
       table: 'kv-store',
-      file: require('path').resolve(__dirname, './ci.database')
+      file: require('path').resolve(__dirname, './ci.database'),
+      encoder: {
+        use: true,
+        store: 'base64',
+        parse: 'utf-8'
+      }
     })
     await kv.configure()
   })

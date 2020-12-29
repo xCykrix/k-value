@@ -1,9 +1,16 @@
+import { Encoding } from 'crypto'
+
 /** The representation of the Internal Mapping Instance */
 export interface InternalMapper {
   key: string
   ctx: any
   lifetime: string | null
   createdAt: string
+  encoder: {
+    use: boolean
+    store: Encoding
+    parse: Encoding
+  }
 }
 
 /** The representation of the Generic Setter Options */

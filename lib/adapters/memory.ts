@@ -89,7 +89,12 @@ export class MemoryAdapter extends GenericAdapter {
       ctx: value,
       lifetime: (options?.lifetime !== undefined ? DateTime.local().toUTC().plus(Duration.fromObject({ milliseconds: options.lifetime })).toUTC().toISO() : null),
       key,
-      createdAt: DateTime.local().toUTC().toISO()
+      createdAt: DateTime.local().toUTC().toISO(),
+      encoder: {
+        use: false,
+        store: 'utf-8',
+        parse: 'utf-8'
+      }
     })
   }
 }

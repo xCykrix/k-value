@@ -7,6 +7,7 @@
 	<meta name="description" content="Documentation for k-value">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
@@ -40,8 +41,6 @@
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
 							<input type="checkbox" id="tsd-filter-externals" checked />
 							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -53,10 +52,13 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../globals.html">Globals</a>
+					<a href="../modules.html">k-value</a>
 				</li>
 				<li>
-					<a href="sqlbuilder.html">SQLBuilder</a>
+					<a href="../modules/builder_sql.html">builder/sql</a>
+				</li>
+				<li>
+					<a href="builder_sql.sqlbuilder.html">SQLBuilder</a>
 				</li>
 			</ul>
 			<h1>Class SQLBuilder</h1>
@@ -81,19 +83,19 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="sqlbuilder.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="builder_sql.sqlbuilder.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="sqlbuilder.html#sql" class="tsd-kind-icon">sql</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="builder_sql.sqlbuilder.html#sql" class="tsd-kind-icon">sql</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sqlbuilder.html#getvtable" class="tsd-kind-icon">getVTable</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="builder_sql.sqlbuilder.html#getvtable" class="tsd-kind-icon">getVTable</a></li>
 							</ul>
 						</section>
 					</div>
@@ -105,13 +107,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new SQLBuilder<span class="tsd-signature-symbol">(</span>engine<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"mysql"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"sqlite"</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="sqlbuilder.html" class="tsd-signature-type">SQLBuilder</a></li>
+						<li class="tsd-signature tsd-kind-icon">new SQLBuilder<span class="tsd-signature-symbol">(</span>engine<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;mysql&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sqlite&quot;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="builder_sql.sqlbuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SQLBuilder</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/builder/sql.ts#L5">builder/sql.ts:5</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/builder/sql.ts#L5">builder/sql.ts:5</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -122,15 +124,13 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>engine: <span class="tsd-signature-type">"mysql"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"sqlite"</span></h5>
+									<h5>engine: <span class="tsd-signature-type">&quot;mysql&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sqlite&quot;</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>The sql adapting engine to instantiate.</p>
-										</div>
+										<p>The sql adapting engine to instantiate.</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="sqlbuilder.html" class="tsd-signature-type">SQLBuilder</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="builder_sql.sqlbuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SQLBuilder</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -143,7 +143,7 @@
 					<div class="tsd-signature tsd-kind-icon">sql<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Sql</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/builder/sql.ts#L5">builder/sql.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/builder/sql.ts#L5">builder/sql.ts:5</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -159,13 +159,13 @@
 					<a name="getvtable" class="tsd-anchor"></a>
 					<h3>getVTable</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">getVTable<span class="tsd-signature-symbol">(</span>table<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TableWithColumns</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ivaluetable.html" class="tsd-signature-type">IValueTable</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">getVTable<span class="tsd-signature-symbol">(</span>table<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TableWithColumns</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/builder_sql.ivaluetable.html" class="tsd-signature-type" data-tsd-kind="Interface">IValueTable</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/builder/sql.ts#L23">builder/sql.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/builder/sql.ts#L23">builder/sql.ts:23</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -182,7 +182,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">TableWithColumns</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ivaluetable.html" class="tsd-signature-type">IValueTable</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">TableWithColumns</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/builder_sql.ivaluetable.html" class="tsd-signature-type" data-tsd-kind="Interface">IValueTable</a><span class="tsd-signature-symbol">&gt;</span></h4>
 							<ul>
 								<li>The TableWithColumns representation of ValueTable.</li>
 							</ul>
@@ -194,84 +194,69 @@
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="../globals.html"><em>Globals</em></a>
+					<li class=" ">
+						<a href="../modules.html">Exports</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/adapters_generic.html">adapters/generic</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/adapters_memory.html">adapters/memory</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/adapters_mysql.html">adapters/mysql</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/adapters_sqlite.html">adapters/sqlite</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/builder_map.html">builder/map</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="../modules/builder_sql.html">builder/sql</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/serialize_buffer.html">serialize/buffer</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/serialize_map.html">serialize/map</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/serialize_set.html">serialize/set</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/types_generics_types.html">types/generics.types</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/types_mysql_types.html">types/mysql.types</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/types_sqlite_types.html">types/sqlite.types</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class">
-						<a href="genericadapter.html" class="tsd-kind-icon">Generic<wbr>Adapter</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="mapapi.html" class="tsd-kind-icon">MapAPI</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="memoryadapter.html" class="tsd-kind-icon">Memory<wbr>Adapter</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="mysqladapter.html" class="tsd-kind-icon">MySQLAdapter</a>
-					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class">
-						<a href="sqlbuilder.html" class="tsd-kind-icon">SQLBuilder</a>
+					<li class="current tsd-kind-class tsd-parent-kind-module">
+						<a href="builder_sql.sqlbuilder.html" class="tsd-kind-icon">SQLBuilder</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="sqlbuilder.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="builder_sql.sqlbuilder.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="sqlbuilder.html#sql" class="tsd-kind-icon">sql</a>
+								<a href="builder_sql.sqlbuilder.html#sql" class="tsd-kind-icon">sql</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="sqlbuilder.html#getvtable" class="tsd-kind-icon">getVTable</a>
+								<a href="builder_sql.sqlbuilder.html#getvtable" class="tsd-kind-icon">getVTable</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class">
-						<a href="sqliteadapter.html" class="tsd-kind-icon">SQLite<wbr>Adapter</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="serializablebuffer.html" class="tsd-kind-icon">Serializable<wbr>Buffer</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="serializablemap.html" class="tsd-kind-icon">Serializable<wbr>Map</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="serializableset.html" class="tsd-kind-icon">Serializable<wbr>Set</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/dbgeneric.html" class="tsd-kind-icon">DBGeneric</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/ivaluetable.html" class="tsd-kind-icon">IValue<wbr>Table</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/internalmapper.html" class="tsd-kind-icon">Internal<wbr>Mapper</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/mapperoptions.html" class="tsd-kind-icon">Mapper<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/mysql2options.html" class="tsd-kind-icon">MySQL2<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/sqlite3options.html" class="tsd-kind-icon">SQLite3<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/serialbuffer.html" class="tsd-kind-icon">Serial<wbr>Buffer</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/serialmap.html" class="tsd-kind-icon">Serial<wbr>Map</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/serialset.html" class="tsd-kind-icon">Serial<wbr>Set</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#hook" class="tsd-kind-icon">hook</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/builder_sql.ivaluetable.html" class="tsd-kind-icon">IValue<wbr>Table</a>
 					</li>
 				</ul>
 			</nav>
@@ -283,22 +268,18 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
 			</ul>
 		</div>
 	</div>

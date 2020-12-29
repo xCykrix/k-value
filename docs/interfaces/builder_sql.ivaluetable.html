@@ -7,6 +7,7 @@
 	<meta name="description" content="Documentation for k-value">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
@@ -40,8 +41,6 @@
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
 							<input type="checkbox" id="tsd-filter-externals" checked />
 							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -53,10 +52,13 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../globals.html">Globals</a>
+					<a href="../modules.html">k-value</a>
 				</li>
 				<li>
-					<a href="ivaluetable.html">IValueTable</a>
+					<a href="../modules/builder_sql.html">builder/sql</a>
+				</li>
+				<li>
+					<a href="builder_sql.ivaluetable.html">IValueTable</a>
 				</li>
 			</ul>
 			<h1>Interface IValueTable</h1>
@@ -88,8 +90,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ivaluetable.html#key" class="tsd-kind-icon">key</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ivaluetable.html#value" class="tsd-kind-icon">value</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="builder_sql.ivaluetable.html#key" class="tsd-kind-icon">key</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="builder_sql.ivaluetable.html#value" class="tsd-kind-icon">value</a></li>
 							</ul>
 						</section>
 					</div>
@@ -103,7 +105,7 @@
 					<div class="tsd-signature tsd-kind-icon">key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/builder/sql.ts#L40">builder/sql.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/builder/sql.ts#L40">builder/sql.ts:40</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -113,7 +115,7 @@
 					<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/237c74c/lib/builder/sql.ts#L41">builder/sql.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/0a66abe/lib/builder/sql.ts#L41">builder/sql.ts:41</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -122,82 +124,67 @@
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="../globals.html"><em>Globals</em></a>
+					<li class=" ">
+						<a href="../modules.html">Exports</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/adapters_generic.html">adapters/generic</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/adapters_memory.html">adapters/memory</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/adapters_mysql.html">adapters/mysql</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/adapters_sqlite.html">adapters/sqlite</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/builder_map.html">builder/map</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="../modules/builder_sql.html">builder/sql</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/serialize_buffer.html">serialize/buffer</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/serialize_map.html">serialize/map</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/serialize_set.html">serialize/set</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/types_generics_types.html">types/generics.types</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/types_mysql_types.html">types/mysql.types</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/types_sqlite_types.html">types/sqlite.types</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class">
-						<a href="../classes/genericadapter.html" class="tsd-kind-icon">Generic<wbr>Adapter</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="../classes/mapapi.html" class="tsd-kind-icon">MapAPI</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="../classes/memoryadapter.html" class="tsd-kind-icon">Memory<wbr>Adapter</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="../classes/mysqladapter.html" class="tsd-kind-icon">MySQLAdapter</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="../classes/sqlbuilder.html" class="tsd-kind-icon">SQLBuilder</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="../classes/sqliteadapter.html" class="tsd-kind-icon">SQLite<wbr>Adapter</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="../classes/serializablebuffer.html" class="tsd-kind-icon">Serializable<wbr>Buffer</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="../classes/serializablemap.html" class="tsd-kind-icon">Serializable<wbr>Map</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="../classes/serializableset.html" class="tsd-kind-icon">Serializable<wbr>Set</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="dbgeneric.html" class="tsd-kind-icon">DBGeneric</a>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/builder_sql.sqlbuilder.html" class="tsd-kind-icon">SQLBuilder</a>
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface">
-						<a href="ivaluetable.html" class="tsd-kind-icon">IValue<wbr>Table</a>
+					<li class="current tsd-kind-interface tsd-parent-kind-module">
+						<a href="builder_sql.ivaluetable.html" class="tsd-kind-icon">IValue<wbr>Table</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="ivaluetable.html#key" class="tsd-kind-icon">key</a>
+								<a href="builder_sql.ivaluetable.html#key" class="tsd-kind-icon">key</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="ivaluetable.html#value" class="tsd-kind-icon">value</a>
+								<a href="builder_sql.ivaluetable.html#value" class="tsd-kind-icon">value</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface">
-						<a href="internalmapper.html" class="tsd-kind-icon">Internal<wbr>Mapper</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="mapperoptions.html" class="tsd-kind-icon">Mapper<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="mysql2options.html" class="tsd-kind-icon">MySQL2<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="sqlite3options.html" class="tsd-kind-icon">SQLite3<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="serialbuffer.html" class="tsd-kind-icon">Serial<wbr>Buffer</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="serialmap.html" class="tsd-kind-icon">Serial<wbr>Map</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="serialset.html" class="tsd-kind-icon">Serial<wbr>Set</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#hook" class="tsd-kind-icon">hook</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -208,22 +195,14 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-			</ul>
-			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 			</ul>
 		</div>
 	</div>

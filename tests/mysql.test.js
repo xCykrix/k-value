@@ -9,7 +9,8 @@ describe('Adapter - MySQLAdapter', function () {
     map: new Map([['world', 'hello'], ['hello', 'world']]),
     set: new Set(['world', 'hello'])
   }
-  it('should-initialize', async function () {
+  const table = `kv-store-${require('crypto').randomBytes(4).toString('hex')}`
+  it('should-initialize [' + table + ']', async function () {
     this.timeout(10000)
     kv = new MySQLAdapter({
       authentication: {
@@ -18,7 +19,12 @@ describe('Adapter - MySQLAdapter', function () {
         password: '52v6BAveLuvu122e1ApufAGi24bi4A',
         database: 'kvalue'
       },
-      table: `kv-store-${require('crypto').randomBytes(4).toString('hex')}`
+      table,
+      encoder: {
+        use: true,
+        store: 'base64',
+        parse: 'utf-8'
+      }
     })
     await kv.configure()
     await kv.clear()
