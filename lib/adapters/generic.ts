@@ -5,8 +5,6 @@ import { MapAPI } from '../builder/map'
 import { IValueTable } from '../builder/sql'
 import { InternalMapper } from '../types/generics.types'
 
-import { escape } from 'sqlstring'
-
 export abstract class GenericAdapter extends MapAPI {
   /** Abstract State Configuration - Optional */
   abstract configure (): Promise<void>
@@ -23,7 +21,7 @@ export abstract class GenericAdapter extends MapAPI {
    * @sealed
    */
   _serialize (state: InternalMapper): string {
-    return escape(JSON.stringify(toJSON(state)))
+    return JSON.stringify(toJSON(state))
   }
 
   /**
