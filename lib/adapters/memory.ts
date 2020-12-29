@@ -1,6 +1,6 @@
 import { DateTime, Duration } from 'luxon'
 
-import { InternalMapper, MapperOptions } from '../ref/generics.type'
+import { InternalMapper, MapperOptions } from '../types/generics.types'
 import { GenericAdapter } from './generic'
 
 export class MemoryAdapter extends GenericAdapter {

@@ -3,7 +3,9 @@ import { DateTime } from 'luxon'
 
 import { MapAPI } from '../builder/map'
 import { IValueTable } from '../builder/sql'
-import { InternalMapper } from '../ref/generics.type'
+import { InternalMapper } from '../types/generics.types'
+
+import { escape } from 'sqlstring'
 
 export abstract class GenericAdapter extends MapAPI {
   /** Abstract State Configuration - Optional */
@@ -21,7 +23,7 @@ export abstract class GenericAdapter extends MapAPI {
    * @sealed
    */
   _serialize (state: InternalMapper): string {
-    return JSON.stringify(toJSON(state))
+    return escape(JSON.stringify(toJSON(state)))
   }
 
   /**
