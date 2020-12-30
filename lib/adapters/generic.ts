@@ -3,7 +3,7 @@ import { DateTime } from 'luxon'
 
 import { MapAPI } from '../builder/map'
 import { IValueTable } from '../builder/sql'
-import { InternalMapper } from '../types/generics.types'
+import { InternalMapper } from '../types/generics.t'
 
 export abstract class GenericAdapter extends MapAPI {
   /** Abstract State Configuration - Optional */

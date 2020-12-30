@@ -3,8 +3,8 @@ import * as MySQL2 from 'mysql2/promise'
 import { TableWithColumns } from 'sql-ts'
 
 import { IValueTable, SQLBuilder } from '../builder/sql'
-import { MapperOptions } from '../types/generics.types'
-import { MySQL2Options } from '../types/mysql.types'
+import { MapperOptions } from '../types/generics.t'
+import { MySQL2Options } from '../types/mysql.t'
 import { GenericAdapter } from './generic'
 
 export class MySQLAdapter extends GenericAdapter {

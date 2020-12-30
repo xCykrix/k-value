@@ -2,8 +2,8 @@ import { DateTime, Duration } from 'luxon'
 import { TableWithColumns } from 'sql-ts'
 
 import { IValueTable, SQLBuilder } from '../builder/sql'
-import { MapperOptions } from '../types/generics.types'
-import { SQLite3Options } from '../types/sqlite.types'
+import { MapperOptions } from '../types/generics.t'
+import { SQLite3Options } from '../types/sqlite.t'
 import { GenericAdapter } from './generic'
 
 import type BetterSqlite3 from 'better-sqlite3'
