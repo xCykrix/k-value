@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IValueTable | k-value</title>
+	<title>MySQL2Options | k-value</title>
 	<meta name="description" content="Documentation for k-value">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,13 +55,13 @@
 					<a href="../modules.html">k-value</a>
 				</li>
 				<li>
-					<a href="../modules/builder_sql.html">builder/sql</a>
+					<a href="../modules/types_mysql_t.html">types/mysql.t</a>
 				</li>
 				<li>
-					<a href="builder_sql.ivaluetable.html">IValueTable</a>
+					<a href="types_mysql_t.mysql2options.html">MySQL2Options</a>
 				</li>
 			</ul>
-			<h1>Interface IValueTable</h1>
+			<h1>Interface MySQL2Options</h1>
 		</div>
 	</div>
 </header>
@@ -71,7 +71,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Representation of the ValueTable</p>
+						<p>The representation of the MySQL Adapter Options</p>
 					</div>
 				</div>
 			</section>
@@ -79,7 +79,12 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IValueTable</span>
+						<a href="types_generics_t.dbgeneric.html" class="tsd-signature-type" data-tsd-kind="Interface">DBGeneric</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">MySQL2Options</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -90,8 +95,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="builder_sql.ivaluetable.html#key" class="tsd-kind-icon">key</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="builder_sql.ivaluetable.html#value" class="tsd-kind-icon">value</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types_mysql_t.mysql2options.html#authentication" class="tsd-kind-icon">authentication</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types_mysql_t.mysql2options.html#encoder" class="tsd-kind-icon">encoder</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="types_mysql_t.mysql2options.html#table" class="tsd-kind-icon">table</a></li>
 							</ul>
 						</section>
 					</div>
@@ -100,22 +106,67 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="key" class="tsd-anchor"></a>
-					<h3>key</h3>
-					<div class="tsd-signature tsd-kind-icon">key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="authentication" class="tsd-anchor"></a>
+					<h3>authentication</h3>
+					<div class="tsd-signature tsd-kind-icon">authentication<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>database<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>host<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>password<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>port<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>username<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/2f05ed8/lib/builder/sql.ts#L40">builder/sql.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/2f05ed8/lib/types/mysql.t.ts#L6">types/mysql.t.ts:6</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>database<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>host<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>password<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>port<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>username<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="value" class="tsd-anchor"></a>
-					<h3>value</h3>
-					<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="encoder" class="tsd-anchor"></a>
+					<h3>encoder</h3>
+					<div class="tsd-signature tsd-kind-icon">encoder<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>parse<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Encoding</span><span class="tsd-signature-symbol">; </span>store<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Encoding</span><span class="tsd-signature-symbol">; </span>use<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/2f05ed8/lib/builder/sql.ts#L41">builder/sql.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/2f05ed8/lib/types/mysql.t.ts#L13">types/mysql.t.ts:13</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>parse<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Encoding</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>store<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Encoding</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>use<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="table" class="tsd-anchor"></a>
+					<h3>table</h3>
+					<div class="tsd-signature tsd-kind-icon">table<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;global&quot;</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="types_generics_t.dbgeneric.html">DBGeneric</a>.<a href="types_generics_t.dbgeneric.html#table">table</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/2f05ed8/lib/types/generics.t.ts#L23">types/generics.t.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -142,7 +193,7 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/builder_map.html">builder/map</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/builder_sql.html">builder/sql</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -157,7 +208,7 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/types_generics_t.html">types/generics.t</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/types_mysql_t.html">types/mysql.t</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -167,19 +218,19 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="../classes/builder_sql.sqlbuilder.html" class="tsd-kind-icon">SQLBuilder</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="builder_sql.ivaluetable.html" class="tsd-kind-icon">IValue<wbr>Table</a>
+						<a href="types_mysql_t.mysql2options.html" class="tsd-kind-icon">MySQL2<wbr>Options</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="builder_sql.ivaluetable.html#key" class="tsd-kind-icon">key</a>
+								<a href="types_mysql_t.mysql2options.html#authentication" class="tsd-kind-icon">authentication</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="builder_sql.ivaluetable.html#value" class="tsd-kind-icon">value</a>
+								<a href="types_mysql_t.mysql2options.html#encoder" class="tsd-kind-icon">encoder</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="types_mysql_t.mysql2options.html#table" class="tsd-kind-icon">table</a>
 							</li>
 						</ul>
 					</li>
