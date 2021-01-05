@@ -22,6 +22,7 @@ export abstract class GenericAdapter extends MapAPI {
    */
   _serialize (state: InternalMapper): string {
     if (state.encoder?.use) {
+      // Convert JS to Serialized, Stringify JSON
       state.ctx = { save: Buffer.from(JSON.stringify(toJSON(state.ctx))).toString(state.encoder.store) }
     }
 
@@ -42,10 +43,21 @@ export abstract class GenericAdapter extends MapAPI {
     const response = fromJSON(JSON.parse(state.value)) as InternalMapper
 
     if (response.encoder?.use) {
+      // Parse JSON, Convert Serialized to JS
       response.ctx = fromJSON(JSON.parse(Buffer.from(response.ctx.save, response.encoder.store).toString(response.encoder.parse)))
     }
 
     return response
+  }
+
+  /**
+   * Validate the user input key.
+   *
+   * @param key - The key to be validated.
+   */
+  _isKeyAcceptable (key: string): void {
+    if (typeof key !== 'string') throw new Error('InvalidState: key must be a valid string')
+    if (key.length === 0 || key.trim() === '') throw new Error('InvalidState: key must be greater than 0 and less than 192 characters')
   }
 
   /**
@@ -74,15 +86,5 @@ export abstract class GenericAdapter extends MapAPI {
       return true
     }
     return false
-  }
-
-  /**
-   * Validate the user input key.
-   *
-   * @param key - The key to be validated.
-   */
-  _isKeyAcceptable (key: string): void {
-    if (typeof key !== 'string') throw new Error('InvalidState: key must be a valid string')
-    if (key.length === 0 || key.trim() === '') throw new Error('InvalidState: key must be greater than 0 and less than 192 characters')
   }
 }
