@@ -42,9 +42,10 @@ describe('Adapter - SQLite', function () {
     expect(await kv.keys()).to.not.include('delete-test')
     expect(await kv.get('expire-test')).to.equal(undefined)
   })
-  it('should-resolve-key-existence', async function () {
+  it('should-resolve-key-existence-and-default', async function () {
     expect(await kv.has('has-test')).to.equal(true)
     expect(await kv.has('obviously-unknown-key-here')).to.equal(false)
+    expect((await kv.get('obviously-unknown-key-here', { default: { x: true } })).x).to.equal(true)
   })
   it('should-index-keys', async function () {
     const keys = await kv.keys()

@@ -3,7 +3,7 @@ import * as MySQL2 from 'mysql2/promise'
 import { TableWithColumns } from 'sql-ts'
 
 import { IValueTable, SQLBuilder } from '../builder/sql'
-import { MapperOptions } from '../types/generics.t'
+import { GetOptions, MapperOptions } from '../types/generics.t'
 import { MySQL2Options } from '../types/mysql.t'
 import { GenericAdapter } from './generic'
 
@@ -101,22 +101,23 @@ export class MySQLAdapter extends GenericAdapter {
    * Retrieves the value assigned to the supplied key from the referenced storage driver.
    *
    * @param key - The referenced key to obtain from the storage driver.
+   * @param options - [optional] Specify the default value for the response, at this time.
    *
    * @returns - The value assigned to the key.
    */
-  async get (key: string): Promise<any> {
+  async get (key: string, options: GetOptions): Promise<any> {
     super._isKeyAcceptable(key)
 
-    const snapshot = await this.getOne(this.table.select().where({ key }).toString())
-    const parser = super._deserialize(snapshot)
-    if (parser === undefined) return parser
+    const state = await this.getOne(this.table.select().where({ key }).toString())
+    const deserialized = super._deserialize(state)
+    if (deserialized === undefined) return options?.default
 
-    if (super._isMapperExpired(parser)) {
+    if (super._isMapperExpired(deserialized)) {
       await this.delete(key)
-      return undefined
+      return options?.default
     }
 
-    return parser?.ctx
+    return deserialized?.ctx
   }
 
   /**
