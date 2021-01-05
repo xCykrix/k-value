@@ -3,7 +3,7 @@ const { MySQLAdapter } = require('../dist/index')
 
 describe('Adapter - MySQLAdapter', function () {
   let kv = null
-  const state = {
+  const complex = {
     buffer: Buffer.from('son of a buffer'),
     date: new Date(),
     map: new Map([['world', 'hello'], ['hello', 'world']]),
@@ -35,14 +35,25 @@ describe('Adapter - MySQLAdapter', function () {
     await kv.set('delete-test', true)
     await kv.set('expire-test', true, { lifetime: 1 })
     await kv.set('has-test', true)
-    await kv.set('write-test', state)
+    await kv.set('multi-test', { v: true })
+    await kv.set('write-test', complex)
   })
-  it('should-read-data', async function () {
-    const read = await kv.get('write-test')
-    expect(read.buffer.toString('base64')).to.equal(state.buffer.toString('base64'))
-    expect(read.date.getUTCMilliseconds()).to.equal(state.date.getUTCMilliseconds())
-    expect(read.map).to.deep.equal(state.map)
-    expect(read.set).to.deep.equal(state.set)
+  it('should-read-data-and-default', async function () {
+    const kvr = await kv.get('write-test')
+    expect(kvr.buffer.toString('base64')).to.equal(complex.buffer.toString('base64'))
+    expect(kvr.date.getUTCMilliseconds()).to.equal(complex.date.getUTCMilliseconds())
+    expect(kvr.map).to.deep.equal(complex.map)
+    expect(kvr.set).to.deep.equal(complex.set)
+    expect((await kv.get('obviously-unknown-key-here', { default: { x: true } })).x).to.equal(true)
+  })
+  it('should-multi-read-data-and-default', async function () {
+    const kvr = await kv.get(['delete-test', 'has-test', 'multi-test', 'unknown-key'], { default: { x: true } })
+    expect(kvr).to.have.deep.members([
+      { key: 'delete-test', value: true },
+      { key: 'has-test', value: true },
+      { key: 'multi-test', value: { v: true } },
+      { key: 'unknown-key', value: { x: true } }
+    ])
   })
   it('should-delete-data', async function () {
     expect(await kv.delete('delete-test')).to.equal(true)

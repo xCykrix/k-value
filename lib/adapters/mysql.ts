@@ -108,16 +108,47 @@ export class MySQLAdapter extends GenericAdapter {
   async get (key: string, options: GetOptions): Promise<any> {
     super._isKeyAcceptable(key)
 
-    const state = await this.getOne(this.table.select().where({ key }).toString())
-    const deserialized = super._deserialize(state)
-    if (deserialized === undefined) return options?.default
+    if (!Array.isArray(key)) {
+      const state = await this.getOne(this.table.select().where({ key }).toString())
+      const deserialized = super._deserialize(state)
+      if (deserialized === undefined) return options?.default
 
-    if (super._isMapperExpired(deserialized)) {
-      await this.delete(key)
-      return options?.default
+      if (super._isMapperExpired(deserialized)) {
+        await this.delete(key)
+        return options?.default
+      }
+
+      return deserialized?.ctx
+    } else {
+      const response = []
+
+      for (const k of key) {
+        const state = await this.getOne(this.table.select().where({ key: k }).toString())
+        const deserialized = super._deserialize(state)
+        if (deserialized === undefined) {
+          response.push({
+            key: k,
+            value: options?.default
+          })
+          continue
+        }
+        if (super._isMapperExpired(deserialized)) {
+          await this.delete(k)
+          response.push({
+            key: k,
+            value: options?.default
+          })
+          continue
+        }
+
+        response.push({
+          key: k,
+          value: deserialized?.ctx
+        })
+      }
+
+      return response
     }
-
-    return deserialized?.ctx
   }
 
   /**

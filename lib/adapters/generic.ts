@@ -55,9 +55,20 @@ export abstract class GenericAdapter extends MapAPI {
    *
    * @param key - The key to be validated.
    */
-  _isKeyAcceptable (key: string): void {
-    if (typeof key !== 'string') throw new Error('InvalidState: key must be a valid string')
-    if (key.length === 0 || key.trim() === '') throw new Error('InvalidState: key must be greater than 0 and less than 192 characters')
+  _isKeyAcceptable (key: string | string[]): void {
+    if (Array.isArray(key)) {
+      // The input was an array of keys. Validate each entry.
+      if (key.length === 0) throw new Error('InvalidState: key array must contain at least 1 entry')
+      for (let i = 0; i < key.length; i++) {
+        const k = key[i]
+        if (typeof k !== 'string') throw new Error(`InvalidState[index:${i}]: key must be a valid string`)
+        if (k.length === 0 || k.trim() === '') throw new Error('InvalidState: key must be greater than 0 and less than 192 characters')
+      }
+    } else {
+      // The input was singular. Verify the input.
+      if (typeof key !== 'string') throw new Error('InvalidState: key must be a valid string')
+      if (key.length === 0 || key.trim() === '') throw new Error('InvalidState: key must be greater than 0 and less than 192 characters')
+    }
   }
 
   /**

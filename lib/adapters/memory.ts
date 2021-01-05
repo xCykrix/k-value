@@ -40,18 +40,49 @@ export class MemoryAdapter extends GenericAdapter {
    *
    * @returns - The value assigned to the key.
    */
-  async get (key: string, options: GetOptions): Promise<any> {
+  async get (key: string | string[], options: GetOptions): Promise<any | any[]> {
     super._isKeyAcceptable(key)
 
-    const value = await this.map.get(key)
-    if (value === undefined || value.ctx === undefined) return options?.default
+    if (!Array.isArray(key)) {
+      const value = await this.map.get(key as unknown as string)
+      if (value === undefined || value.ctx === undefined) return options?.default
 
-    if (super._isMapperExpired(value)) {
-      await this.delete(key)
-      return options?.default
+      if (super._isMapperExpired(value)) {
+        await this.delete(key as unknown as string)
+        return options?.default
+      }
+
+      return value?.ctx
+    } else {
+      const response = []
+
+      for (const k of key) {
+        const value = await this.map.get(k)
+        if (value === undefined || value.ctx === undefined) {
+          response.push({
+            key: k,
+            value: options?.default
+          })
+          continue
+        }
+
+        if (super._isMapperExpired(value)) {
+          await this.delete(k)
+          response.push({
+            key: k,
+            value: options?.default
+          })
+          continue
+        }
+
+        response.push({
+          key: k,
+          value: value?.ctx
+        })
+      }
+
+      return response
     }
-
-    return value?.ctx
   }
 
   /**

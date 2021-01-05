@@ -21,7 +21,7 @@ export abstract class MapAPI {
    *
    * @returns - The value associated with the key index. If no value exists, this will return null.
    */
-  abstract get (key: string, options: GetOptions): Promise<any | null>
+  abstract get (key: string | string[], options: GetOptions): Promise<any | any[] | undefined>
 
   /**
    * Checks the provided key for if its respective value exists on the configured Storage Backend Adapter.
