@@ -234,3 +234,4 @@ modules.xml
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/node,yarn,webstorm+all,visualstudiocode,vscode
+/tests/ci.database
