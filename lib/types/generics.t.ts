@@ -1,5 +1,10 @@
 import { Encoding } from 'crypto'
 
+/** The representation of the Get Options */
+export interface GetOptions {
+  default: any
+}
+
 /** The representation of the Internal Mapping Instance */
 export interface InternalMapper {
   key: string

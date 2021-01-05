@@ -1,6 +1,6 @@
 import { DateTime, Duration } from 'luxon'
 
-import { InternalMapper, MapperOptions } from '../types/generics.t'
+import { InternalMapper, MapperOptions, GetOptions } from '../types/generics.t'
 import { GenericAdapter } from './generic'
 
 export class MemoryAdapter extends GenericAdapter {
@@ -36,21 +36,53 @@ export class MemoryAdapter extends GenericAdapter {
    * Retrieves the value assigned to the supplied key from the referenced storage driver.
    *
    * @param key - The referenced key to obtain from the storage driver.
+   * @param options - [optional] Specify the default value for the response, at this time.
    *
    * @returns - The value assigned to the key.
    */
-  async get (key: string): Promise<any> {
+  async get (key: string | string[], options: GetOptions): Promise<any | any[]> {
     super._isKeyAcceptable(key)
 
-    const value = await this.map.get(key)
-    if (value === undefined || value.ctx === undefined) return undefined
+    if (!Array.isArray(key)) {
+      const value = await this.map.get(key as unknown as string)
+      if (value === undefined || value.ctx === undefined) return options?.default
 
-    if (super._isMapperExpired(value)) {
-      await this.delete(key)
-      return undefined
+      if (super._isMapperExpired(value)) {
+        await this.delete(key as unknown as string)
+        return options?.default
+      }
+
+      return value?.ctx
+    } else {
+      const response = []
+
+      for (const k of key) {
+        const value = await this.map.get(k)
+        if (value === undefined || value.ctx === undefined) {
+          response.push({
+            key: k,
+            value: options?.default
+          })
+          continue
+        }
+
+        if (super._isMapperExpired(value)) {
+          await this.delete(k)
+          response.push({
+            key: k,
+            value: options?.default
+          })
+          continue
+        }
+
+        response.push({
+          key: k,
+          value: value?.ctx
+        })
+      }
+
+      return response
     }
-
-    return value?.ctx
   }
 
   /**
