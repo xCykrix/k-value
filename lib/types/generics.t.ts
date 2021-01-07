@@ -2,7 +2,7 @@ import { Encoding } from 'crypto'
 
 /** The representation of the Get Options */
 export interface GetOptions {
-  default: any
+  default?: any
 }
 
 /** The representation of the Internal Mapping Instance */
