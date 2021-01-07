@@ -105,7 +105,7 @@ export class MySQLAdapter extends GenericAdapter {
    *
    * @returns - The value assigned to the key.
    */
-  async get (key: string, options: GetOptions): Promise<any> {
+  async get (key: string, options?: GetOptions): Promise<any> {
     super._isKeyAcceptable(key)
 
     if (!Array.isArray(key)) {
