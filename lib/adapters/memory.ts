@@ -40,7 +40,7 @@ export class MemoryAdapter extends GenericAdapter {
    *
    * @returns - The value assigned to the key.
    */
-  async get (key: string | string[], options: GetOptions): Promise<any | any[]> {
+  async get (key: string | string[], options?: GetOptions): Promise<any | any[]> {
     super._isKeyAcceptable(key)
 
     if (!Array.isArray(key)) {

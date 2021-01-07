@@ -1,4 +1,4 @@
-import { GetOptions } from '../types/generics.t'
+import { GetOptions, MapperOptions } from '../types/generics.t'
 export abstract class MapAPI {
   /**
    * Permanently removes all entries from the Storage Backend Adapter.
@@ -21,7 +21,7 @@ export abstract class MapAPI {
    *
    * @returns - The value associated with the key index. If no value exists, this will return null.
    */
-  abstract get (key: string | string[], options: GetOptions): Promise<any | any[] | undefined>
+  abstract get (key: string | string[], options?: GetOptions): Promise<any | any[] | undefined>
 
   /**
    * Checks the provided key for if its respective value exists on the configured Storage Backend Adapter.
@@ -45,7 +45,7 @@ export abstract class MapAPI {
    * @param key - The key index for the respective value.
    * @param value - The value to be stored with the key index.
    */
-  abstract set (key: string, value: any): Promise<void>
+  abstract set (key: string, value: any, options?: MapperOptions): Promise<void>
 
   /**
    * This feature of the Map API has been disabled for performance reasons.
