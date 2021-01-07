@@ -21,7 +21,7 @@ export abstract class GenericAdapter extends MapAPI {
    * @sealed
    */
   _serialize (state: InternalMapper): string {
-    if (state.encoder?.use) {
+    if (state.encoder?.use === true) {
       // Convert JS to Serialized, Stringify JSON
       state.ctx = { save: Buffer.from(JSON.stringify(toJSON(state.ctx))).toString(state.encoder.store) }
     }
@@ -42,7 +42,7 @@ export abstract class GenericAdapter extends MapAPI {
     if (state === undefined || state.value === undefined) return undefined
     const response = fromJSON(JSON.parse(state.value)) as InternalMapper
 
-    if (response.encoder?.use) {
+    if (response.encoder?.use === true) {
       // Parse JSON, Convert Serialized to JS
       response.ctx = fromJSON(JSON.parse(Buffer.from(response.ctx.save, response.encoder.store).toString(response.encoder.parse)))
     }

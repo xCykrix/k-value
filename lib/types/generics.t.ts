@@ -2,7 +2,7 @@ import { Encoding } from 'crypto'
 
 /** The representation of the Get Options */
 export interface GetOptions {
-  default: any
+  default?: any
 }
 
 /** The representation of the Internal Mapping Instance */
@@ -11,7 +11,7 @@ export interface InternalMapper {
   ctx: any
   lifetime: string | null
   createdAt: string
-  encoder: {
+  encoder?: {
     use: boolean
     store: Encoding
     parse: Encoding

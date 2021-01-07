@@ -10,7 +10,7 @@ export interface MySQL2Options extends SQLOptions {
     password: string
     database: string
   }
-  encoder: {
+  encoder?: {
     use: boolean
     store: Encoding
     parse: Encoding

@@ -199,7 +199,7 @@ export class SQLiteAdapter extends GenericAdapter {
         lifetime: (options?.lifetime !== undefined ? DateTime.local().toUTC().plus(Duration.fromObject({ milliseconds: options.lifetime })).toUTC().toISO() : null),
         createdAt: DateTime.local().toUTC().toISO(),
         encoder: {
-          use: this.options.encoder?.use || false,
+          use: (this.options.encoder?.use === undefined ? false : this.options.encoder?.use),
           store: this.options.encoder?.store === undefined ? 'base64' : this.options.encoder.store,
           parse: this.options.encoder?.parse === undefined ? 'utf-8' : this.options.encoder.parse
         }
