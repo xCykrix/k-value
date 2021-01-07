@@ -11,7 +11,7 @@ export interface InternalMapper {
   ctx: any
   lifetime: string | null
   createdAt: string
-  encoder: {
+  encoder?: {
     use: boolean
     store: Encoding
     parse: Encoding
