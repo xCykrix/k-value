@@ -160,10 +160,8 @@ export class MySQLAdapter extends GenericAdapter {
    */
   async has (key: string): Promise<boolean> {
     super._isKeyAcceptable(key)
-
-    const snapshot = await this.getOne(this.table.select().where({ key }).toString())
-    if (snapshot === undefined || snapshot.key === '') return false
-    else return true
+    if (this.get(key) === undefined) return false
+    return true
   }
 
   /**

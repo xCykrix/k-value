@@ -94,8 +94,8 @@ export class MemoryAdapter extends GenericAdapter {
    */
   async has (key: string): Promise<boolean> {
     super._isKeyAcceptable(key)
-
-    return this.map.has(key)
+    if (this.get(key) === undefined) return false
+    return true
   }
 
   /**
