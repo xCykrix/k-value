@@ -160,8 +160,8 @@ export class MySQLAdapter extends GenericAdapter {
    */
   async has (key: string): Promise<boolean> {
     super._isKeyAcceptable(key)
-    if (this.get(key) === undefined) return true
-    return false
+    if (this.get(key) === undefined) return false
+    return true
   }
 
   /**
