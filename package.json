@@ -69,10 +69,8 @@
   "dependencies": {
     "@types/better-sqlite3": "^5.4.1",
     "@types/luxon": "^1.25.1",
-    "better-sqlite3": "^7.1.2",
     "javascript-serializer": "^1.0.0",
     "luxon": "^1.25.0",
-    "mysql2": "^2.2.5",
     "sql-ts": "^5.1.0"
   },
   "optionalDependencies": {
