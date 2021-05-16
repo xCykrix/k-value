@@ -63,13 +63,13 @@
   },
   "dependencies": {
     "@types/better-sqlite3": "^5.4.1",
-    "@types/luxon": "^1.26.4",
+    "@types/luxon": "^1.26.5",
     "javascript-serializer": "^1.0.0",
-    "luxon": "^1.26.0",
+    "luxon": "^1.27.0",
     "sql-ts": "^5.2.2"
   },
   "optionalDependencies": {
-    "better-sqlite3": "^7.1.5",
+    "better-sqlite3": "^7.4.0",
     "mysql2": "^2.2.5"
   },
   "root": true
