@@ -1,21 +1,21 @@
-import { Encoding } from 'crypto'
+import type { Encoding } from 'crypto'
 
 /** The representation of the Get Options */
 export interface GetOptions {
-  default?: any
+  default?: unknown
 }
 
 /** The representation of the Internal Mapping Instance */
 export interface InternalMapper {
-  key: string
-  ctx: any
-  lifetime: string | null
   createdAt: string
+  ctx: unknown
   encoder?: {
-    use: boolean
-    store: Encoding
     parse: Encoding
+    store: Encoding
+    use: boolean
   }
+  key: string
+  lifetime: string | undefined | null
 }
 
 /** The representation of the Generic Setter Options */
@@ -25,5 +25,5 @@ export interface MapperOptions {
 
 /** The representation of the Generic Adapter Options */
 export interface DBGeneric {
-  table: string | 'global'
+  table: string | 'global' | undefined
 }

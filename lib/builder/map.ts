@@ -1,4 +1,5 @@
-import { GetOptions, MapperOptions } from '../types/generics.t'
+import type { GetOptions, MapperOptions } from '../types/generics.t'
+
 export abstract class MapAPI {
   /**
    * Permanently removes all entries from the Storage Backend Adapter.
@@ -21,7 +22,7 @@ export abstract class MapAPI {
    *
    * @returns - The value associated with the key index. If no value exists, this will return null.
    */
-  abstract get (key: string | string[], options?: GetOptions): Promise<any | any[] | undefined>
+  abstract get (key: string | string[], options?: GetOptions): Promise<unknown | unknown[] | undefined>
 
   /**
    * Checks the provided key for if its respective value exists on the configured Storage Backend Adapter.
@@ -45,7 +46,7 @@ export abstract class MapAPI {
    * @param key - The key index for the respective value.
    * @param value - The value to be stored with the key index.
    */
-  abstract set (key: string, value: any, options?: MapperOptions): Promise<void>
+  abstract set (key: string, value: unknown, options?: MapperOptions): Promise<void>
 
   /**
    * This feature of the Map API has been disabled for performance reasons.
@@ -59,7 +60,7 @@ export abstract class MapAPI {
    * @param callbackfn - VOID / NO USAGE
    * @param thisArg - VOID / NO USAGE
    */
-  forEach (callbackfn: (value: any, key: string, map: Map<string, any>) => void, thisArg?: any): void {
+  public forEach (callbackfn: (value: unknown, key: string, map: Map<string, unknown>) => void, thisArg?: unknown): void {
     throw new Error('[err] This is not a complete implementation of the Map API. For performance reasons, this function has been disabled. (Alternatives: Adapter#keys() -> Adapter#get())')
   }
 
@@ -72,7 +73,7 @@ export abstract class MapAPI {
    * LARGE_VOLUME_QUERIES
    * CONSECUTIVE_QUERIES
    */
-  entries (): IterableIterator<[string, any]> {
+  public entries (): IterableIterator<[string, unknown]> {
     throw new Error('[err] This is not a complete implementation of the Map API. For performance reasons, this function has been disabled. (Alternatives: Adapter#keys() -> Adapter#get())')
   }
 
@@ -85,7 +86,7 @@ export abstract class MapAPI {
    * LARGE_VOLUME_QUERIES
    * CONSECUTIVE_QUERIES
    */
-  values (): IterableIterator<any> {
+  public values (): IterableIterator<unknown> {
     throw new Error('[err] This is not a complete implementation of the Map API. For performance reasons, this function has been disabled. (Alternatives: Adapter#keys() -> Adapter#get())')
   }
 
@@ -98,7 +99,7 @@ export abstract class MapAPI {
    * LARGE_VOLUME_QUERIES
    * CONSECUTIVE_QUERIES
    */
-  [Symbol.iterator] (): IterableIterator<[string, any]> {
+  public [Symbol.iterator] (): IterableIterator<[string, unknown]> {
     throw new Error('[err] This is not a complete implementation of the Map API. For performance reasons, this function has been disabled. (Alternatives: Adapter#keys() -> Adapter#get())')
   }
 }

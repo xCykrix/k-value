@@ -1,21 +1,21 @@
 import { addDataType } from 'javascript-serializer'
 
 class SerializableSet {
-  constructor (public set: Set<any>) {}
+  public constructor (public set: Set<unknown>) {}
 
-  toJSON (): SerialSet {
+  public toJSON (): SerialSet {
     return {
       i: Array.from(this.set.values())
     }
   }
 
-  static fromJSON (set: SerialSet): Set<any> {
+  public static fromJSON (set: SerialSet): Set<unknown> {
     return new Set([...set.i])
   }
 }
 
 interface SerialSet {
-  i: any[]
+  i: Iterable<unknown>
 }
 
 export function hook (): void {

@@ -1,16 +1,10 @@
 import { fromJSON, toJSON } from 'javascript-serializer'
 import { DateTime } from 'luxon'
-
 import { MapAPI } from '../builder/map'
-import { IValueTable } from '../builder/sql'
-import { InternalMapper } from '../types/generics.t'
+import type { IValueTable } from '../builder/sql'
+import type { InternalMapper } from '../types/generics.t'
 
 export abstract class GenericAdapter extends MapAPI {
-  /** Abstract State Configuration - Optional */
-  abstract configure (): Promise<void>
-  /** Abstract Close State - Optional */
-  abstract close (): Promise<void>
-
   /**
    *
    * @param state - InternalMapper Instance to Serialize
@@ -20,7 +14,7 @@ export abstract class GenericAdapter extends MapAPI {
    * @readonly
    * @sealed
    */
-  _serialize (state: InternalMapper): string {
+  public _serialize (state: InternalMapper): string {
     if (state.encoder?.use === true) {
       // Convert JS to Serialized, Stringify JSON
       state.ctx = { save: Buffer.from(JSON.stringify(toJSON(state.ctx))).toString(state.encoder.store) }
@@ -38,13 +32,14 @@ export abstract class GenericAdapter extends MapAPI {
    * @readonly
    * @sealed
    */
-  _deserialize (state: IValueTable): InternalMapper | undefined {
+  public _deserialize (state: IValueTable | undefined): InternalMapper | undefined {
     if (state === undefined || state.value === undefined) return undefined
     const response = fromJSON(JSON.parse(state.value)) as InternalMapper
 
     if (response.encoder?.use === true) {
       // Parse JSON, Convert Serialized to JS
-      response.ctx = fromJSON(JSON.parse(Buffer.from(response.ctx.save, response.encoder.store).toString(response.encoder.parse)))
+      const ctx = response.ctx as { save: string; }
+      response.ctx = fromJSON(JSON.parse(Buffer.from(ctx.save, response.encoder.store).toString(response.encoder.parse)))
     }
 
     return response
@@ -55,7 +50,7 @@ export abstract class GenericAdapter extends MapAPI {
    *
    * @param key - The key to be validated.
    */
-  _isKeyAcceptable (key: string | string[]): void {
+  public _isKeyAcceptable (key: string | string[]): void {
     if (Array.isArray(key)) {
       // The input was an array of keys. Validate each entry.
       if (key.length === 0) throw new Error('InvalidState: key array must contain at least 1 entry')
@@ -83,19 +78,24 @@ export abstract class GenericAdapter extends MapAPI {
    * @readonly
    * @sealed
    */
-  _isMapperExpired (state: InternalMapper | undefined): boolean {
+  public _isMapperExpired (state: InternalMapper | undefined): boolean {
     if (state === undefined) return true
     if (state.lifetime === undefined || state.lifetime === null) return false
 
     // Date on InternalMapper Instance
-    const expiry = DateTime.fromISO(state?.lifetime).toUTC()
+    const expiry = DateTime.fromISO(state.lifetime).toUTC()
     const local = DateTime.local().toUTC()
     const diff = expiry.diff(local, ['milliseconds'])
 
     // Check for Expires Internal Cache
-    if (diff?.milliseconds !== undefined && diff.milliseconds < 0) {
+    if (diff.milliseconds < 0) {
       return true
     }
     return false
   }
+
+  /** Abstract Close State - Optional */
+  abstract close (): Promise<void>
+  /** Abstract State Configuration - Optional */
+  abstract configure (): Promise<void>
 }

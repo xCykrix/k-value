@@ -1,21 +1,21 @@
 import { addDataType } from 'javascript-serializer'
 
 class SerializableMap {
-  constructor (public map: Map<any, any>) {}
+  public constructor (public map: Map<unknown, unknown>) {}
 
-  toJSON (): SerialMap {
+  public toJSON (): SerialMap {
     return {
       i: Array.from(this.map.entries())
     }
   }
 
-  static fromJSON (map: SerialMap): Map<any, any> {
+  public static fromJSON (map: SerialMap): Map<unknown, unknown> {
     return new Map([...map.i])
   }
 }
 
 interface SerialMap {
-  i: any[]
+  i: Iterable<[unknown, unknown]>
 }
 
 export function hook (): void {

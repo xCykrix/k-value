@@ -1,6 +1,5 @@
 import { DateTime, Duration } from 'luxon'
-
-import { InternalMapper, MapperOptions, GetOptions } from '../types/generics.t'
+import type { GetOptions, InternalMapper, MapperOptions } from '../types/generics.t'
 import { GenericAdapter } from './generic'
 
 export class MemoryAdapter extends GenericAdapter {
@@ -8,15 +7,15 @@ export class MemoryAdapter extends GenericAdapter {
   private readonly map = new Map<string, InternalMapper>()
 
   /** Method not Implemented */
-  async configure (): Promise<void> {}
+  public async close (): Promise<void> { /** */ }
   /** Method not Implemented */
-  async close (): Promise<void> {}
+  public async configure (): Promise<void> { /** */ }
 
   /**
    * Permanently removes all entries from the referenced storage driver.
    */
-  async clear (): Promise<void> {
-    await this.map.clear()
+  public async clear (): Promise<void> {
+    this.map.clear()
   }
 
   /**
@@ -26,7 +25,7 @@ export class MemoryAdapter extends GenericAdapter {
    *
    * @returns - If the value assigned to the key was deleted.
    */
-  async delete (key: string): Promise<boolean> {
+  public async delete (key: string): Promise<boolean> {
     super._isKeyAcceptable(key)
 
     return this.map.delete(key)
@@ -40,7 +39,7 @@ export class MemoryAdapter extends GenericAdapter {
    *
    * @returns - The value assigned to the key.
    */
-  async get (key: string | string[], options?: GetOptions): Promise<any | any[]> {
+  public async get (key: string | string[], options?: GetOptions): Promise<unknown | unknown[]> {
     super._isKeyAcceptable(key)
 
     if (!Array.isArray(key)) {
@@ -52,7 +51,7 @@ export class MemoryAdapter extends GenericAdapter {
         return options?.default
       }
 
-      return value?.ctx
+      return value.ctx
     } else {
       const response = []
 
@@ -77,7 +76,7 @@ export class MemoryAdapter extends GenericAdapter {
 
         response.push({
           key: k,
-          value: value?.ctx
+          value: value.ctx
         })
       }
 
@@ -92,7 +91,7 @@ export class MemoryAdapter extends GenericAdapter {
    *
    * @returns - If the key exists.
    */
-  async has (key: string): Promise<boolean> {
+  public async has (key: string): Promise<boolean> {
     super._isKeyAcceptable(key)
     if (await this.get(key) === undefined) return false
     return true
@@ -103,7 +102,7 @@ export class MemoryAdapter extends GenericAdapter {
    *
    * @returns - An array of all known keys in no particular order.
    */
-  async keys (): Promise<string[]> {
+  public async keys (): Promise<string[]> {
     return Array.from(this.map.keys())
   }
 
@@ -114,7 +113,7 @@ export class MemoryAdapter extends GenericAdapter {
    * @param value - The provided value to insert at the referenced key.
    * @param options - The MapperOptions to control the aspects of the stored key.
    */
-  async set (key: string, value: any, options?: MapperOptions): Promise<void> {
+  public async set (key: string, value: unknown, options?: MapperOptions): Promise<void> {
     super._isKeyAcceptable(key)
 
     await this.map.set(key, {

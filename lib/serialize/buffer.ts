@@ -1,15 +1,15 @@
 import { addDataType } from 'javascript-serializer'
 
 class SerializableBuffer {
-  constructor (public buffer: Buffer) {}
+  public constructor (public buffer: Buffer) {}
 
-  toJSON (): SerialBuffer {
+  public toJSON (): SerialBuffer {
     return {
       i: this.buffer.toString('base64')
     }
   }
 
-  static fromJSON (buffer: SerialBuffer): Buffer {
+  public static fromJSON (buffer: SerialBuffer): Buffer {
     return Buffer.from(buffer.i, 'base64')
   }
 }

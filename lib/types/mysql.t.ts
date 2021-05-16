@@ -1,18 +1,18 @@
-import { Encoding } from 'crypto'
-import { DBGeneric as SQLOptions } from './generics.t'
+import type { Encoding } from 'crypto'
+import type { DBGeneric as SQLOptions } from './generics.t'
 
 /** The representation of the MySQL Adapter Options */
 export interface MySQL2Options extends SQLOptions {
   authentication: {
-    host: string
-    port: number
-    username: string
-    password: string
-    database: string
-  }
+    database: string | undefined
+    host: string | undefined
+    password: string | undefined
+    port: number | undefined
+    username: string | undefined
+  } | undefined
   encoder?: {
-    use: boolean
-    store: Encoding
-    parse: Encoding
-  }
+    parse: Encoding | undefined
+    store: Encoding | undefined
+    use: boolean | undefined
+  } | undefined
 }

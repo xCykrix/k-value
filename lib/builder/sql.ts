@@ -1,4 +1,5 @@
-import { Sql, TableWithColumns } from 'sql-ts'
+import type { TableWithColumns } from 'sql-ts'
+import { Sql } from 'sql-ts'
 
 export class SQLBuilder {
   /** The sql-ts LIbrary Instance */
@@ -9,7 +10,7 @@ export class SQLBuilder {
    *
    * @param engine - The sql adapting engine to instantiate.
    */
-  constructor (engine: 'mysql' | 'sqlite') {
+  public constructor (engine: 'mysql' | 'sqlite') {
     this.sql = new Sql(engine)
   }
 
@@ -20,7 +21,7 @@ export class SQLBuilder {
    *
    * @returns - The TableWithColumns representation of ValueTable.
    */
-  getVTable (table: string): TableWithColumns<IValueTable> {
+  public getVTable (table: string | undefined): TableWithColumns<IValueTable> {
     return this.sql.define<IValueTable>({
       name: (table === undefined || table === '' ? 'global' : table),
       columns: [{
