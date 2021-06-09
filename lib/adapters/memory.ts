@@ -14,6 +14,7 @@ export class MemoryAdapter extends GenericAdapter {
   /**
    * Permanently removes all entries from the referenced storage driver.
    */
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async clear (): Promise<void> {
     this.map.clear()
   }
@@ -25,6 +26,7 @@ export class MemoryAdapter extends GenericAdapter {
    *
    * @returns - If the value assigned to the key was deleted.
    */
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async delete (key: string): Promise<boolean> {
     super._isKeyAcceptable(key)
 
@@ -43,7 +45,7 @@ export class MemoryAdapter extends GenericAdapter {
     super._isKeyAcceptable(key)
 
     if (!Array.isArray(key)) {
-      const value = await this.map.get(key as unknown as string)
+      const value = this.map.get(key as unknown as string)
       if (value === undefined || value.ctx === undefined) return options?.default
 
       if (super._isMapperExpired(value)) {
@@ -56,7 +58,7 @@ export class MemoryAdapter extends GenericAdapter {
       const response = []
 
       for (const k of key) {
-        const value = await this.map.get(k)
+        const value = this.map.get(k)
         if (value === undefined || value.ctx === undefined) {
           response.push({
             key: k,
@@ -102,6 +104,7 @@ export class MemoryAdapter extends GenericAdapter {
    *
    * @returns - An array of all known keys in no particular order.
    */
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async keys (): Promise<string[]> {
     return Array.from(this.map.keys())
   }
@@ -113,10 +116,11 @@ export class MemoryAdapter extends GenericAdapter {
    * @param value - The provided value to insert at the referenced key.
    * @param options - The MapperOptions to control the aspects of the stored key.
    */
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async set (key: string, value: unknown, options?: MapperOptions): Promise<void> {
     super._isKeyAcceptable(key)
 
-    await this.map.set(key, {
+    this.map.set(key, {
       ctx: value,
       lifetime: (options?.lifetime !== undefined ? DateTime.local().toUTC().plus(Duration.fromObject({ milliseconds: options.lifetime })).toUTC().toISO() : null),
       key,

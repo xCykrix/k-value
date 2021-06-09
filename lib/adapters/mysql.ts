@@ -38,7 +38,7 @@ export class MySQLAdapter extends GenericAdapter {
     this.options = options
 
     try {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
       this._sqlEngine = require('mysql2/promise')
     } catch (err: unknown) {
       const error = err as Error
@@ -131,7 +131,7 @@ export class MySQLAdapter extends GenericAdapter {
     } else {
       const response: unknown[] = []
 
-      for (const k of key) {
+      for (const k of key as string[]) {
         const state = await this.getOne(this.table.select().where({ key: k }).toString())
         const deserialized = super._deserialize(state)
         if (deserialized === undefined) {
@@ -214,9 +214,10 @@ export class MySQLAdapter extends GenericAdapter {
   }
 
   // Lock Database Connection
+  // eslint-disable-next-line @typescript-eslint/require-await
   private async lockDB (): Promise<void> {
     try {
-      this.database = await this._sqlEngine.createPool({
+      this.database = this._sqlEngine.createPool({
         host: this.options.authentication!.host,
         port: this.options.authentication!.port,
         user: this.options.authentication!.username,

@@ -38,7 +38,7 @@ export class SQLiteAdapter extends GenericAdapter {
     this.options = options
 
     try {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
       this._sqlEngine = require('better-sqlite3')
     } catch (err: unknown) {
       const error = err as Error
@@ -72,6 +72,7 @@ export class SQLiteAdapter extends GenericAdapter {
   /**
    * Terminate the SQLite Database Connection and end active service.
    */
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async close (): Promise<void> {
     this.database.close()
   }
@@ -123,7 +124,7 @@ export class SQLiteAdapter extends GenericAdapter {
     } else {
       const response = []
 
-      for (const k of key) {
+      for (const k of key as string[]) {
         const state = await this.getOne(this.table.select().where({ key: k }).toString())
         const deserialized = super._deserialize(state)
         if (deserialized === undefined) {
@@ -206,6 +207,7 @@ export class SQLiteAdapter extends GenericAdapter {
   }
 
   /** Lock Database Service */
+  // eslint-disable-next-line @typescript-eslint/require-await
   private async lockDB (): Promise<void> {
     try {
       this.database = new this._sqlEngine(this.options.file!.toString())

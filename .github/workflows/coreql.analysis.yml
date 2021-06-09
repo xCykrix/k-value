@@ -2,9 +2,9 @@ name: Code Functionality
 
 on:
   push:
-    branches: [main, staging, dev-**]
+    branches: [main, dev, dev-**]
   pull_request:
-    branches: [main, staging, dev-**]
+    branches: [main, dev, dev-**]
 
 jobs:
   analysis:
@@ -25,4 +25,4 @@ jobs:
       - name: Initialize Project
         run: npm install
       - name: Analyze Project
-        run: npm run build
+        run: npm run runCompiler
