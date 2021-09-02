@@ -1,7 +1,7 @@
 const { expect } = require('chai')
-const { SQLiteAdapter } = require('../dist/index')
+const { PostgreSQLAdapter } = require('../dist/index')
 
-describe('Adapter - SQLite', function () {
+describe('Adapter - PostgreSQLAdapter', function () {
   let kv = null
   const complex = {
     buffer: Buffer.from('son of a buffer'),
@@ -9,14 +9,12 @@ describe('Adapter - SQLite', function () {
     map: new Map([['world', 'hello'], ['hello', 'world']]),
     set: new Set(['world', 'hello'])
   }
-  it('should-initialize', async function () {
+  const table = `kv-store-${require('crypto').randomBytes(4).toString('hex')}`
+  it('should-initialize [' + table + ']', async function () {
     this.timeout(10000)
-    kv = new SQLiteAdapter({
-      client: 'sqlite3',
-      connection: {
-        filename: require('path').resolve(__dirname, './ci.database'),
-        table: 'kv_store',
-      },
+    kv = new PostgreSQLAdapter({
+      table: table,
+      connection: 'postgres://nznewehe:R9cy22iJot824TxDdsMNPtJ1J6iFz9S3@kashin.db.elephantsql.com/nznewehe',
       encoder: {
         use: true,
         store: 'base64',
@@ -24,6 +22,7 @@ describe('Adapter - SQLite', function () {
       }
     })
     await kv.configure()
+    await kv.clear()
   })
   it('should-write-data', async function () {
     this.timeout(10000)
@@ -32,7 +31,6 @@ describe('Adapter - SQLite', function () {
     await kv.set('expire-test', true, { lifetime: 1 })
     await kv.set('has-test', true)
     await kv.set('multi-test', { v: true })
-    await kv.set('overwrite-test', 'curr-val')
     await kv.set('write-test', complex)
   })
   it('should-read-data-and-default', async function () {
@@ -51,11 +49,6 @@ describe('Adapter - SQLite', function () {
       { key: 'multi-test', value: { v: true } },
       { key: 'unknown-key', value: { x: true } }
     ])
-  })
-  it('should-overwrite-data', async function () {
-    expect(await kv.get('overwrite-test')).to.equal('curr-val')
-    await kv.set('overwrite-test', 'new-val')
-    expect(await kv.get('overwrite-test')).to.equal('new-val')
   })
   it('should-delete-data', async function () {
     expect(await kv.delete('delete-test')).to.equal(true)
@@ -101,6 +94,7 @@ describe('Adapter - SQLite', function () {
     expect(s4).to.equal('null-state')
   })
   it('close-and-clean', async function () {
+    await kv._handler.knex.schema.dropTable(table)
     await kv.close()
   })
 })

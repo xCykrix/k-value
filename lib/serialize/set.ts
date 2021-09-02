@@ -1,5 +1,7 @@
 import { addDataType } from 'javascript-serializer'
 
+/** Serializable Set Instance */
+
 class SerializableSet {
   public constructor (public set: Set<unknown>) {}
 

@@ -1,10 +1,5 @@
 import type { Encoding } from 'crypto'
 
-/** The representation of the Get Options */
-export interface GetOptions {
-  default?: unknown
-}
-
 /** The representation of the Internal Mapping Instance */
 export interface InternalMapper {
   createdAt: string
@@ -23,7 +18,7 @@ export interface MapperOptions {
   lifetime: number
 }
 
-/** The representation of the Generic Adapter Options */
-export interface DBGeneric {
-  table: string | 'global' | undefined
+/** The representation of the Get Options */
+export interface GetOptions {
+  default?: unknown
 }

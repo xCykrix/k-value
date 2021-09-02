@@ -1,37 +1,37 @@
 import { DateTime, Duration } from 'luxon'
-import type { KValueTable, MySQL2Options } from '../types/sql'
+import type { KValueTable, PostgreSQLOptions } from '../types/sql'
 import { KnexHandler } from '../builder/knex'
 import type { GetOptions, MapperOptions } from '../types/generic'
 import { GenericAdapter } from '../abstraction/api'
 
-export class MySQLAdapter extends GenericAdapter {
+export class PostgreSQLAdapter extends GenericAdapter {
   /** KnexHandler Instance */
   private readonly _handler: KnexHandler
 
-  /** MySQL2Options Instance */
-  private readonly options: MySQL2Options
+  /** PostgreSQLOptions Instance */
+  private readonly options: PostgreSQLOptions
 
   /**
-   * Initialize the MySQL Adapter
+   * Initialize the PostgreSQL Adapter
    *
    * @remarks
    *
-   * Make sure to call MySQLAdapter#configure() before attempting to use the database.
+   * Make sure to call PostgreSQLAdapter#configure() before attempting to use the database.
    *
    * This will asynchronously configure the database and tables before usage.
    *
-   * @param options - The MySQL2Options used to configure the state of the database.
+   * @param options - The PostgreSQLOptions used to configure the state of the database.
    */
-  public constructor (options: MySQL2Options & { useNullAsDefault: boolean; }) {
+  public constructor (options: PostgreSQLOptions & { useNullAsDefault: boolean; }) {
     super()
-    options.client = options.client as 'mysql' | 'mysql2' | null ?? 'mysql2'
+    options.client = options.client as 'pg' | null ?? 'pg'
     options.useNullAsDefault = true
     this.options = options
     this._handler = new KnexHandler(this.options)
   }
 
   /**
-   * Asynchronously configure the MySQLAdapter for use.
+   * Asynchronously configure the PostgreSQLAdapter for use.
    */
   public async configure (): Promise<void> {
     // Initialize Table

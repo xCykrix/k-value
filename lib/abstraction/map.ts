@@ -1,52 +1,51 @@
-import type { GetOptions, MapperOptions } from '../types/generics.t'
+import type { GetOptions, MapperOptions } from '../types/generic'
 
 export abstract class MapAPI {
   /**
-   * Permanently removes all entries from the Storage Backend Adapter.
+   * Permanently removes all ids from the storage driver.
    */
-  abstract clear (): Promise<void>
+  public abstract clear (): Promise<void>
 
   /**
-   * Permanently removes a specific key value pair from the Storage Backend Adapter for the provided key index.
+   * Permanently removes the specified id from the storage driver.
    *
-   * @param key - The key index for the respective value.
-   *
-   * @returns - Boolean stating if any changes were made to the database.
+   * @param id - The id to remove from the storage adapter.
+   * @returns - If the value assigned to the id was deleted.
    */
-  abstract delete (key: string): Promise<boolean>
+  public abstract delete (id: string): Promise<boolean>
 
   /**
-   * Obtains a specific value from the Storage Backend Adapter for the provided key index.
+   * Retrieves the value assigned to the requested id or Array<id1, id2, ...> from the storage driver.
    *
-   * @param key - The key index for the respective value.
-   *
-   * @returns - The value associated with the key index. If no value exists, this will return null.
+   * @param id - The id to obtain from the storage driver.
+   * @param options - [optional] Additional options to control defaulting and caching, if applicable.
+   * @returns - The value assigned to the id.
    */
-  abstract get (key: string | string[], options?: GetOptions): Promise<unknown | unknown[] | undefined>
+  public abstract get (id: string | string[], options?: GetOptions): Promise<unknown | unknown[] | undefined>
 
   /**
-   * Checks the provided key for if its respective value exists on the configured Storage Backend Adapter.
+   * Asserts if the storage driver contains the supplied id.
    *
-   * @param key - The key index for the respective value.
-   *
-   * @returns - Boolean stating if the Storage Backend Adapter has knowledge of the key and has data is attached to it.
+   * @param id - The id to validate existence for in the storage driver.
+   * @returns - If the id exists.
    */
-  abstract has (key: string): Promise<boolean>
+  public abstract has (id: string): Promise<boolean>
 
   /**
-   * Obtains the entire known list of keys from the master table. This table is automatically rebuilt and checks for missing entries every 5 minutes.
+   * Retrieves all known ids from the storage driver.
    *
-   * @returns - String[] of known keys provided by the Storage Backend Adapter.
+   * @returns - An array of all known ids, order is not guaranteed.
    */
-  abstract keys (): Promise<string[]>
+  public abstract keys (): Promise<string[]>
 
   /**
-   * Inserts the value attached to its respective key in configured Storage Backend Adapter.
+   * Insert the provided value at the id.
    *
-   * @param key - The key index for the respective value.
-   * @param value - The value to be stored with the key index.
+   * @param id - The id to insert the value in the storage driver.
+   * @param value - The provided value to insert for the id.
+   * @param options - The MapperOptions to control the storage aspects of the id and value.
    */
-  abstract set (key: string, value: unknown, options?: MapperOptions): Promise<void>
+  public abstract set (id: string, value: unknown, options?: MapperOptions): Promise<void>
 
   /**
    * This feature of the Map API has been disabled for performance reasons.
@@ -57,10 +56,13 @@ export abstract class MapAPI {
    * LARGE_VOLUME_QUERIES
    * CONSECUTIVE_QUERIES
    *
-   * @param callbackfn - VOID / NO USAGE
-   * @param thisArg - VOID / NO USAGE
+   * @param callbackfn - null
+   * @param thisArg - null
+   *
+   * @private
+   * @sealed
    */
-  public forEach (callbackfn: (value: unknown, key: string, map: Map<string, unknown>) => void, thisArg?: unknown): void {
+  private forEach (callbackfn: (value: unknown, id: string, map: Map<string, unknown>) => void, thisArg?: unknown): void {
     throw new Error('[err] This is not a complete implementation of the Map API. For performance reasons, this function has been disabled. (Alternatives: Adapter#keys() -> Adapter#get())')
   }
 
@@ -72,8 +74,11 @@ export abstract class MapAPI {
    *
    * LARGE_VOLUME_QUERIES
    * CONSECUTIVE_QUERIES
+   *
+   * @private
+   * @sealed
    */
-  public entries (): IterableIterator<[string, unknown]> {
+  private entries (): IterableIterator<[string, unknown]> {
     throw new Error('[err] This is not a complete implementation of the Map API. For performance reasons, this function has been disabled. (Alternatives: Adapter#keys() -> Adapter#get())')
   }
 
@@ -85,8 +90,11 @@ export abstract class MapAPI {
    *
    * LARGE_VOLUME_QUERIES
    * CONSECUTIVE_QUERIES
+   *
+   * @private
+   * @sealed
    */
-  public values (): IterableIterator<unknown> {
+  private values (): IterableIterator<unknown> {
     throw new Error('[err] This is not a complete implementation of the Map API. For performance reasons, this function has been disabled. (Alternatives: Adapter#keys() -> Adapter#get())')
   }
 
@@ -98,8 +106,11 @@ export abstract class MapAPI {
    *
    * LARGE_VOLUME_QUERIES
    * CONSECUTIVE_QUERIES
+   *
+   * @private
+   * @sealed
    */
-  public [Symbol.iterator] (): IterableIterator<[string, unknown]> {
+  private [Symbol.iterator] (): IterableIterator<[string, unknown]> {
     throw new Error('[err] This is not a complete implementation of the Map API. For performance reasons, this function has been disabled. (Alternatives: Adapter#keys() -> Adapter#get())')
   }
 }

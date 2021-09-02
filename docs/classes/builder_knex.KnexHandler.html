@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SQLBuilder | k-value</title>
+	<title>KnexHandler | k-value</title>
 	<meta name="description" content="Documentation for k-value">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,24 +55,31 @@
 					<a href="../modules.html">k-value</a>
 				</li>
 				<li>
-					<a href="../modules/builder_sql.html">builder/sql</a>
+					<a href="../modules/builder_knex.html">builder/knex</a>
 				</li>
 				<li>
-					<a href="builder_sql.sqlbuilder.html">SQLBuilder</a>
+					<a href="builder_knex.KnexHandler.html">KnexHandler</a>
 				</li>
 			</ul>
-			<h1>Class SQLBuilder</h1>
+			<h1>Class KnexHandler</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Knex SQL Connection Controller</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">SQLBuilder</span>
+						<span class="target">KnexHandler</span>
 					</li>
 				</ul>
 			</section>
@@ -83,19 +90,19 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="builder_sql.sqlbuilder.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="builder_knex.KnexHandler.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="builder_sql.sqlbuilder.html#sql" class="tsd-kind-icon">sql</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="builder_knex.KnexHandler.html#_knex" class="tsd-kind-icon">_knex</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
-							<h3>Methods</h3>
+							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="builder_sql.sqlbuilder.html#getvtable" class="tsd-kind-icon">getVTable</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="builder_knex.KnexHandler.html#knex" class="tsd-kind-icon">knex</a></li>
 							</ul>
 						</section>
 					</div>
@@ -107,30 +114,22 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new SQLBuilder<span class="tsd-signature-symbol">(</span>engine<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;mysql&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sqlite&quot;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="builder_sql.sqlbuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SQLBuilder</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Knex<wbr>Handler<span class="tsd-signature-symbol">(</span>connection<span class="tsd-signature-symbol">: </span><a href="../interfaces/types_sql.MySQL2Options.html" class="tsd-signature-type" data-tsd-kind="Interface">MySQL2Options</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/types_sql.PostgreSQLOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">PostgreSQLOptions</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/types_sql.SQLite3Options.html" class="tsd-signature-type" data-tsd-kind="Interface">SQLite3Options</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="builder_knex.KnexHandler.html" class="tsd-signature-type" data-tsd-kind="Class">KnexHandler</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/fbfbec8/lib/builder/sql.ts#L5">builder/sql.ts:5</a></li>
+									<li>Defined in builder/knex.ts:11</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Initialize the selected SQL engine builder.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>engine: <span class="tsd-signature-type">&quot;mysql&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sqlite&quot;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The sql adapting engine to instantiate.</p>
-									</div>
+									<h5>connection: <a href="../interfaces/types_sql.MySQL2Options.html" class="tsd-signature-type" data-tsd-kind="Interface">MySQL2Options</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/types_sql.PostgreSQLOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">PostgreSQLOptions</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/types_sql.SQLite3Options.html" class="tsd-signature-type" data-tsd-kind="Interface">SQLite3Options</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="builder_sql.sqlbuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SQLBuilder</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="builder_knex.KnexHandler.html" class="tsd-signature-type" data-tsd-kind="Class">KnexHandler</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -138,54 +137,37 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="sql" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> sql</h3>
-					<div class="tsd-signature tsd-kind-icon">sql<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Sql</span></div>
+					<a name="_knex" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> _knex</h3>
+					<div class="tsd-signature tsd-kind-icon">_knex<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Knex</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/types_sql.KValueTable.html" class="tsd-signature-type" data-tsd-kind="Interface">KValueTable</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/fbfbec8/lib/builder/sql.ts#L5">builder/sql.ts:5</a></li>
+							<li>Defined in builder/knex.ts:9</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The sql-ts LIbrary Instance</p>
-						</div>
-					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getvtable" class="tsd-anchor"></a>
-					<h3>getVTable</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">getVTable<span class="tsd-signature-symbol">(</span>table<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TableWithColumns</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/builder_sql.ivaluetable.html" class="tsd-signature-type" data-tsd-kind="Interface">IValueTable</a><span class="tsd-signature-symbol">&gt;</span></li>
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="knex" class="tsd-anchor"></a>
+					<h3>knex</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> knex<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Knex</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/fbfbec8/lib/builder/sql.ts#L23">builder/sql.ts:23</a></li>
+									<li>Defined in builder/knex.ts:16</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Returns the pre-initialized instance of the SQL definition for the ValueTable.</p>
+									<p>Fetch the current instance of the Knex Handler</p>
 								</div>
 							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>table: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The table to target for initialization.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">TableWithColumns</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/builder_sql.ivaluetable.html" class="tsd-signature-type" data-tsd-kind="Interface">IValueTable</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<ul>
-								<li>The TableWithColumns representation of ValueTable.</li>
-							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Knex</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -195,10 +177,13 @@
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class=" ">
-						<a href="../modules.html">Exports</a>
+						<a href="../modules.html">Modules</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/adapters_generic.html">adapters/generic</a>
+						<a href="../modules/abstraction_api.html">abstraction/api</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/abstraction_map.html">abstraction/map</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/adapters_memory.html">adapters/memory</a>
@@ -207,13 +192,13 @@
 						<a href="../modules/adapters_mysql.html">adapters/mysql</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/adapters_sqlite.html">adapters/sqlite</a>
+						<a href="../modules/adapters_postgresql.html">adapters/postgresql</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/builder_map.html">builder/map</a>
+						<a href="../modules/adapters_sqlite.html">adapters/sqlite</a>
 					</li>
 					<li class="current tsd-kind-module">
-						<a href="../modules/builder_sql.html">builder/sql</a>
+						<a href="../modules/builder_knex.html">builder/knex</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/serialize_buffer.html">serialize/buffer</a>
@@ -225,13 +210,10 @@
 						<a href="../modules/serialize_set.html">serialize/set</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/types_generics_t.html">types/generics.t</a>
+						<a href="../modules/types_generic.html">types/generic</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/types_mysql_t.html">types/mysql.t</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/types_sqlite_t.html">types/sqlite.t</a>
+						<a href="../modules/types_sql.html">types/sql</a>
 					</li>
 				</ul>
 			</nav>
@@ -240,24 +222,21 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-module">
-						<a href="builder_sql.sqlbuilder.html" class="tsd-kind-icon">SQLBuilder</a>
+						<a href="builder_knex.KnexHandler.html" class="tsd-kind-icon">Knex<wbr>Handler</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="builder_sql.sqlbuilder.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="builder_knex.KnexHandler.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="builder_sql.sqlbuilder.html#sql" class="tsd-kind-icon">sql</a>
+								<a href="builder_knex.KnexHandler.html#_knex" class="tsd-kind-icon">_knex</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="builder_sql.sqlbuilder.html#getvtable" class="tsd-kind-icon">getVTable</a>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="builder_knex.KnexHandler.html#knex" class="tsd-kind-icon">knex</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="../interfaces/builder_sql.ivaluetable.html" class="tsd-kind-icon">IValue<wbr>Table</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -270,7 +249,6 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>

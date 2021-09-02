@@ -1,26 +1,15 @@
-import type BetterSqlite3 from 'better-sqlite3'
 import { DateTime, Duration } from 'luxon'
-import type { TableWithColumns } from 'sql-ts'
-import type { IValueTable } from '../builder/sql'
-import { SQLBuilder } from '../builder/sql'
-import type { GetOptions, MapperOptions } from '../types/generics.t'
-import type { SQLite3Options } from '../types/sqlite.t'
-import { GenericAdapter } from './generic'
+import type { KValueTable, SQLite3Options } from '../types/sql'
+import { KnexHandler } from '../builder/knex'
+import type { GetOptions, MapperOptions } from '../types/generic'
+import { GenericAdapter } from '../abstraction/api'
 
 export class SQLiteAdapter extends GenericAdapter {
-  // Builders
-  /** SQLBuilder Instance */
-  private readonly _sqlBuilder = new SQLBuilder('sqlite')
-  /** SQLBuilder IValueTable Instantiated Instance */
-  private table: TableWithColumns<IValueTable>
+  /** KnexHandler Instance */
+  private readonly _handler: KnexHandler
 
-  // Instancing
   /** SQLite3Options Instance */
   private readonly options: SQLite3Options
-  /** SQL Engine */
-  private readonly _sqlEngine: typeof BetterSqlite3
-  /** SQL Engine Instance */
-  private database: BetterSqlite3.Database
 
   /**
    * Initialize the SQLite3 Adapter
@@ -33,90 +22,75 @@ export class SQLiteAdapter extends GenericAdapter {
    *
    * @param options - The SQLite3Options used to configure the state of the database.
    */
-  public constructor (options: SQLite3Options) {
+  public constructor (options: SQLite3Options & { useNullAsDefault: boolean; }) {
     super()
+    options.client = options.client as 'sqlite3' | null ?? 'sqlite3'
+    options.useNullAsDefault = true
     this.options = options
-
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
-      this._sqlEngine = require('better-sqlite3')
-    } catch (err: unknown) {
-      const error = err as Error
-      throw new Error(`[init] NAMESPACE(${this.options.table ?? 'NULL_VAL_PROVIDED_TABLE_NAME'}): Failed to detect installation of SQLite3. Please install 'better-sqlite3' with your preferred package manager to enable this adapter.\n${(error.stack !== undefined ? error.stack : error.message)}`)
-    }
-
-    if (options.file === undefined || options.table === undefined) {
-      throw new Error(`[init] NAMESPACE(${this.options.table ?? 'NULL_VAL_PROVIDED_TABLE_NAME'}): Failed to detect SQlite3Options. Please specify both the 'file' and the 'table' you wish to use.`)
-    }
+    this._handler = new KnexHandler(this.options)
   }
 
   /**
-   * Asynchronously configure the SQLite3Adapter to enable usage.
+   * Asynchronously configure the SQLite3Adapter for use.
    */
   public async configure (): Promise<void> {
-    // Initialize Keys and Storage
-    this.table = this._sqlBuilder.getVTable(this.options.table)
-
-    // Lock Database Connection
-    await this.lockDB()
-
-    // Create Storage Table
-    try {
-      await this.run(this.table.create().ifNotExists().toString())
-    } catch (err: unknown) {
-      const error = err as Error
-      throw new Error(`[runtime:configure NAMESPACE(${this.options.table!}): Failed to configure value-storage table.\n${(error.stack !== undefined ? error.stack : error.message)}`)
+    // Initialize Table
+    if (!(await this._handler.knex.schema.hasTable(this.options.connection.table ?? 'kv_global'))) {
+      await this._handler.knex.schema.createTable(this.options.connection.table ?? 'kv_global', (table) => {
+        table.string('key', 192)
+        table.text('value')
+        table.primary(['key'])
+        table.unique(['key'])
+      })
     }
   }
 
   /**
-   * Terminate the SQLite Database Connection and end active service.
+   * Terminate the Handler Database Connection and stop service.
    */
   // eslint-disable-next-line @typescript-eslint/require-await
   public async close (): Promise<void> {
-    this.database.close()
+    await this._handler.knex.destroy()
   }
 
   /**
-   * Permanently removes all entries from the referenced storage driver.
+   * Permanently removes all ids from the storage driver.
    */
   public async clear (): Promise<void> {
-    await this.run(this.table.delete().from().toString())
+    await this._handler.knex(this.options.connection.table ?? 'kv_global').delete()
   }
 
   /**
-   * Permanently removes the value assigned to the supplied key from the referenced storage driver.
+   * Retrieves the value assigned to the requested id or Array<id1, id2, ...> from the storage driver.
    *
-   * @param key - The referenced key to remove from the storage adapter.
-   *
-   * @returns - If the value assigned to the key was deleted.
+   * @param id - The id to obtain from the storage driver.
+   * @param options - [optional] Additional options to control defaulting and caching, if applicable.
+   * @returns - The value assigned to the id.
    */
-  public async delete (key: string): Promise<boolean> {
-    super._isKeyAcceptable(key)
-
-    await this.run(this.table.delete().where({ key }).toString())
-
+  public async delete (id: string): Promise<boolean> {
+    super._isIDAcceptable(id)
+    await this._handler.knex.table(this.options.connection.table ?? 'kv_global').where({ key: id }).delete()
     return true
   }
 
   /**
-   * Retrieves the value assigned to the supplied key from the referenced storage driver.
+   * Retrieves the value assigned to the id from the storage driver.
    *
-   * @param key - The referenced key to obtain from the storage driver.
+   * @param id - The id to obtain from the storage driver.
    * @param options - [optional] Specify the default value for the response, at this time.
    *
-   * @returns - The value assigned to the key.
+   * @returns - The value assigned to the id.
    */
-  public async get (key: string, options?: GetOptions): Promise<unknown | unknown[]> {
-    super._isKeyAcceptable(key)
+  public async get (id: string | string[], options?: GetOptions): Promise<unknown | unknown[]> {
+    super._isIDAcceptable(id)
 
-    if (!Array.isArray(key)) {
-      const state = await this.getOne(this.table.select().where({ key }).toString())
-      const deserialized = super._deserialize(state)
+    if (!Array.isArray(id)) {
+      const state = await this._handler.knex(this.options.connection.table ?? 'kv_global').select('*').where({ key: id }).first() as KValueTable
+      const deserialized = super._deserialize(state as unknown as KValueTable)
       if (deserialized === undefined) return options?.default
 
       if (super._isMapperExpired(deserialized)) {
-        await this.delete(key)
+        await this.delete(id)
         return options?.default
       }
 
@@ -124,8 +98,8 @@ export class SQLiteAdapter extends GenericAdapter {
     } else {
       const response = []
 
-      for (const k of key as string[]) {
-        const state = await this.getOne(this.table.select().where({ key: k }).toString())
+      for (const k of id) {
+        const state = await this._handler.knex(this.options.connection.table ?? 'kv_global').select('*').where({ key: k }).first() as KValueTable
         const deserialized = super._deserialize(state)
         if (deserialized === undefined) {
           response.push({
@@ -154,46 +128,40 @@ export class SQLiteAdapter extends GenericAdapter {
   }
 
   /**
-   * Assert if the referenced storage driver contains the supplied key.
+   * Asserts if the storage driver contains the supplied id.
    *
-   * @param key - The referenced key to check existence in the storage driver.
-   *
-   * @returns - If the key exists.
+   * @param id - The id to validate existence for in the storage driver.
+   * @returns - If the id exists.
    */
-  public async has (key: string): Promise<boolean> {
-    super._isKeyAcceptable(key)
-    if (await this.get(key) === undefined) return false
+  public async has (id: string): Promise<boolean> {
+    super._isIDAcceptable(id)
+    if (await this.get(id) === undefined) return false
     return true
   }
 
   /**
-   * Retrieves all known keys from the storage driver.
+   * Retrieves all known ids from the storage driver.
    *
-   * @returns - An array of all known keys in no particular order.
+   * @returns - An array of all known ids, order is not guaranteed.
    */
   public async keys (): Promise<string[]> {
-    const keys = await this.getAll(this.table.select(this.table.key).toString())
-
-    const result: string[] = []
-    keys.map((k) => result.push(k.key))
-
-    return result
+    return (await this._handler.knex(this.options.connection.table ?? 'kv_global').select('key') as KValueTable[]).map((k) => { return k.key })
   }
 
   /**
-   * Insert the provided value at the referenced key.
+   * Insert the provided value at the id.
    *
-   * @param key - The referenced key to insert the value in the storage driver.
-   * @param value - The provided value to insert at the referenced key.
-   * @param options - The MapperOptions to control the aspects of the stored key.
+   * @param id - The id to insert the value in the storage driver.
+   * @param value - The provided value to insert for the id.
+   * @param options - The MapperOptions to control the storage aspects of the id and value.
    */
-  public async set (key: string, value: unknown, options?: MapperOptions): Promise<void> {
-    super._isKeyAcceptable(key)
+  public async set (id: string, value: unknown, options?: MapperOptions): Promise<void> {
+    super._isIDAcceptable(id)
 
-    await this.run(this.table.replace({
-      key,
+    await this._handler.knex.insert({
+      key: id,
       value: super._serialize({
-        key,
+        key: id,
         ctx: value,
         lifetime: (options?.lifetime !== undefined ? DateTime.local().toUTC().plus(Duration.fromObject({ milliseconds: options.lifetime })).toUTC().toISO() : null),
         createdAt: DateTime.local().toUTC().toISO(),
@@ -203,52 +171,6 @@ export class SQLiteAdapter extends GenericAdapter {
           parse: this.options.encoder?.parse === undefined ? 'utf-8' : this.options.encoder.parse
         }
       })
-    }).toString())
-  }
-
-  /** Lock Database Service */
-  // eslint-disable-next-line @typescript-eslint/require-await
-  private async lockDB (): Promise<void> {
-    try {
-      this.database = new this._sqlEngine(this.options.file!.toString())
-    } catch (err: unknown) {
-      const error = err as Error
-      throw new Error(`[runtime:lock NAMESPACE(${this.options.table!}): Failed to initialize SQLite3 adapter due to an unexpected error.\n${(error.stack !== undefined ? error.stack : error.message)}`)
-    }
-  }
-
-  /** No-Result Query */
-  private async run (sql: string): Promise<void> {
-    await new Promise((resolve, reject) => {
-      try {
-        this.database.prepare(sql).run()
-        resolve({})
-        return
-      } catch (err: unknown) {
-        reject(err)
-      }
-    })
-  }
-
-  /** Single-Result Query */
-  private async getOne (sql: string): Promise<IValueTable> {
-    return await new Promise((resolve, reject) => {
-      try {
-        resolve(this.database.prepare(sql).get()); return
-      } catch (err: unknown) {
-        reject(err)
-      }
-    })
-  }
-
-  /** All-Result Query */
-  private async getAll (sql: string): Promise<IValueTable[]> {
-    return await new Promise((resolve, reject) => {
-      try {
-        resolve(this.database.prepare(sql).all()); return
-      } catch (err: unknown) {
-        reject(err)
-      }
-    })
+    }).into(this.options.connection.table ?? 'kv_global').onConflict('key').merge()
   }
 }

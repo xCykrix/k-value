@@ -1,6 +1,6 @@
 import { DateTime, Duration } from 'luxon'
-import type { GetOptions, InternalMapper, MapperOptions } from '../types/generics.t'
-import { GenericAdapter } from './generic'
+import type { GetOptions, InternalMapper, MapperOptions } from '../types/generic'
+import { GenericAdapter } from '../abstraction/api'
 
 export class MemoryAdapter extends GenericAdapter {
   /** Internal Storage Map */
@@ -12,7 +12,7 @@ export class MemoryAdapter extends GenericAdapter {
   public async configure (): Promise<void> { /** */ }
 
   /**
-   * Permanently removes all entries from the referenced storage driver.
+   * Permanently removes all ids from the storage driver.
    */
   // eslint-disable-next-line @typescript-eslint/require-await
   public async clear (): Promise<void> {
@@ -20,36 +20,33 @@ export class MemoryAdapter extends GenericAdapter {
   }
 
   /**
-   * Permanently removes the value assigned to the supplied key from the referenced storage driver.
+   * Permanently removes the specified id from the storage driver.
    *
-   * @param key - The referenced key to remove from the storage adapter.
-   *
-   * @returns - If the value assigned to the key was deleted.
+   * @param id - The id to remove from the storage adapter.
+   * @returns - If the value assigned to the id was deleted.
    */
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async delete (key: string): Promise<boolean> {
-    super._isKeyAcceptable(key)
-
-    return this.map.delete(key)
+  public async delete (id: string): Promise<boolean> {
+    super._isIDAcceptable(id)
+    return this.map.delete(id)
   }
 
   /**
-   * Retrieves the value assigned to the supplied key from the referenced storage driver.
+   * Retrieves the value assigned to the requested id or Array<id1, id2, ...> from the storage driver.
    *
-   * @param key - The referenced key to obtain from the storage driver.
-   * @param options - [optional] Specify the default value for the response, at this time.
-   *
-   * @returns - The value assigned to the key.
+   * @param id - The id to obtain from the storage driver.
+   * @param options - [optional] Additional options to control defaulting and caching, if applicable.
+   * @returns - The value assigned to the id.
    */
-  public async get (key: string | string[], options?: GetOptions): Promise<unknown | unknown[]> {
-    super._isKeyAcceptable(key)
+  public async get (id: string | string[], options?: GetOptions): Promise<unknown | unknown[]> {
+    super._isIDAcceptable(id)
 
-    if (!Array.isArray(key)) {
-      const value = this.map.get(key as unknown as string)
+    if (!Array.isArray(id)) {
+      const value = this.map.get(id as unknown as string)
       if (value === undefined || value.ctx === undefined) return options?.default
 
       if (super._isMapperExpired(value)) {
-        await this.delete(key as unknown as string)
+        await this.delete(id as unknown as string)
         return options?.default
       }
 
@@ -57,27 +54,27 @@ export class MemoryAdapter extends GenericAdapter {
     } else {
       const response = []
 
-      for (const k of key) {
-        const value = this.map.get(k)
+      for (const subId of id) {
+        const value = this.map.get(subId)
         if (value === undefined || value.ctx === undefined) {
           response.push({
-            key: k,
+            key: subId,
             value: options?.default
           })
           continue
         }
 
         if (super._isMapperExpired(value)) {
-          await this.delete(k)
+          await this.delete(subId)
           response.push({
-            key: k,
+            key: subId,
             value: options?.default
           })
           continue
         }
 
         response.push({
-          key: k,
+          key: subId,
           value: value.ctx
         })
       }
@@ -87,22 +84,21 @@ export class MemoryAdapter extends GenericAdapter {
   }
 
   /**
-   * Assert if the referenced storage driver contains the supplied key.
+   * Asserts if the storage driver contains the supplied id.
    *
-   * @param key - The referenced key to check existence in the storage driver.
-   *
-   * @returns - If the key exists.
+   * @param id - The id to validate existence for in the storage driver.
+   * @returns - If the id exists.
    */
-  public async has (key: string): Promise<boolean> {
-    super._isKeyAcceptable(key)
-    if (await this.get(key) === undefined) return false
+  public async has (id: string): Promise<boolean> {
+    super._isIDAcceptable(id)
+    if (await this.get(id) === undefined) return false
     return true
   }
 
   /**
-   * Retrieves all known keys from the storage driver.
+   * Retrieves all known ids from the storage driver.
    *
-   * @returns - An array of all known keys in no particular order.
+   * @returns - An array of all known ids, order is not guaranteed.
    */
   // eslint-disable-next-line @typescript-eslint/require-await
   public async keys (): Promise<string[]> {
@@ -110,20 +106,20 @@ export class MemoryAdapter extends GenericAdapter {
   }
 
   /**
-   * Insert the provided value at the referenced key.
+   * Insert the provided value at the id.
    *
-   * @param key - The referenced key to insert the value in the storage driver.
-   * @param value - The provided value to insert at the referenced key.
-   * @param options - The MapperOptions to control the aspects of the stored key.
+   * @param id - The id to insert the value in the storage driver.
+   * @param value - The provided value to insert for the id.
+   * @param options - The MapperOptions to control the storage aspects of the id and value.
    */
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async set (key: string, value: unknown, options?: MapperOptions): Promise<void> {
-    super._isKeyAcceptable(key)
+  public async set (id: string, value: unknown, options?: MapperOptions): Promise<void> {
+    super._isIDAcceptable(id)
 
-    this.map.set(key, {
+    this.map.set(id, {
       ctx: value,
       lifetime: (options?.lifetime !== undefined ? DateTime.local().toUTC().plus(Duration.fromObject({ milliseconds: options.lifetime })).toUTC().toISO() : null),
-      key,
+      key: id,
       createdAt: DateTime.local().toUTC().toISO(),
       encoder: {
         use: false,

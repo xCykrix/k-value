@@ -1,5 +1,6 @@
 import { addDataType } from 'javascript-serializer'
 
+/** Serializable Buffer Instance */
 class SerializableBuffer {
   public constructor (public buffer: Buffer) {}
 

@@ -1,8 +1,8 @@
 import { fromJSON, toJSON } from 'javascript-serializer'
 import { DateTime } from 'luxon'
-import { MapAPI } from '../builder/map'
-import type { IValueTable } from '../builder/sql'
-import type { InternalMapper } from '../types/generics.t'
+import { MapAPI } from './map'
+import type { InternalMapper } from '../types/generic'
+import type { KValueTable } from '../types/sql'
 
 export abstract class GenericAdapter extends MapAPI {
   /**
@@ -32,7 +32,7 @@ export abstract class GenericAdapter extends MapAPI {
    * @readonly
    * @sealed
    */
-  public _deserialize (state: IValueTable | undefined): InternalMapper | undefined {
+  public _deserialize (state: KValueTable | undefined): InternalMapper | undefined {
     if (state === undefined || state.value === undefined) return undefined
     const response = fromJSON(JSON.parse(state.value)) as InternalMapper
 
@@ -46,23 +46,23 @@ export abstract class GenericAdapter extends MapAPI {
   }
 
   /**
-   * Validate the user input key.
+   * Validate the user input id.
    *
-   * @param key - The key to be validated.
+   * @param id - The id to be validated.
    */
-  public _isKeyAcceptable (key: string | string[]): void {
-    if (Array.isArray(key)) {
-      // The input was an array of keys. Validate each entry.
-      if (key.length === 0) throw new Error('InvalidState: key array must contain at least 1 entry')
-      for (let i = 0; i < key.length; i++) {
-        const k = key[i]
-        if (typeof k !== 'string') throw new Error(`InvalidState[index:${i}]: key must be a valid string`)
-        if (k.length === 0 || k.trim() === '') throw new Error('InvalidState: key must be greater than 0 and less than 192 characters')
+  public _isIDAcceptable (id: string | string[]): void {
+    if (Array.isArray(id)) {
+      // The input was an array of ids. Validate each entry.
+      if (id.length === 0) throw new Error('InvalidState: id array must contain at least 1 entry')
+      for (let i = 0; i < id.length; i++) {
+        const k = id[i]
+        if (typeof k !== 'string') throw new Error(`InvalidState[index:${i}]: id must be a valid string`)
+        if (k.length === 0 || k.trim() === '') throw new Error('InvalidState: id must be greater than 0 and less than 192 characters')
       }
     } else {
       // The input was singular. Verify the input.
-      if (typeof key !== 'string') throw new Error('InvalidState: key must be a valid string')
-      if (key.length === 0 || key.trim() === '') throw new Error('InvalidState: key must be greater than 0 and less than 192 characters')
+      if (typeof id !== 'string') throw new Error('InvalidState: id must be a valid string')
+      if (id.length === 0 || id.trim() === '') throw new Error('InvalidState: id must be greater than 0 and less than 192 characters')
     }
   }
 

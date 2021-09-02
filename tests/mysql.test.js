@@ -13,13 +13,13 @@ describe('Adapter - MySQLAdapter', function () {
   it('should-initialize [' + table + ']', async function () {
     this.timeout(10000)
     kv = new MySQLAdapter({
-      authentication: {
-        host: 'eu-east.vsg.amethyst.live',
-        username: 'kvalue',
+      table: table,
+      connection: {
+        host: 'fsn1-dc10.0.amethyst.live',
+        user: 'kvalue',
         password: '52v6BAveLuvu122e1ApufAGi24bi4A',
-        database: 'kvalue'
+        database: 'kvalue',
       },
-      table,
       encoder: {
         use: true,
         store: 'base64',
@@ -99,6 +99,7 @@ describe('Adapter - MySQLAdapter', function () {
     expect(s4).to.equal('null-state')
   })
   it('close-and-clean', async function () {
+    await kv._handler.knex.schema.dropTable(table)
     await kv.close()
   })
 })

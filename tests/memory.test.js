@@ -19,6 +19,7 @@ describe('Adapter - Memory', function () {
     await kv.set('expire-test', true, { lifetime: 1 })
     await kv.set('has-test', true)
     await kv.set('multi-test', { v: true })
+    await kv.set('overwrite-test', 'curr-val')
     await kv.set('write-test', complex)
   })
   it('should-read-data-and-default', async function () {
@@ -37,6 +38,11 @@ describe('Adapter - Memory', function () {
       { key: 'multi-test', value: { v: true } },
       { key: 'unknown-key', value: { x: true } }
     ])
+  })
+  it('should-overwrite-data', async function () {
+    expect(await kv.get('overwrite-test')).to.equal('curr-val')
+    await kv.set('overwrite-test', 'new-val')
+    expect(await kv.get('overwrite-test')).to.equal('new-val')
   })
   it('should-delete-data', async function () {
     expect(await kv.delete('delete-test')).to.equal(true)

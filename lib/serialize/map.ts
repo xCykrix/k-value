@@ -1,5 +1,6 @@
 import { addDataType } from 'javascript-serializer'
 
+/** Serializable Map Instance */
 class SerializableMap {
   public constructor (public map: Map<unknown, unknown>) {}
 
