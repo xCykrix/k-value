@@ -24,6 +24,7 @@ export class SQLiteAdapter extends GenericAdapter {
    */
   public constructor (options: SQLite3Options & { useNullAsDefault: boolean; }) {
     super()
+    super._enable_cache()
     options.client = options.client as 'sqlite3' | null ?? 'sqlite3'
     options.useNullAsDefault = true
     this.options = options
@@ -85,6 +86,8 @@ export class SQLiteAdapter extends GenericAdapter {
     super._isIDAcceptable(id)
 
     if (!Array.isArray(id)) {
+      if (options?.cache === true && await this._check_cache(id) === true) return await this._get_cache(id, options)
+
       const state = await this._handler.knex(this.options.connection.table ?? 'kv_global').select('*').where({ key: id }).first() as KValueTable
       const deserialized = super._deserialize(state as unknown as KValueTable)
       if (deserialized === undefined) return options?.default
@@ -94,11 +97,16 @@ export class SQLiteAdapter extends GenericAdapter {
         return options?.default
       }
 
+      if (options?.cache === true) await super._cache(id, deserialized.ctx)
       return deserialized.ctx
     } else {
       const response = []
 
       for (const k of id) {
+        if (options?.cache === true && await this._check_cache(k) === true) {
+          response.push(await this._get_cache(k, options))
+          continue
+        }
         const state = await this._handler.knex(this.options.connection.table ?? 'kv_global').select('*').where({ key: k }).first() as KValueTable
         const deserialized = super._deserialize(state)
         if (deserialized === undefined) {
@@ -117,6 +125,7 @@ export class SQLiteAdapter extends GenericAdapter {
           continue
         }
 
+        if (options?.cache === true) await super._cache(k, deserialized.ctx)
         response.push({
           key: k,
           value: deserialized.ctx
@@ -135,7 +144,7 @@ export class SQLiteAdapter extends GenericAdapter {
    */
   public async has (id: string): Promise<boolean> {
     super._isIDAcceptable(id)
-    if (await this.get(id) === undefined) return false
+    if (super._enabled_cache() && await this.get(id) === undefined) return false
     return true
   }
 
@@ -157,6 +166,7 @@ export class SQLiteAdapter extends GenericAdapter {
    */
   public async set (id: string, value: unknown, options?: MapperOptions): Promise<void> {
     super._isIDAcceptable(id)
+    if (await super._check_cache(id) === true) await super._invalidate(id)
 
     await this._handler.knex.insert({
       key: id,

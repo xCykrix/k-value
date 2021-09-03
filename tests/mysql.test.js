@@ -55,6 +55,16 @@ describe('Adapter - MySQLAdapter', function () {
       { key: 'unknown-key', value: { x: true } }
     ])
   })
+  it('should-cache-data', async function () {
+    await kv.set('cache-test', { v: '1-valid' })
+    const v1 = await kv.get('cache-test', { cache: true })
+    await kv.set('cache-test', { v: '2-respec' })
+    const v2 = await kv.get('cache-test', { cache: false })
+    const v3 = await kv.get('cache-test', { cache: true })
+    expect(v1.v).to.equal('1-valid')
+    expect(v2.v).to.equal('2-respec')
+    expect(v3.v).to.equal('2-respec')
+  })
   it('should-delete-data', async function () {
     expect(await kv.delete('delete-test')).to.equal(true)
     expect(await kv.keys()).to.not.include('delete-test')

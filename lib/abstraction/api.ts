@@ -1,10 +1,13 @@
 import { fromJSON, toJSON } from 'javascript-serializer'
 import { DateTime } from 'luxon'
 import { MapAPI } from './map'
-import type { InternalMapper } from '../types/generic'
+import type { GetOptions, InternalMapper, MapperOptions } from '../types/generic'
 import type { KValueTable } from '../types/sql'
+import { MemoryAdapter } from '../adapters/memory'
 
 export abstract class GenericAdapter extends MapAPI {
+  private _cache_map: MemoryAdapter | null = null
+
   /**
    *
    * @param state - InternalMapper Instance to Serialize
@@ -92,6 +95,31 @@ export abstract class GenericAdapter extends MapAPI {
       return true
     }
     return false
+  }
+
+  public _enable_cache (): void {
+    if (this._cache_map === null) this._cache_map = new MemoryAdapter()
+  }
+
+  public _enabled_cache (): boolean {
+    return this._cache_map !== null
+  }
+
+  public async _cache (id: string, value: unknown, options?: MapperOptions): Promise<void> {
+    if (options === undefined) options = { lifetime: 60000 }
+    await this._cache_map?.set(id, value, options)
+  }
+
+  public async _get_cache (id: string, options?: GetOptions): Promise<unknown> {
+    return await this._cache_map?.get(id, options)
+  }
+
+  public async _check_cache (id: string): Promise<boolean | undefined> {
+    return await this._cache_map?.has(id)
+  }
+
+  public async _invalidate (id: string): Promise<void> {
+    await this._cache_map?.delete(id)
   }
 
   /** Abstract Close State - Optional */

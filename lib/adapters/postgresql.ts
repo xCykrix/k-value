@@ -24,6 +24,7 @@ export class PostgreSQLAdapter extends GenericAdapter {
    */
   public constructor (options: PostgreSQLOptions & { useNullAsDefault: boolean; }) {
     super()
+    super._enable_cache()
     options.client = options.client as 'pg' | null ?? 'pg'
     options.useNullAsDefault = true
     this.options = options
@@ -85,6 +86,8 @@ export class PostgreSQLAdapter extends GenericAdapter {
     super._isIDAcceptable(id)
 
     if (!Array.isArray(id)) {
+      if (options?.cache === true && await this._check_cache(id) === true) return await this._get_cache(id, options)
+
       const state = await this._handler.knex(this.options.table ?? 'kv_global').select('*').where({ key: id }).first() as KValueTable
       const deserialized = super._deserialize(state as unknown as KValueTable)
       if (deserialized === undefined) return options?.default
@@ -94,6 +97,7 @@ export class PostgreSQLAdapter extends GenericAdapter {
         return options?.default
       }
 
+      if (options?.cache === true) await super._cache(id, deserialized.ctx)
       return deserialized.ctx
     } else {
       const response = []
@@ -117,6 +121,7 @@ export class PostgreSQLAdapter extends GenericAdapter {
           continue
         }
 
+        if (options?.cache === true) await super._cache(k, deserialized.ctx)
         response.push({
           key: k,
           value: deserialized.ctx
@@ -157,6 +162,7 @@ export class PostgreSQLAdapter extends GenericAdapter {
    */
   public async set (id: string, value: unknown, options?: MapperOptions): Promise<void> {
     super._isIDAcceptable(id)
+    if (super._enabled_cache() && await super._check_cache(id) === true) await super._invalidate(id)
 
     await this._handler.knex.insert({
       key: id,

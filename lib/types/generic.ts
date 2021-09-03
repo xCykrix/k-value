@@ -21,4 +21,5 @@ export interface MapperOptions {
 /** The representation of the Get Options */
 export interface GetOptions {
   default?: unknown
+  cache?: boolean
 }
