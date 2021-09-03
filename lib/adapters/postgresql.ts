@@ -90,7 +90,7 @@ export class PostgreSQLAdapter extends GenericAdapter {
       if (options?.cache === true && await this._check_cache(id) === true) return await this._get_cache(id, options)
 
       const state = await this._handler.knex(this.options.table ?? 'kv_global').select('*').where({ key: id }).first() as KValueTable
-      const deserialized = super._deserialize(state as unknown as KValueTable)
+      const deserialized = super._deserialize(state)
       if (deserialized === undefined) return options?.default
 
       if (super._isMapperExpired(deserialized)) {
@@ -98,7 +98,7 @@ export class PostgreSQLAdapter extends GenericAdapter {
         return options?.default
       }
 
-      if (options?.cache === true) await super._cache(id, deserialized.ctx)
+      if (options?.cache === true) await super._cache(id, deserialized.ctx, { lifetime: options.cacheExpire })
       return deserialized.ctx
     } else {
       const response = []
@@ -122,7 +122,7 @@ export class PostgreSQLAdapter extends GenericAdapter {
           continue
         }
 
-        if (options?.cache === true) await super._cache(k, deserialized.ctx)
+        if (options?.cache === true) await super._cache(k, deserialized.ctx, { lifetime: options.cacheExpire })
         response.push({
           key: k,
           value: deserialized.ctx

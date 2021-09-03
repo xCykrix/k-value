@@ -23,4 +23,5 @@ export interface MapperOptions {
 export interface GetOptions {
   default?: unknown
   cache?: boolean
+  cacheExpire?: number
 }
