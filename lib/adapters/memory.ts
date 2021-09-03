@@ -1,6 +1,7 @@
 import { DateTime, Duration } from 'luxon'
 import type { GetOptions, InternalMapper, MapperOptions } from '../types/generic'
 import { GenericAdapter } from '../abstraction/api'
+import merge from 'merge'
 
 export class MemoryAdapter extends GenericAdapter {
   /** Internal Storage Map */
@@ -115,6 +116,11 @@ export class MemoryAdapter extends GenericAdapter {
   // eslint-disable-next-line @typescript-eslint/require-await
   public async set (id: string, value: unknown, options?: MapperOptions): Promise<void> {
     super._isIDAcceptable(id)
+
+    if (options?.merge === true && typeof value === 'object') {
+      const current = await this.get(id)
+      value = merge.recursive(current, value)
+    }
 
     this.map.set(id, {
       ctx: value,

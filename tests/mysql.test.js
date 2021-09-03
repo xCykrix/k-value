@@ -31,19 +31,24 @@ describe('Adapter - MySQLAdapter', function () {
   })
   it('should-write-data', async function () {
     this.timeout(10000)
-    await kv.set('clear-test', true)
+    await kv.set('write-test', complex)
+    await kv.set('multi-test', { v: true })
+    await kv.set('merge-test', { x: 1 })
+    await kv.set('cache-test', { v: '1-valid' })
+    await kv.set('overwrite-test', 'curr-val')
     await kv.set('delete-test', true)
     await kv.set('expire-test', true, { lifetime: 1 })
     await kv.set('has-test', true)
-    await kv.set('multi-test', { v: true })
-    await kv.set('write-test', complex)
+    await kv.set('clear-test', true)
   })
   it('should-read-data-and-default', async function () {
+    await kv.set('write-test', { insertable: true }, { merge: true })
     const kvr = await kv.get('write-test')
     expect(kvr.buffer.toString('base64')).to.equal(complex.buffer.toString('base64'))
     expect(kvr.date.getUTCMilliseconds()).to.equal(complex.date.getUTCMilliseconds())
     expect(kvr.map).to.deep.equal(complex.map)
     expect(kvr.set).to.deep.equal(complex.set)
+    expect(kvr.insertable).to.equal(true)
     expect((await kv.get('obviously-unknown-key-here', { default: { x: true } })).x).to.equal(true)
   })
   it('should-multi-read-data-and-default', async function () {
@@ -54,6 +59,10 @@ describe('Adapter - MySQLAdapter', function () {
       { key: 'multi-test', value: { v: true } },
       { key: 'unknown-key', value: { x: true } }
     ])
+  })
+  it('should-merge-data', async function () {
+    await kv.set('merge-test', { y: 2 }, { merge: true})
+    expect(await kv.get('merge-test')).to.deep.equal({ x: 1, y: 2 })
   })
   it('should-cache-data', async function () {
     await kv.set('cache-test', { v: '1-valid' })

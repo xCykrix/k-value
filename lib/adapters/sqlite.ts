@@ -3,6 +3,7 @@ import type { KValueTable, SQLite3Options } from '../types/sql'
 import { KnexHandler } from '../builder/knex'
 import type { GetOptions, MapperOptions } from '../types/generic'
 import { GenericAdapter } from '../abstraction/api'
+import merge from 'merge'
 
 export class SQLiteAdapter extends GenericAdapter {
   /** KnexHandler Instance */
@@ -167,6 +168,11 @@ export class SQLiteAdapter extends GenericAdapter {
   public async set (id: string, value: unknown, options?: MapperOptions): Promise<void> {
     super._isIDAcceptable(id)
     if (await super._check_cache(id) === true) await super._invalidate(id)
+
+    if (options?.merge === true && typeof value === 'object') {
+      const current = await this.get(id)
+      value = merge.recursive(current, value)
+    }
 
     await this._handler.knex.insert({
       key: id,

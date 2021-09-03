@@ -15,7 +15,8 @@ export interface InternalMapper {
 
 /** The representation of the Generic Setter Options */
 export interface MapperOptions {
-  lifetime: number
+  lifetime?: number
+  merge?: boolean
 }
 
 /** The representation of the Get Options */
