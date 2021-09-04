@@ -101,7 +101,13 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_mysql.MySQLAdapter.html#_cache" class="tsd-kind-icon">_cache</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_mysql.MySQLAdapter.html#_check_cache" class="tsd-kind-icon">_check_<wbr>cache</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_mysql.MySQLAdapter.html#_deserialize" class="tsd-kind-icon">_deserialize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_mysql.MySQLAdapter.html#_enable_cache" class="tsd-kind-icon">_enable_<wbr>cache</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_mysql.MySQLAdapter.html#_enabled_cache" class="tsd-kind-icon">_enabled_<wbr>cache</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_mysql.MySQLAdapter.html#_get_cache" class="tsd-kind-icon">_get_<wbr>cache</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_mysql.MySQLAdapter.html#_invalidate" class="tsd-kind-icon">_invalidate</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_mysql.MySQLAdapter.html#_isIDAcceptable" class="tsd-kind-icon">_isIDAcceptable</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_mysql.MySQLAdapter.html#_isMapperExpired" class="tsd-kind-icon">_is<wbr>Mapper<wbr>Expired</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_mysql.MySQLAdapter.html#_serialize" class="tsd-kind-icon">_serialize</a></li>
@@ -131,7 +137,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="abstraction_api.GenericAdapter.html">GenericAdapter</a>.<a href="abstraction_api.GenericAdapter.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/1a0beb5/lib/adapters/mysql.ts#L25">adapters/mysql.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/adapters/mysql.ts#L26">adapters/mysql.ts:26</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -169,7 +175,7 @@
 					<div class="tsd-signature tsd-kind-icon">_handler<span class="tsd-signature-symbol">:</span> <a href="builder_knex.KnexHandler.html" class="tsd-signature-type" data-tsd-kind="Class">KnexHandler</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/1a0beb5/lib/adapters/mysql.ts#L9">adapters/mysql.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/adapters/mysql.ts#L10">adapters/mysql.ts:10</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -184,7 +190,7 @@
 					<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <a href="../interfaces/types_sql.MySQL2Options.html" class="tsd-signature-type" data-tsd-kind="Interface">MySQL2Options</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/1a0beb5/lib/adapters/mysql.ts#L12">adapters/mysql.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/adapters/mysql.ts#L13">adapters/mysql.ts:13</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -197,6 +203,60 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="_cache" class="tsd-anchor"></a>
+					<h3>_cache</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">_cache<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/types_generic.MapperOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">MapperOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="abstraction_api.GenericAdapter.html">GenericAdapter</a>.<a href="abstraction_api.GenericAdapter.html#_cache">_cache</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/abstraction/api.ts#L108">abstraction/api.ts:108</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>value: <span class="tsd-signature-type">unknown</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/types_generic.MapperOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">MapperOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="_check_cache" class="tsd-anchor"></a>
+					<h3>_check_<wbr>cache</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">_check_<wbr>cache<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="abstraction_api.GenericAdapter.html">GenericAdapter</a>.<a href="abstraction_api.GenericAdapter.html#_check_cache">_check_cache</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/abstraction/api.ts#L117">abstraction/api.ts:117</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="_deserialize" class="tsd-anchor"></a>
 					<h3>_deserialize</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -207,7 +267,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="abstraction_api.GenericAdapter.html">GenericAdapter</a>.<a href="abstraction_api.GenericAdapter.html#_deserialize">_deserialize</a></p>
 								<ul>
-									<li>Defined in abstraction/api.ts:35</li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/abstraction/api.ts#L38">abstraction/api.ts:38</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -235,6 +295,93 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="_enable_cache" class="tsd-anchor"></a>
+					<h3>_enable_<wbr>cache</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">_enable_<wbr>cache<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="abstraction_api.GenericAdapter.html">GenericAdapter</a>.<a href="abstraction_api.GenericAdapter.html#_enable_cache">_enable_cache</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/abstraction/api.ts#L100">abstraction/api.ts:100</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="_enabled_cache" class="tsd-anchor"></a>
+					<h3>_enabled_<wbr>cache</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">_enabled_<wbr>cache<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="abstraction_api.GenericAdapter.html">GenericAdapter</a>.<a href="abstraction_api.GenericAdapter.html#_enabled_cache">_enabled_cache</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/abstraction/api.ts#L104">abstraction/api.ts:104</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="_get_cache" class="tsd-anchor"></a>
+					<h3>_get_<wbr>cache</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">_get_<wbr>cache<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/types_generic.GetOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">GetOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="abstraction_api.GenericAdapter.html">GenericAdapter</a>.<a href="abstraction_api.GenericAdapter.html#_get_cache">_get_cache</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/abstraction/api.ts#L113">abstraction/api.ts:113</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/types_generic.GetOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">GetOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="_invalidate" class="tsd-anchor"></a>
+					<h3>_invalidate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">_invalidate<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="abstraction_api.GenericAdapter.html">GenericAdapter</a>.<a href="abstraction_api.GenericAdapter.html#_invalidate">_invalidate</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/abstraction/api.ts#L121">abstraction/api.ts:121</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="_isIDAcceptable" class="tsd-anchor"></a>
 					<h3>_isIDAcceptable</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -245,7 +392,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="abstraction_api.GenericAdapter.html">GenericAdapter</a>.<a href="abstraction_api.GenericAdapter.html#_isIDAcceptable">_isIDAcceptable</a></p>
 								<ul>
-									<li>Defined in abstraction/api.ts:53</li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/abstraction/api.ts#L56">abstraction/api.ts:56</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -277,7 +424,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="abstraction_api.GenericAdapter.html">GenericAdapter</a>.<a href="abstraction_api.GenericAdapter.html#_isMapperExpired">_isMapperExpired</a></p>
 								<ul>
-									<li>Defined in abstraction/api.ts:81</li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/abstraction/api.ts#L84">abstraction/api.ts:84</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -319,7 +466,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="abstraction_api.GenericAdapter.html">GenericAdapter</a>.<a href="abstraction_api.GenericAdapter.html#_serialize">_serialize</a></p>
 								<ul>
-									<li>Defined in abstraction/api.ts:17</li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/abstraction/api.ts#L20">abstraction/api.ts:20</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -357,7 +504,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="abstraction_api.GenericAdapter.html">GenericAdapter</a>.<a href="abstraction_api.GenericAdapter.html#clear">clear</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/1a0beb5/lib/adapters/mysql.ts#L59">adapters/mysql.ts:59</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/adapters/mysql.ts#L61">adapters/mysql.ts:61</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -380,7 +527,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="abstraction_api.GenericAdapter.html">GenericAdapter</a>.<a href="abstraction_api.GenericAdapter.html#close">close</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/1a0beb5/lib/adapters/mysql.ts#L52">adapters/mysql.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/adapters/mysql.ts#L54">adapters/mysql.ts:54</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -403,7 +550,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="abstraction_api.GenericAdapter.html">GenericAdapter</a>.<a href="abstraction_api.GenericAdapter.html#configure">configure</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/1a0beb5/lib/adapters/mysql.ts#L36">adapters/mysql.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/adapters/mysql.ts#L38">adapters/mysql.ts:38</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -426,7 +573,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="abstraction_api.GenericAdapter.html">GenericAdapter</a>.<a href="abstraction_api.GenericAdapter.html#delete">delete</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/1a0beb5/lib/adapters/mysql.ts#L70">adapters/mysql.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/adapters/mysql.ts#L72">adapters/mysql.ts:72</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -461,7 +608,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="abstraction_api.GenericAdapter.html">GenericAdapter</a>.<a href="abstraction_api.GenericAdapter.html#get">get</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/1a0beb5/lib/adapters/mysql.ts#L84">adapters/mysql.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/adapters/mysql.ts#L86">adapters/mysql.ts:86</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -502,7 +649,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="abstraction_api.GenericAdapter.html">GenericAdapter</a>.<a href="abstraction_api.GenericAdapter.html#has">has</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/1a0beb5/lib/adapters/mysql.ts#L136">adapters/mysql.ts:136</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/adapters/mysql.ts#L146">adapters/mysql.ts:146</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -537,7 +684,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="abstraction_api.GenericAdapter.html">GenericAdapter</a>.<a href="abstraction_api.GenericAdapter.html#keys">keys</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/1a0beb5/lib/adapters/mysql.ts#L147">adapters/mysql.ts:147</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/adapters/mysql.ts#L157">adapters/mysql.ts:157</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -563,7 +710,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="abstraction_api.GenericAdapter.html">GenericAdapter</a>.<a href="abstraction_api.GenericAdapter.html#set">set</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/1a0beb5/lib/adapters/mysql.ts#L158">adapters/mysql.ts:158</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/7f7571b/lib/adapters/mysql.ts#L168">adapters/mysql.ts:168</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -659,7 +806,25 @@
 								<a href="adapters_mysql.MySQLAdapter.html#options" class="tsd-kind-icon">options</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="adapters_mysql.MySQLAdapter.html#_cache" class="tsd-kind-icon">_cache</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="adapters_mysql.MySQLAdapter.html#_check_cache" class="tsd-kind-icon">_check_<wbr>cache</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="adapters_mysql.MySQLAdapter.html#_deserialize" class="tsd-kind-icon">_deserialize</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="adapters_mysql.MySQLAdapter.html#_enable_cache" class="tsd-kind-icon">_enable_<wbr>cache</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="adapters_mysql.MySQLAdapter.html#_enabled_cache" class="tsd-kind-icon">_enabled_<wbr>cache</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="adapters_mysql.MySQLAdapter.html#_get_cache" class="tsd-kind-icon">_get_<wbr>cache</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="adapters_mysql.MySQLAdapter.html#_invalidate" class="tsd-kind-icon">_invalidate</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="adapters_mysql.MySQLAdapter.html#_isIDAcceptable" class="tsd-kind-icon">_isIDAcceptable</a>

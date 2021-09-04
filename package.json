@@ -1,27 +1,17 @@
 {
   "name": "k-value",
   "description": "Node.js Map-like API based key-value storage with multiple persistent backend adapters.",
-  "version": "1.2.5",
+  "version": "1.0.0",
   "license": "MIT",
-  "author": "Samuel J Voeller <samuel.voeller@amethyst.live> (https://chat.amethyst.live/)",
+  "author": "Samuel Voeller <samuel.voeller@mxsrv.amethyst.live> (https://invite-to.amethyst.live)",
   "contributors": [],
-  "keywords": [
-    "map",
-    "key",
-    "value",
-    "keyv",
-    "key-value",
-    "map-like",
-    "library"
-  ],
   "homepage": "https://github.com/amethyst-studio/k-value",
   "repository": {
     "url": "git@github.com/amethyst-studio/k-value.git"
   },
   "engines": {
-    "node": ">=10.0.0",
-    "npm": ">7.11.0",
-    "yarn": "use-npm"
+    "node": ">=16.7.0",
+    "npm": ">=7.22.0"
   },
   "engineStrict": true,
   "main": "./dist/index.js",
@@ -41,7 +31,6 @@
     "docs": "typedoc --out ./docs/ ./lib/"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^7.4.0",
     "@types/chai": "^4.2.21",
     "@types/luxon": "^2.0.2",
     "@types/mocha": "^9.0.0",
@@ -64,7 +53,7 @@
   },
   "dependencies": {
     "javascript-serializer": "^1.0.0",
-    "knex": "^0.95.10",
+    "knex": "^0.95.11",
     "luxon": "^2.0.2",
     "merge": "^2.1.1"
   },
