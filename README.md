@@ -1,5 +1,5 @@
 
-![Amethyst Studio Logo.png](./.github/.asset/logo.png)
+![Amethyst Studio Logo.png](https://raw.githubusercontent.com/amethyst-studio/k-value/main/.github/.asset/logo.png)
 
 
 # k-value
@@ -19,6 +19,10 @@ $ npm install k-value # Library
 ```javascript
 const kvalue = require('k-value')
 ```
+
+You can visit our [Internal Wiki](https://github.com/amethyst-studio/k-value/wiki) for additional information and examples of using our software.
+
+Automatically Generated API Documentation: [Documentation for API](https://amethyst-studio.github.io/k-value/index.html)
 
 
 ## Run Locally
