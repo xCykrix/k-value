@@ -5,6 +5,7 @@ const complex = {
   buffer: Buffer.from('son of a buffer'),
   date: new Date(),
   map: new Map([['world', 'hello'], ['hello', 'world']]),
+  expr: new RegExp(/xsafaras/gis),
   set: new Set(['world', 'hello'])
 }
 
