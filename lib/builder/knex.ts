@@ -1,6 +1,6 @@
 import type { Knex } from 'knex'
 import { knex } from 'knex'
-import type { KValueTable, MySQL2Options, PostgreSQLOptions, SQLite3Options } from '../types/sql'
+import type { KValueTable, MySQL2Options, PostgreSQLOptions, SQLite3Options } from '../abstraction/adapter'
 
 /**
  * Knex SQL Connection Controller

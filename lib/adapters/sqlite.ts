@@ -1,44 +1,29 @@
-import { DateTime, Duration } from 'luxon'
-import type { KValueTable, SQLite3Options } from '../types/sql'
+/* eslint-disable @typescript-eslint/require-await */
+
+import { recursive } from 'merge'
+import type { KValueTable, SQLite3Options } from '../abstraction/adapter'
+import { Adapter } from '../abstraction/adapter'
+import type { GetOptions, LimiterOptions, SetOptions } from '../abstraction/base'
+import type { CacheOptions } from '../abstraction/cache'
 import { KnexHandler } from '../builder/knex'
-import type { GetOptions, MapperOptions } from '../types/generic'
-import { GenericAdapter } from '../abstraction/api'
-import merge from 'merge'
+import { shuffle } from '../util/shuffle'
 
-export class SQLiteAdapter extends GenericAdapter {
-  /** KnexHandler Instance */
-  private readonly _handler: KnexHandler
+export class SQLiteAdapter extends Adapter {
+  private readonly options: SQLite3Options & CacheOptions
+  private readonly driver: KnexHandler
 
-  /** SQLite3Options Instance */
-  private readonly options: SQLite3Options
-
-  /**
-   * Initialize the SQLite3 Adapter
-   *
-   * @remarks
-   *
-   * Make sure to call SQLiteAdapter#configure() before attempting to use the database.
-   *
-   * This will asynchronously configure the database and tables before usage.
-   *
-   * @param options - The SQLite3Options used to configure the state of the database.
-   */
-  public constructor (options: SQLite3Options & { useNullAsDefault: boolean; }) {
+  public constructor (options: SQLite3Options & CacheOptions & { useNullAsDefault: boolean; }) {
     super()
-    super._enable_cache()
     options.client = options.client as 'sqlite3' | null ?? 'sqlite3'
     options.useNullAsDefault = true
     this.options = options
-    this._handler = new KnexHandler(this.options)
+    this.driver = new KnexHandler(options)
   }
 
-  /**
-   * Asynchronously configure the SQLite3Adapter for use.
-   */
   public async configure (): Promise<void> {
     // Initialize Table
-    if (!(await this._handler.knex.schema.hasTable(this.options.connection.table ?? 'kv_global'))) {
-      await this._handler.knex.schema.createTable(this.options.connection.table ?? 'kv_global', (table) => {
+    if (!(await this.driver.knex.schema.hasTable(this.options.connection.table ?? 'kv_global'))) {
+      await this.driver.knex.schema.createTable(this.options.connection.table ?? 'kv_global', (table) => {
         table.string('key', 192)
         table.text('value')
         table.primary(['key'])
@@ -47,146 +32,152 @@ export class SQLiteAdapter extends GenericAdapter {
     }
   }
 
-  /**
-   * Terminate the Handler Database Connection and stop service.
-   */
-  // eslint-disable-next-line @typescript-eslint/require-await
   public async close (): Promise<void> {
-    await this._handler.knex.destroy()
+    await this.driver.knex.destroy()
   }
 
-  /**
-   * Permanently removes all ids from the storage driver.
-   */
   public async clear (): Promise<void> {
-    await this._handler.knex(this.options.connection.table ?? 'kv_global').delete()
+    await this.driver.knex(this.options.connection.table ?? 'kv_global').delete()
+    this.memcache.clear()
   }
 
-  /**
-   * Retrieves the value assigned to the requested id or Array<id1, id2, ...> from the storage driver.
-   *
-   * @param id - The id to obtain from the storage driver.
-   * @param options - [optional] Additional options to control defaulting and caching, if applicable.
-   * @returns - The value assigned to the id.
-   */
-  public async delete (id: string): Promise<boolean> {
-    super._isIDAcceptable(id)
-    await this._handler.knex.table(this.options.connection.table ?? 'kv_global').where({ key: id }).delete()
-    return true
-  }
+  public async delete (id: string | string[]): Promise<void> {
+    super._validate(id)
 
-  /**
-   * Retrieves the value assigned to the id from the storage driver.
-   *
-   * @param id - The id to obtain from the storage driver.
-   * @param options - [optional] Specify the default value for the response, at this time.
-   *
-   * @returns - The value assigned to the id.
-   */
-  public async get (id: string | string[], options?: GetOptions): Promise<unknown | unknown[]> {
-    super._isIDAcceptable(id)
-
-    if (!Array.isArray(id)) {
-      if (options?.cache === true && await this._check_cache(id) === true) return await this._get_cache(id, options)
-
-      const state = await this._handler.knex(this.options.connection.table ?? 'kv_global').select('*').where({ key: id }).first() as KValueTable
-      const deserialized = super._deserialize(state)
-      if (deserialized === undefined) return options?.default
-
-      if (super._isMapperExpired(deserialized)) {
-        await this.delete(id)
-        return options?.default
+    if (Array.isArray(id)) {
+      // Delete ID List
+      for (const i of id) {
+        await this.driver.knex.table(this.options.connection.table ?? 'kv_global').where({ key: i }).delete()
+        this.memcache.delete(i)
       }
-
-      if (options?.cache === true) await super._cache(id, deserialized.ctx, { lifetime: options.cacheExpire })
-      return deserialized.ctx
+      // Delete Single ID
     } else {
-      const response = []
+      await this.driver.knex.table(this.options.connection.table ?? 'kv_global').where({ key: id }).delete()
+      this.memcache.delete(id)
+    }
+  }
 
+  public async get (id: string | string[], options?: GetOptions & CacheOptions): Promise<unknown | unknown[]> {
+    super._validate(id)
+
+    if (Array.isArray(id)) {
+      const result: unknown[] = []
       for (const k of id) {
-        if (options?.cache === true && await this._check_cache(k) === true) {
-          response.push(await this._get_cache(k, options))
+        if ((this.options.cache === true || options?.cache === true) && this.memcache.has(k)) {
+          result.push({ key: k, value: this.memcache.get(k) })
           continue
         }
-        const state = await this._handler.knex(this.options.connection.table ?? 'kv_global').select('*').where({ key: k }).first() as KValueTable
-        const deserialized = super._deserialize(state)
-        if (deserialized === undefined) {
-          response.push({
-            key: k,
-            value: options?.default
-          })
+        const state = await this.driver.knex(this.options.connection.table ?? 'kv_global').select('*').where({ key: k }).first() as KValueTable
+        const context = super._import(state)
+        if (context === undefined) {
+          result.push({ key: k, value: options?.default ?? undefined })
           continue
         }
-        if (super._isMapperExpired(deserialized)) {
-          await this.delete(k)
-          response.push({
-            key: k,
-            value: options?.default
-          })
+        if (await super._lifetime(k, context)) {
+          result.push({ key: k, value: options?.default ?? undefined })
           continue
         }
+        if (this.options.cache === true || options?.cache === true) this.memcache.set(k, context.ctx, this.options.cacheExpire ?? options?.cacheExpire ?? 30000)
+        result.push({ key: k, value: context.ctx })
+      }
+      return result
+    } else {
+      if ((this.options.cache === true || options?.cache === true) && this.memcache.has(id)) {
+        return this.memcache.get(id)
+      }
+      const state = await this.driver.knex(this.options.connection.table ?? 'kv_global').select('*').where({ key: id }).first() as KValueTable
+      const context = super._import(state)
+      if (context === undefined || context.ctx === undefined) return options?.default ?? undefined
+      if (await super._lifetime(id, context)) return options?.default ?? undefined
+      if (this.options.cache === true || options?.cache === true) this.memcache.set(id, context.ctx, this.options.cacheExpire ?? options?.cacheExpire ?? 30000)
+      return context.ctx
+    }
+  }
 
-        if (options?.cache === true) await super._cache(k, deserialized.ctx, { lifetime: options.cacheExpire })
-        response.push({
+  public async has (id: string | string[]): Promise<boolean | Array<{ key: string; has: boolean; }>> {
+    super._validate(id)
+
+    if (Array.isArray(id)) {
+      const result: Array<{ key: string; has: boolean; }> = []
+      for (const k of id) {
+        result.push({
           key: k,
-          value: deserialized.ctx
+          has: await this.driver.knex(this.options.connection.table ?? 'kv_global').select('key').where({ key: k }).first() !== undefined
         })
       }
+      return result
+    } else return await this.driver.knex(this.options.connection.table ?? 'kv_global').select('key').where({ key: id }).first() !== undefined
+  }
 
-      return response
+  public async keys (limits?: LimiterOptions): Promise<string[]> {
+    let keys = (await this.driver.knex(this.options.connection.table ?? 'kv_global').select('key') as KValueTable[]).map((v) => v.key)
+
+    // Randomize and Limiter
+    if (limits?.randomize === true) {
+      keys = shuffle(keys)
     }
-  }
-
-  /**
-   * Asserts if the storage driver contains the supplied id.
-   *
-   * @param id - The id to validate existence for in the storage driver.
-   * @returns - If the id exists.
-   */
-  public async has (id: string): Promise<boolean> {
-    super._isIDAcceptable(id)
-    if (super._enabled_cache() && await this.get(id) === undefined) return false
-    return true
-  }
-
-  /**
-   * Retrieves all known ids from the storage driver.
-   *
-   * @returns - An array of all known ids, order is not guaranteed.
-   */
-  public async keys (): Promise<string[]> {
-    return (await this._handler.knex(this.options.connection.table ?? 'kv_global').select('key') as KValueTable[]).map((k) => { return k.key })
-  }
-
-  /**
-   * Insert the provided value at the id.
-   *
-   * @param id - The id to insert the value in the storage driver.
-   * @param value - The provided value to insert for the id.
-   * @param options - The MapperOptions to control the storage aspects of the id and value.
-   */
-  public async set (id: string, value: unknown, options?: MapperOptions): Promise<void> {
-    super._isIDAcceptable(id)
-    if (await super._check_cache(id) === true) await super._invalidate(id)
-
-    if (options?.merge === true && typeof value === 'object') {
-      const current = await this.get(id)
-      value = merge.recursive(current, value)
+    if (limits?.limit !== undefined) {
+      if (!isNaN(parseInt(limits.limit as unknown as string | undefined ?? 'NaN'))) {
+        keys = keys.slice(0, limits.limit)
+      }
     }
 
-    await this._handler.knex.insert({
-      key: id,
-      value: super._serialize({
-        key: id,
-        ctx: value,
-        lifetime: (options?.lifetime !== undefined ? DateTime.local().toUTC().plus(Duration.fromObject({ milliseconds: options.lifetime })).toUTC().toISO() : null),
-        createdAt: DateTime.local().toUTC().toISO(),
-        encoder: {
-          use: (this.options.encoder?.use === undefined ? false : this.options.encoder.use),
-          store: this.options.encoder?.store === undefined ? 'base64' : this.options.encoder.store,
-          parse: this.options.encoder?.parse === undefined ? 'utf-8' : this.options.encoder.parse
+    return Array.from(keys)
+  }
+
+  public async set (id: string | string[], value: unknown, options?: SetOptions): Promise<void> {
+    super._validate(id)
+
+    if (Array.isArray(id)) {
+      for (const i of id) {
+        if (this.memcache.has(i)) this.memcache.delete(i)
+        if (options?.merge === true) {
+          const current = await this.get(i)
+          if (current !== null && typeof current === 'object' && value !== null && typeof value === 'object') {
+            value = recursive(true, current, value) as unknown
+          }
         }
-      })
-    }).into(this.options.connection.table ?? 'kv_global').onConflict('key').merge()
+        await this.driver.knex.insert({
+          key: i,
+          value: super._export(super._make(value, options, this.options.encoder))
+        }).into(this.options.connection.table ?? 'kv_global').onConflict('key').merge()
+      }
+    } else {
+      if (this.memcache.has(id)) this.memcache.delete(id)
+      if (options?.merge === true) {
+        const current = await this.get(id)
+        if (current !== null && typeof current === 'object' && value !== null && typeof value === 'object') {
+          value = recursive(true, current, value) as unknown
+        }
+      }
+      await this.driver.knex.insert({
+        key: id,
+        value: super._export(super._make(value, options, this.options.encoder))
+      }).into(this.options.connection.table ?? 'kv_global').onConflict('key').merge()
+    }
+  }
+
+  public async entries (limits?: LimiterOptions): Promise<Array<[string, unknown]>> {
+    const ids = await this.keys(limits)
+
+    // TODO: Optimize with SQL - SELECT * FROM kv_global;
+    const result: Array<[string, unknown]> = []
+    for (const id of ids) {
+      result.push([id, await this.get(id)])
+    }
+
+    return result
+  }
+
+  public async values (limits?: LimiterOptions): Promise<unknown[]> {
+    const ids = await this.keys(limits)
+
+    // TODO: Optimize with SQL - SELECT value FROM kv_global;
+    const result: unknown[] = []
+    for (const id of ids) {
+      result.push(await this.get(id))
+    }
+
+    return result
   }
 }

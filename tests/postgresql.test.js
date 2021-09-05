@@ -1,20 +1,31 @@
 const { expect } = require('chai')
 const { PostgreSQLAdapter } = require('../dist/index')
 
-describe('Adapter - PostgreSQLAdapter', function () {
+// Load Credentials
+let credentials = null
+try {
+  credentials = require('./.env.json')
+} catch (err) {
+  credentials = require('./.env.ci.json')
+}
+
+const complex = {
+  buffer: Buffer.from('son of a buffer'),
+  date: new Date(),
+  map: new Map([['world', 'hello'], ['hello', 'world']]),
+  set: new Set(['world', 'hello'])
+}
+
+const table = `kv_store_${require('crypto').randomBytes(4).toString('hex')}`
+describe('Adapter::PostgreSQLAdapter', function () {
   let kv = null
-  const complex = {
-    buffer: Buffer.from('son of a buffer'),
-    date: new Date(),
-    map: new Map([['world', 'hello'], ['hello', 'world']]),
-    set: new Set(['world', 'hello'])
-  }
-  const table = `kv-store-${require('crypto').randomBytes(4).toString('hex')}`
-  it('should-initialize [' + table + ']', async function () {
-    this.timeout(10000)
+
+  // The adapter should construct successfully.
+  it('PostgreSQLAdapter::construct()', async function () {
+    this.timeout(15000)
     kv = new PostgreSQLAdapter({
       table: table,
-      connection: 'postgres://nznewehe:R9cy22iJot824TxDdsMNPtJ1J6iFz9S3@kashin.db.elephantsql.com/nznewehe',
+      connection: credentials.PG_URI,
       encoder: {
         use: true,
         store: 'base64',
@@ -23,97 +34,147 @@ describe('Adapter - PostgreSQLAdapter', function () {
     })
     await kv.configure()
     await kv.clear()
+    await kv.set('read-test-1', { read: true })
+    await kv.set('read-test-2', { val: false })
+    await kv.set('read-test-3', { val: true })
+    await kv.set('read-test-4', { x: 1 })
+    await kv.set('read-test-5', { y: 2 })
   })
-  it('should-write-data', async function () {
-    this.timeout(10000)
-    await kv.set('write-test', complex)
-    await kv.set('multi-test', { v: true })
-    await kv.set('merge-test', { x: 1 })
-    await kv.set('cache-test', { v: '1-valid' })
-    await kv.set('overwrite-test', 'curr-val')
-    await kv.set('delete-test', true)
-    await kv.set('expire-test', true, { lifetime: 1 })
-    await kv.set('has-test', true)
-    await kv.set('clear-test', true)
+
+  // The adapter should be able to read/write simple and complex values.
+  it('PostgreSQLAdapter::set()->get()', async function () {
+    // Basic set()
+    await kv.set('write-test-1', 'hello world')
+    expect(await kv.get('write-test-1')).to.equal('hello world')
+    // Rewrite set()
+    await kv.set('write-test-2', true)
+    expect(await kv.get('write-test-2')).to.equal(true)
+    await kv.set('write-test-2', false)
+    expect(await kv.get('write-test-2')).to.equal(false)
+    // Complex set()
+    await kv.set('write-test-3', complex)
+    expect(await kv.get('write-test-3')).to.deep.equal(complex)
   })
-  it('should-read-data-and-default', async function () {
-    await kv.set('write-test', { insertable: true }, { merge: true })
-    const kvr = await kv.get('write-test')
-    expect(kvr.buffer.toString('base64')).to.equal(complex.buffer.toString('base64'))
-    expect(kvr.date.getUTCMilliseconds()).to.equal(complex.date.getUTCMilliseconds())
-    expect(kvr.map).to.deep.equal(complex.map)
-    expect(kvr.set).to.deep.equal(complex.set)
-    expect(kvr.insertable).to.equal(true)
-    expect((await kv.get('obviously-unknown-key-here', { default: { x: true } })).x).to.equal(true)
+
+  // The adapter should be able to recursively merge objects, when flagged.
+  it('PostgreSQLAdapter::set():USE_MERGE->get()', async function () {
+    // Feature of set() { merge: true }
+    await kv.set('write-test-4', { x: 1 })
+    expect(await kv.get('write-test-4')).to.deep.equal({ x: 1 })
+    await kv.set('write-test-4', { y: 2 }, { merge: true })
+    expect(await kv.get('write-test-4')).to.deep.equal({ x: 1, y: 2 })
   })
-  it('should-multi-read-data-and-default', async function () {
-    const kvr = await kv.get(['delete-test', 'has-test', 'multi-test', 'unknown-key'], { default: { x: true } })
-    expect(kvr).to.have.deep.members([
-      { key: 'delete-test', value: true },
-      { key: 'has-test', value: true },
-      { key: 'multi-test', value: { v: true } },
-      { key: 'unknown-key', value: { x: true } }
+
+  // The adapter should respect the lifetime of values.
+  it('PostgreSQLAdapter::set():USE_LIFETIME->get()', async function () {
+    // Feature of set() { lifetime: 1 }
+    this.timeout(15000)
+    await kv.set('write-test-4', 'hello world', { lifetime: 3000 })
+    expect(await kv.get('write-test-4')).to.equal('hello world')
+    await new Promise((r) => setTimeout(r, 3500))
+    expect(await kv.get('write-test-4')).to.equal(undefined)
+  })
+
+  // The adapter should be able to fetch specified value(s) and default appropriately.
+  it('PostgreSQLAdapter::get()', async function () {
+    expect(await kv.get('read-test-1')).to.deep.equal({ read: true })
+    expect(await kv.get('read-test-2')).to.deep.equal({ val: false })
+    expect(await kv.get(['read-test-1', 'read-test-2'])).to.deep.equal([
+      { key: "read-test-1", value: { read: true } },
+      { key: "read-test-2", value: { val: false } }
     ])
   })
-  it('should-merge-data', async function () {
-    await kv.set('merge-test', { y: 2 }, { merge: true})
-    expect(await kv.get('merge-test')).to.deep.equal({ x: 1, y: 2 })
+
+  // The adapter should be able to return a default value.
+  it('PostgreSQLAdapter::get():USE_DEFAULT', async function () {
+    // Feature of get() { default: 'some-value' }
+    expect(await kv.get('read-test-default', { default: 'hello world' })).to.equal('hello world')
+    expect(await kv.get(['read-test-def-1', 'read-test-def-2'], { default: 'hello-world' })).to.deep.equal([
+      { key: "read-test-def-1", value: 'hello-world' },
+      { key: "read-test-def-2", value: 'hello-world' },
+    ])
   })
-  it('should-cache-data', async function () {
-    await kv.set('cache-test', { v: '1-valid' })
-    const v1 = await kv.get('cache-test', { cache: true })
-    await kv.set('cache-test', { v: '2-respec' })
-    const v2 = await kv.get('cache-test', { cache: false })
-    const v3 = await kv.get('cache-test', { cache: true })
-    expect(v1.v).to.equal('1-valid')
-    expect(v2.v).to.equal('2-respec')
-    expect(v3.v).to.equal('2-respec')
+
+  // The adapter should be able to locally cache values.
+  it('PostgreSQLAdapter::get():USE_CACHE', async function () {
+    // Feature of get() { cache: true }
+    expect(await kv.get('read-test-1', { cache: true })).to.deep.equal({ read: true })
+    expect(await kv.get('read-test-2', { cache: true })).to.deep.equal({ val: false })
+    expect(await kv.get('read-test-1', { cache: true })).to.deep.equal({ read: true })
+    expect(await kv.get('read-test-2', { cache: true })).to.deep.equal({ val: false })
+    expect(await kv.get(['read-test-1', 'read-test-2'], { cache: true })).to.deep.equal([
+      { key: "read-test-1", value: { read: true } },
+      { key: "read-test-2", value: { val: false } }
+    ])
   })
-  it('should-delete-data', async function () {
-    expect(await kv.delete('delete-test')).to.equal(true)
-    expect(await kv.keys()).to.not.include('delete-test')
-    expect(await kv.get('expire-test')).to.equal(undefined)
+
+  // The adapter should be able to resolve the existence of id(s).
+  it('PostgreSQLAdapter::has()', async function() {
+    expect(await kv.has('read-test-1')).to.equal(true)
+    expect(await kv.has('read-test-unknown')).to.equal(false)
+    expect(await kv.has(['read-test-1', 'read-test-unknown'])).to.deep.equal([{ key: "read-test-1", has: true }, {key: "read-test-unknown", has: false }])
   })
-  it('should-resolve-key-existence-and-default', async function () {
-    expect(await kv.has('has-test')).to.equal(true)
-    expect(await kv.has('obviously-unknown-key-here')).to.equal(false)
-    expect((await kv.get('obviously-unknown-key-here', { default: { x: true } })).x).to.equal(true)
+
+  // The adapter should be able to index existance of id(s).
+  it('PostgreSQLAdapter::keys()', async function() {
+    expect(await kv.keys()).to.deep.include('read-test-1')
   })
-  it('should-index-keys', async function () {
+
+  // The adapter should be able to index existance of id(s) with limiter restrictions.
+  it('PostgreSQLAdapter::keys():USE_LIMITER', async function() {
     const keys = await kv.keys()
-    expect(keys).to.include('clear-test')
-    expect(keys).to.include('has-test')
-    expect(keys).to.include('write-test')
+    const rkeys = await kv.keys({ limit: 5, randomize: true })
+    expect(await kv.keys({ randomize: true })).to.not.deep.equal(keys)
+    expect(await kv.keys({ limit: 1 })).to.have.lengthOf(1)
+    expect(await kv.keys({ limit: 5, randomize: true })).to.have.lengthOf(5).and.to.not.deep.equal(rkeys)
   })
-  it('should-clear-keys', async function () {
-    await kv.clear()
-    expect(await kv.has('clear-test')).to.equal(false)
-    expect(await kv.keys()).to.have.lengthOf(0)
+
+  // The adapter should be able to delete specific id(s) and their value.
+  it('PostgreSQLAdapter::delete()', async function() {
+    await kv.delete('read-test-1')
+    expect(await kv.get('read-test-1')).to.equal(undefined)
+    await kv.delete(['read-test-2', 'read-test-3'])
+    expect(await kv.get(['read-test-2', 'read-test-3'])).to.deep.equal([
+      { key: "read-test-2", value: undefined },
+      { key: "read-test-3", value: undefined },
+    ])
   })
-  it('check-weird-states', async function () {
+
+  // Error Checking
+  it('PostgreSQLAdapter::state_diagnostics', async function() {
     const s1 = await kv.get(undefined).catch((err) => {
       expect(err.message).to.not.equal(undefined)
-      return 'null-state'
+      return null
     })
-    expect(s1).to.equal('null-state')
+    expect(s1).to.equal(null)
     const s2 = await kv.set(undefined, {}).catch((err) => {
       expect(err.message).to.not.equal(undefined)
-      return 'null-state'
+      return null
     })
-    expect(s2).to.equal('null-state')
+    expect(s2).to.equal(null)
     const s3 = await kv.has(undefined).catch((err) => {
       expect(err.message).to.not.equal(undefined)
-      return 'null-state'
+      return null
     })
-    expect(s3).to.equal('null-state')
+    expect(s3).to.equal(null)
     const s4 = await kv.delete(undefined).catch((err) => {
       expect(err.message).to.not.equal(undefined)
-      return 'null-state'
+      return null
     })
-    expect(s4).to.equal('null-state')
+    expect(s4).to.equal(null)
   })
-  it('close-and-clean', async function () {
-    await kv._handler.knex.schema.dropTable(table)
+
+  // The adapter should be able to delete all id(s) and value(s).
+  it('PostgreSQLAdapter::clear()', async function() {
+    await kv.clear()
+    expect(await kv.has('read-test-1')).to.equal(false)
+    expect(await kv.keys()).to.have.lengthOf(0)
+  })
+
+  // The adapter should be able to close the connection(s).
+  it('PostgreSQLAdapter::close()', async function () {
+    await kv.driver.knex.schema.dropTable(table)
     await kv.close()
   })
+
 })

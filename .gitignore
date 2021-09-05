@@ -2,7 +2,7 @@
 # MANAGED FILE: PLEASE MAKE MODIFICATIONS TO ./user.gitignore
 ### USER GENERATED IGNORE FILE
 
-/tests/ci.database
+/tests/.env.json
 
 # Created by https://www.toptal.com/developers/gitignore/api/node,yarn,webstorm+all,visualstudiocode,visualstudio
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,yarn,webstorm+all,visualstudiocode,visualstudio
