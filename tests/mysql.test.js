@@ -25,6 +25,8 @@ describe("Adapter::MySQLAdapter", function() {
   it("MySQLAdapter::construct()", async function() {
     this.timeout(15000);
     kv = new MySQLAdapter({
+      client: "mysql2",
+      cache: true,
       table: table,
       connection: {
         host: credentials.HOST,
@@ -57,6 +59,10 @@ describe("Adapter::MySQLAdapter", function() {
     expect(await kv.get("write-test-2")).to.equal(true);
     await kv.set("write-test-2", false);
     expect(await kv.get("write-test-2")).to.equal(false);
+    // Multi set()
+    await kv.set(["write-test-2", "write-test-3"], { multi: "set" });
+    expect(await kv.get("write-test-2")).to.deep.equal({ multi: "set" });
+    expect(await kv.get("write-test-3")).to.deep.equal({ multi: "set" });
     // Complex set()
     await kv.set("write-test-3", complex);
     expect(await kv.get("write-test-3")).to.deep.equal(complex);

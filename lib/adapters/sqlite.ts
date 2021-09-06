@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/require-await */
 
-import { recursive } from 'merge'
-import type { KValueEntry, SQLite3Options } from '../abstraction/adapter'
-import { Adapter } from '../abstraction/adapter'
 import type { GetOptions, LimiterOptions, SetOptions } from '../abstraction/base'
+import type { KValueEntry } from '../abstraction/adapter/base'
 import type { CacheOptions } from '../abstraction/cache'
+import type { SQLite3Options } from '../abstraction/adapter/sql'
+import { SQLAdapter } from '../abstraction/adapter/sql'
 import { KnexHandler } from '../builder/knex'
-import { shuffle } from '../util/shuffle'
 
-export class SQLiteAdapter extends Adapter {
-  private readonly options: SQLite3Options
-  private readonly driver: KnexHandler
+export class SQLiteAdapter extends SQLAdapter {
+  protected readonly options: SQLite3Options
 
   public constructor (options: SQLite3Options & { useNullAsDefault: boolean; }) {
     super()
@@ -47,10 +45,7 @@ export class SQLiteAdapter extends Adapter {
    * Remove all entries from the database.
    */
   public async clear (): Promise<void> {
-    // Delete All Entries and Purge Cache
-    const keys = await this.keys()
-    if (keys.length > 0) await this.delete(keys)
-    this.memcache.clear()
+    await this.delete(await this.keys())
   }
 
   /**
@@ -59,17 +54,13 @@ export class SQLiteAdapter extends Adapter {
    * @param key The key or keys to remove.
    */
   public async delete (key: string | string[]): Promise<void> {
-    super._validate(key)
+    super._validate(key, true)
 
-    if (Array.isArray(key)) {
-      // Delete List of IDs and Purge Cache
-      await this.driver.knex.table(this.options.connection.table).whereIn('key', key).delete()
-      key.forEach((k) => { this.memcache.delete(k) })
-    } else {
-      // Delete Single ID and Purge Cache
-      await this.driver.knex.table(this.options.connection.table).where({ key: key }).delete()
-      this.memcache.delete(key)
-    }
+    const where = Array.from(Array.isArray(key) ? key : [key])
+    await this.driver.knex(this.options.connection.table).whereIn('key', where).delete()
+    where.forEach((k) => {
+      this.memcache.delete(k)
+    })
   }
 
   /**
@@ -83,54 +74,40 @@ export class SQLiteAdapter extends Adapter {
   public async get (key: string | string[], options?: GetOptions & CacheOptions): Promise<unknown | Array<{ key: string; value: unknown; }>> {
     super._validate(key)
 
-    if (Array.isArray(key)) {
-      // Fetch List of IDs with Specified Options
-      const result: unknown[] = []
-      const kValueTables = await this.driver.knex(this.options.connection.table).select('*').whereIn('key', key) as KValueEntry[]
-      // Index Missing Values to be Defaulted
-      for (const k of key) {
-        if (kValueTables.filter((kValueTable) => kValueTable.key === k).length === 0) {
-          kValueTables.push({ key: k, value: undefined })
-        }
+    const where = Array.from(Array.isArray(key) ? key : [key])
+    const result: Array<{key: string; value: unknown; }> = []
+    const partials: Map<string, KValueEntry> = new Map()
+
+    where.forEach((k) => {
+      if ((this.options.cache === true || options?.cache === true) && this.memcache.has(k)) {
+        return partials.set(k, this.memcache.get(k)!)
       }
-      for (const kValueTable of kValueTables) {
-        // Replicate from Cache if Applicable
-        if ((this.options.cache === true || options?.cache === true) && this.memcache.has(kValueTable.key)) {
-          result.push({ key: kValueTable.key, value: this.memcache.get(kValueTable.key) })
-          continue
-        }
-        const state = kValueTable
-        const context = super._import(state)
-        // Default Invalid or Undefined Contexts
-        if (context === undefined) {
-          result.push({ key: kValueTable.key, value: options?.default ?? undefined })
-          continue
-        }
-        // Check Expiration
-        if (await super._lifetime(kValueTable.key, context)) {
-          result.push({ key: kValueTable.key, value: options?.default ?? undefined })
-          continue
-        }
-        // Inset to Cache if Applicable
-        if (this.options.cache === true || options?.cache === true) this.memcache.set(kValueTable.key, context.ctx, this.options.cacheExpire ?? options?.cacheExpire ?? 30000)
-        result.push({ key: kValueTable.key, value: context.ctx })
+      return partials.set(k, { key: k, value: undefined })
+    })
+
+    const index = Array.from(partials).filter(p => p[1].value === undefined).map(p => p[0])
+    const pair = await this.driver.knex(this.options.connection.table).select('key', 'value').whereIn('key', index) as KValueEntry[]
+
+    pair.forEach((kValueEntry) => {
+      partials.set(kValueEntry.key, kValueEntry)
+    })
+
+    for (const partial of partials.entries()) {
+      const context = await super._import(partial[0], partial[1])
+      if (context === undefined || context.ctx === undefined) {
+        result.push({ key: partial[0], value: options?.default ?? undefined })
+        continue
       }
-      return result
+      if (((this.options.cache === true || options?.cache === true) && (options?.cache !== false))) {
+        this.memcache.set(partial[0], partial[1], this.options.cacheExpire ?? options?.cacheExpire ?? 30000)
+      }
+      result.push({ key: partial[0], value: context.ctx })
+    }
+
+    if (result.length === 1) {
+      return result[0].value
     } else {
-      // Fetch Single ID with Specified Options
-      // Replicate from Cache if Applicable
-      if ((this.options.cache === true || options?.cache === true) && this.memcache.has(key)) {
-        return this.memcache.get(key)
-      }
-      const state = await this.driver.knex(this.options.connection.table).select('*').where({ key: key }).first() as KValueEntry
-      const context = super._import(state)
-      // Default Invalid or Undefined Contexts
-      if (context === undefined || context.ctx === undefined) return options?.default ?? undefined
-      // Check Expiration
-      if (await super._lifetime(key, context)) return options?.default ?? undefined
-      // Inset to Cache if Applicable
-      if (this.options.cache === true || options?.cache === true) this.memcache.set(key, context.ctx, this.options.cacheExpire ?? options?.cacheExpire ?? 30000)
-      return context.ctx
+      return result
     }
   }
 
@@ -144,27 +121,25 @@ export class SQLiteAdapter extends Adapter {
   public async has (key: string | string[]): Promise<boolean | Array<{ key: string; has: boolean; }>> {
     super._validate(key)
 
-    if (Array.isArray(key)) {
-      // Check List of IDs Existence
-      const result: Array<{ key: string; has: boolean; }> = []
-      const kValueEntries = await this.driver.knex(this.options.connection.table).select('key').whereIn('key', key) as KValueEntry[]
-      // Replicate Missing Keys in kValueTables
-      const kValueReplicate: string[] = []
-      // Propogate Results as True
-      kValueEntries.forEach((kValueEntry) => {
-        kValueReplicate.push(kValueEntry.key)
-        result.push({ key: kValueEntry.key, has: true })
-      })
-      // Propogate Missing Results as False
-      key.forEach((k) => {
-        if (!kValueReplicate.includes(k)) {
-          result.push({ key: k, has: false })
-        }
-      })
-      return result
+    const where = Array.from(Array.isArray(key) ? key : [key])
+    const keys = await this.driver.knex(this.options.connection.table).whereIn('key', where).select('key') as KValueEntry[]
+    const result: Array<{ key: string; has: boolean; }> = []
+
+    const replica: string[] = []
+    keys.forEach((k) => {
+      replica.push(k.key)
+      result.push({ key: k.key, has: true })
+    })
+    where.forEach((k) => {
+      if (!replica.includes(k)) {
+        result.push({ key: k, has: false })
+      }
+    })
+
+    if (result.length === 1) {
+      return result[0].has
     } else {
-      // Check Single ID Existence
-      return await this.driver.knex(this.options.connection.table).select('key').where({ key: key }).first() !== undefined
+      return result
     }
   }
 
@@ -174,19 +149,8 @@ export class SQLiteAdapter extends Adapter {
    * @param limits [Optional] The limits to apply to the list.
    */
   public async keys (limits?: LimiterOptions): Promise<string[]> {
-    let kValueTables = (await this.driver.knex(this.options.connection.table).select('key') as KValueEntry[]).map((v) => v.key)
-
-    // Apply Limiter
-    if (limits?.randomize === true) {
-      kValueTables = shuffle(kValueTables)
-    }
-    if (limits?.limit !== undefined) {
-      if (!isNaN(parseInt(limits.limit as unknown as string | undefined ?? 'NaN'))) {
-        kValueTables = kValueTables.slice(0, limits.limit)
-      }
-    }
-
-    return kValueTables
+    const keyList = (await this.driver.knex(this.options.connection.table).select('key') as KValueEntry[]).map((v) => v.key)
+    return this._apply_limit(keyList, limits)
   }
 
   /**
@@ -198,41 +162,20 @@ export class SQLiteAdapter extends Adapter {
   public async set (key: string | string[], value: unknown, options?: SetOptions): Promise<void> {
     super._validate(key)
 
-    if (Array.isArray(key)) {
-      // Set List of Keys
-      for (const k of key) {
-        // Cache if Applicable
-        if (this.memcache.has(k)) this.memcache.delete(k)
-        if (options?.merge === true) {
-          // Merge if Applicable
-          const current = await this.get(k)
-          if (current !== null && typeof current === 'object' && value !== null && typeof value === 'object') {
-            value = recursive(true, current, value) as unknown
-          }
-        }
-        // Inset to Database
-        await this.driver.knex.insert({
-          key: k,
-          value: super._export(super._make(value, options, this.options.encoder))
-        }).into(this.options.connection.table).onConflict('key').merge()
-      }
-    } else {
-      // Set Single Key
-      // Cache if Applicable
-      if (this.memcache.has(key)) this.memcache.delete(key)
-      if (options?.merge === true) {
-        // Merge if Applicable
-        const current = await this.get(key)
-        if (current !== null && typeof current === 'object' && value !== null && typeof value === 'object') {
-          value = recursive(true, current, value) as unknown
-        }
-      }
-      // Inset to Database
-      await this.driver.knex.insert({
-        key: key,
+    const where = Array.from(Array.isArray(key) ? key : [key])
+    const upsert: KValueEntry[] = []
+
+    for (const k of where) {
+      if (this.memcache.has(k)) this.memcache.delete(k)
+      value = await this._merge(options?.merge, k, value)
+
+      upsert.push({
+        key: k,
         value: super._export(super._make(value, options, this.options.encoder))
-      }).into(this.options.connection.table).onConflict('key').merge()
+      })
     }
+
+    await this._upsert(upsert)
   }
 
   /**
@@ -245,18 +188,9 @@ export class SQLiteAdapter extends Adapter {
   public async entries (limits?: LimiterOptions): Promise<Array<[string, unknown]>> {
     const result: Array<[string, unknown]> = []
     let kValueEntries = (await this.driver.knex(this.options.connection.table).select('key') as KValueEntry[]).map((v) => { return v.key })
+    kValueEntries = this._apply_limit(kValueEntries, limits)
 
-    // Apply Limiter
-    if (limits?.randomize === true) {
-      kValueEntries = shuffle(kValueEntries)
-    }
-    if (limits?.limit !== undefined) {
-      if (!isNaN(parseInt(limits.limit as unknown as string | undefined ?? 'NaN'))) {
-        kValueEntries = kValueEntries.slice(0, limits.limit)
-      }
-    }
-
-    // Index Entries
+    // Index Entries to Result
     const kValuePairs = await this.get(kValueEntries) as Array<{ key: string; value: unknown; }>
     kValuePairs.forEach((kValuePair) => {
       result.push([kValuePair.key, kValuePair.value])

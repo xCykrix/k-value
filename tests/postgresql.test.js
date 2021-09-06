@@ -25,10 +25,12 @@ describe("Adapter::PostgreSQLAdapter", function() {
   it("PostgreSQLAdapter::construct()", async function() {
     this.timeout(15000);
     kv = new PostgreSQLAdapter({
+      client: "pg",
+      cache: true,
       table: table,
       connection: credentials.PG_URI,
       encoder: {
-        use: true,
+        use: false,
         store: "base64",
         parse: "utf-8"
       }
@@ -44,6 +46,7 @@ describe("Adapter::PostgreSQLAdapter", function() {
 
   // The adapter should be able to read/write simple and complex values.
   it("PostgreSQLAdapter::set()->get()", async function() {
+    this.timeout(15000);
     // Basic set()
     await kv.set("write-test-1", "hello world");
     expect(await kv.get("write-test-1")).to.equal("hello world");
@@ -52,6 +55,10 @@ describe("Adapter::PostgreSQLAdapter", function() {
     expect(await kv.get("write-test-2")).to.equal(true);
     await kv.set("write-test-2", false);
     expect(await kv.get("write-test-2")).to.equal(false);
+    // Multi set()
+    await kv.set(["write-test-2", "write-test-3"], { multi: "set" });
+    expect(await kv.get("write-test-2")).to.deep.equal({ multi: "set" });
+    expect(await kv.get("write-test-3")).to.deep.equal({ multi: "set" });
     // Complex set()
     await kv.set("write-test-3", complex);
     expect(await kv.get("write-test-3")).to.deep.equal(complex);
@@ -70,10 +77,10 @@ describe("Adapter::PostgreSQLAdapter", function() {
   it("PostgreSQLAdapter::set():USE_LIFETIME->get()", async function() {
     // Feature of set() { lifetime: 1 }
     this.timeout(15000);
-    await kv.set("write-test-4", "hello world", { lifetime: 1500 });
-    expect(await kv.get("write-test-4")).to.equal("hello world");
+    await kv.set("write-test-5", "hello world", { lifetime: 1500 });
+    expect(await kv.get("write-test-5")).to.equal("hello world");
     await new Promise(r => setTimeout(r, 1550));
-    expect(await kv.get("write-test-4")).to.equal(undefined);
+    expect(await kv.get("write-test-5")).to.equal(undefined);
   });
 
   // The adapter should be able to fetch specified value(s) and default appropriately.

@@ -33,6 +33,10 @@ describe("Adapter::MemoryAdapter", function() {
     expect(await kv.get("write-test-2")).to.equal(true);
     await kv.set("write-test-2", false);
     expect(await kv.get("write-test-2")).to.equal(false);
+    // Multi set()
+    await kv.set(["write-test-2", "write-test-3"], { multi: "set" });
+    expect(await kv.get("write-test-2")).to.deep.equal({ multi: "set" });
+    expect(await kv.get("write-test-3")).to.deep.equal({ multi: "set" });
     // Complex set()
     await kv.set("write-test-3", complex);
     expect(await kv.get("write-test-3")).to.deep.equal(complex);
@@ -50,9 +54,9 @@ describe("Adapter::MemoryAdapter", function() {
   // The adapter should respect the lifetime of values.
   it("MemoryAdapter::set():USE_LIFETIME->get()", async function() {
     // Feature of set() { lifetime: 1 }
-    await kv.set("write-test-4", "hello world", { lifetime: 100 });
+    await kv.set("write-test-4", "hello world", { lifetime: 50 });
     expect(await kv.get("write-test-4")).to.equal("hello world");
-    await new Promise(r => setTimeout(r, 150));
+    await new Promise(r => setTimeout(r, 100));
     expect(await kv.get("write-test-4")).to.equal(undefined);
   });
 

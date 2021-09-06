@@ -74,11 +74,3 @@ export interface EncoderOptions {
   store: Encoding | undefined
   use: boolean | undefined
 }
-
-/** The representation of the Internal Mapping Instance */
-export interface InternalMapper {
-  createdAt: string
-  ctx: unknown
-  encoder?: EncoderOptions
-  lifetime?: string | null
-}

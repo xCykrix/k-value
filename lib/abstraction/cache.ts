@@ -1,17 +1,18 @@
+import type { KValueEntry } from './adapter/base'
 
 export class MemcacheTimeout {
-  private readonly cache: Map<string, unknown> = new Map()
+  private readonly cache: Map<string, { kValueEntry: KValueEntry; timeout: number; }> = new Map()
 
-  public get (key: string): unknown {
-    const item = this.cache.get(key) as { value: unknown; timeout: number; }
+  public get (key: string): KValueEntry | undefined {
+    const item = this.cache.get(key) as { kValueEntry: KValueEntry; timeout: number; }
     if (Date.now() >= item.timeout) {
       this.cache.delete(key)
       return undefined
-    } else return item.value
+    } else return item.kValueEntry
   }
 
-  public set (key: string, value: unknown, timeout: number | undefined): void {
-    this.cache.set(key, { value, timeout: Date.now() + (timeout ?? 30000) })
+  public set (key: string, kValueEntry: KValueEntry, timeout: number | undefined): void {
+    this.cache.set(key, { kValueEntry, timeout: Date.now() + (timeout ?? 30000) })
   }
 
   public has (key: string): boolean {
