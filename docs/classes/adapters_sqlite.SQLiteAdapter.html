@@ -72,7 +72,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="abstraction_adapter.Adapter.html" class="tsd-signature-type" data-tsd-kind="Class">Adapter</a>
+						<a href="abstraction_adapter_sql.SQLAdapter.html" class="tsd-signature-type" data-tsd-kind="Class">SQLAdapter</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">SQLiteAdapter</span>
@@ -94,18 +94,21 @@
 						<section class="tsd-index-section tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="adapters_sqlite.SQLiteAdapter.html#driver" class="tsd-kind-icon">driver</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="adapters_sqlite.SQLiteAdapter.html#driver" class="tsd-kind-icon">driver</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="adapters_sqlite.SQLiteAdapter.html#memcache" class="tsd-kind-icon">memcache</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="adapters_sqlite.SQLiteAdapter.html#options" class="tsd-kind-icon">options</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="adapters_sqlite.SQLiteAdapter.html#options" class="tsd-kind-icon">options</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="adapters_sqlite.SQLiteAdapter.html#_apply_limit" class="tsd-kind-icon">_apply_<wbr>limit</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_sqlite.SQLiteAdapter.html#_export" class="tsd-kind-icon">_export</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_sqlite.SQLiteAdapter.html#_import" class="tsd-kind-icon">_import</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_sqlite.SQLiteAdapter.html#_lifetime" class="tsd-kind-icon">_lifetime</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_sqlite.SQLiteAdapter.html#_make" class="tsd-kind-icon">_make</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_sqlite.SQLiteAdapter.html#_merge" class="tsd-kind-icon">_merge</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_sqlite.SQLiteAdapter.html#_upsert" class="tsd-kind-icon">_upsert</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="adapters_sqlite.SQLiteAdapter.html#_validate" class="tsd-kind-icon">_validate</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="adapters_sqlite.SQLiteAdapter.html#clear" class="tsd-kind-icon">clear</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="adapters_sqlite.SQLiteAdapter.html#close" class="tsd-kind-icon">close</a></li>
@@ -128,20 +131,20 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new SQLite<wbr>Adapter<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/abstraction_adapter.SQLite3Options.html" class="tsd-signature-type" data-tsd-kind="Interface">SQLite3Options</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>useNullAsDefault<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="adapters_sqlite.SQLiteAdapter.html" class="tsd-signature-type" data-tsd-kind="Class">SQLiteAdapter</a></li>
+						<li class="tsd-signature tsd-kind-icon">new SQLite<wbr>Adapter<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/abstraction_adapter_sql.SQLite3Options.html" class="tsd-signature-type" data-tsd-kind="Interface">SQLite3Options</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>useNullAsDefault<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="adapters_sqlite.SQLiteAdapter.html" class="tsd-signature-type" data-tsd-kind="Class">SQLiteAdapter</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="abstraction_adapter.Adapter.html">Adapter</a>.<a href="abstraction_adapter.Adapter.html#constructor">constructor</a></p>
+								<p>Overrides <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/f1f923f/lib/adapters/sqlite.ts#L15">adapters/sqlite.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/adapters/sqlite.ts#L13">adapters/sqlite.ts:13</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>options: <a href="../interfaces/abstraction_adapter.SQLite3Options.html" class="tsd-signature-type" data-tsd-kind="Interface">SQLite3Options</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>useNullAsDefault<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span></h5>
+									<h5>options: <a href="../interfaces/abstraction_adapter_sql.SQLite3Options.html" class="tsd-signature-type" data-tsd-kind="Interface">SQLite3Options</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>useNullAsDefault<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="adapters_sqlite.SQLiteAdapter.html" class="tsd-signature-type" data-tsd-kind="Class">SQLiteAdapter</a></h4>
@@ -151,13 +154,14 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-private-protected">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="driver" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> driver</h3>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> driver</h3>
 					<div class="tsd-signature tsd-kind-icon">driver<span class="tsd-signature-symbol">:</span> <a href="builder_knex.KnexHandler.html" class="tsd-signature-type" data-tsd-kind="Class">KnexHandler</a></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#driver">driver</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/f1f923f/lib/adapters/sqlite.ts#L13">adapters/sqlite.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/abstraction/adapter/sql.ts#L8">abstraction/adapter/sql.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -166,43 +170,77 @@
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> memcache</h3>
 					<div class="tsd-signature tsd-kind-icon">memcache<span class="tsd-signature-symbol">:</span> <a href="abstraction_cache.MemcacheTimeout.html" class="tsd-signature-type" data-tsd-kind="Class">MemcacheTimeout</a><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="abstraction_adapter.Adapter.html">Adapter</a>.<a href="abstraction_adapter.Adapter.html#memcache">memcache</a></p>
+						<p>Inherited from <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#memcache">memcache</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/f1f923f/lib/abstraction/adapter.ts#L10">abstraction/adapter.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/abstraction/adapter/base.ts#L10">abstraction/adapter/base.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
 					<a name="options" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> options</h3>
-					<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <a href="../interfaces/abstraction_adapter.SQLite3Options.html" class="tsd-signature-type" data-tsd-kind="Interface">SQLite3Options</a></div>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> options</h3>
+					<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <a href="../interfaces/abstraction_adapter_sql.SQLite3Options.html" class="tsd-signature-type" data-tsd-kind="Interface">SQLite3Options</a></div>
 					<aside class="tsd-sources">
+						<p>Overrides <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#options">options</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/f1f923f/lib/adapters/sqlite.ts#L12">adapters/sqlite.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/adapters/sqlite.ts#L11">adapters/sqlite.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="_export" class="tsd-anchor"></a>
-					<h3>_export</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">_export<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><a href="../interfaces/abstraction_base.InternalMapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="_apply_limit" class="tsd-anchor"></a>
+					<h3>_apply_<wbr>limit</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">_apply_<wbr>limit&lt;T&gt;<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abstraction_base.LimiterOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">LimiterOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="abstraction_adapter.Adapter.html">Adapter</a>.<a href="abstraction_adapter.Adapter.html#_export">_export</a></p>
+								<p>Inherited from <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#_apply_limit">_apply_limit</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/f1f923f/lib/abstraction/adapter.ts#L42">abstraction/adapter.ts:42</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/abstraction/adapter/base.ts#L38">abstraction/adapter/base.ts:38</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>value: <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abstraction_base.LimiterOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">LimiterOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="_export" class="tsd-anchor"></a>
+					<h3>_export</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">_export<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><a href="../interfaces/abstraction_adapter_base.InternalMapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#_export">_export</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/abstraction/adapter/base.ts#L62">abstraction/adapter/base.ts:62</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>state: <a href="../interfaces/abstraction_base.InternalMapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a></h5>
+									<h5>state: <a href="../interfaces/abstraction_adapter_base.InternalMapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -213,23 +251,26 @@
 					<a name="_import" class="tsd-anchor"></a>
 					<h3>_import</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">_import<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abstraction_adapter.KValueEntry.html" class="tsd-signature-type" data-tsd-kind="Interface">KValueEntry</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abstraction_base.InternalMapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a></li>
+						<li class="tsd-signature tsd-kind-icon">_import<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abstraction_adapter_base.KValueEntry.html" class="tsd-signature-type" data-tsd-kind="Interface">KValueEntry</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abstraction_adapter_base.InternalMapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="abstraction_adapter.Adapter.html">Adapter</a>.<a href="abstraction_adapter.Adapter.html#_import">_import</a></p>
+								<p>Inherited from <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#_import">_import</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/f1f923f/lib/abstraction/adapter.ts#L30">abstraction/adapter.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/abstraction/adapter/base.ts#L48">abstraction/adapter/base.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>state: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abstraction_adapter.KValueEntry.html" class="tsd-signature-type" data-tsd-kind="Interface">KValueEntry</a></h5>
+									<h5>key: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>state: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abstraction_adapter_base.KValueEntry.html" class="tsd-signature-type" data-tsd-kind="Interface">KValueEntry</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abstraction_base.InternalMapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abstraction_adapter_base.InternalMapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -237,14 +278,14 @@
 					<a name="_lifetime" class="tsd-anchor"></a>
 					<h3>_lifetime</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">_lifetime<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abstraction_base.InternalMapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">_lifetime<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abstraction_adapter_base.InternalMapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="abstraction_adapter.Adapter.html">Adapter</a>.<a href="abstraction_adapter.Adapter.html#_lifetime">_lifetime</a></p>
+								<p>Inherited from <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#_lifetime">_lifetime</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/f1f923f/lib/abstraction/adapter.ts#L63">abstraction/adapter.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/abstraction/adapter/base.ts#L83">abstraction/adapter/base.ts:83</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -253,7 +294,7 @@
 									<h5>id: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>state: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abstraction_base.InternalMapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a></h5>
+									<h5>state: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abstraction_adapter_base.InternalMapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -264,14 +305,14 @@
 					<a name="_make" class="tsd-anchor"></a>
 					<h3>_make</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">_make<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/abstraction_base.SetOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">SetOptions</a>, encoding<span class="tsd-signature-symbol">?: </span><a href="../interfaces/abstraction_base.EncoderOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">EncoderOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/abstraction_base.InternalMapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a></li>
+						<li class="tsd-signature tsd-kind-icon">_make<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/abstraction_base.SetOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">SetOptions</a>, encoding<span class="tsd-signature-symbol">?: </span><a href="../interfaces/abstraction_base.EncoderOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">EncoderOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/abstraction_adapter_base.InternalMapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="abstraction_adapter.Adapter.html">Adapter</a>.<a href="abstraction_adapter.Adapter.html#_make">_make</a></p>
+								<p>Inherited from <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#_make">_make</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/f1f923f/lib/abstraction/adapter.ts#L12">abstraction/adapter.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/abstraction/adapter/base.ts#L12">abstraction/adapter/base.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -286,7 +327,61 @@
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> encoding: <a href="../interfaces/abstraction_base.EncoderOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">EncoderOptions</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/abstraction_base.InternalMapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/abstraction_adapter_base.InternalMapper.html" class="tsd-signature-type" data-tsd-kind="Interface">InternalMapper</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="_merge" class="tsd-anchor"></a>
+					<h3>_merge</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">_merge<span class="tsd-signature-symbol">(</span>use<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, next<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#_merge">_merge</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/abstraction/adapter/base.ts#L30">abstraction/adapter/base.ts:30</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>use: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></h5>
+								</li>
+								<li>
+									<h5>key: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>next: <span class="tsd-signature-type">unknown</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="_upsert" class="tsd-anchor"></a>
+					<h3>_upsert</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">_upsert<span class="tsd-signature-symbol">(</span>kValueEntries<span class="tsd-signature-symbol">: </span><a href="../interfaces/abstraction_adapter_base.KValueEntry.html" class="tsd-signature-type" data-tsd-kind="Interface">KValueEntry</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abstraction_adapter_base.KValueEntry.html" class="tsd-signature-type" data-tsd-kind="Interface">KValueEntry</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#_upsert">_upsert</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/abstraction/adapter/sql.ts#L11">abstraction/adapter/sql.ts:11</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>kValueEntries: <a href="../interfaces/abstraction_adapter_base.KValueEntry.html" class="tsd-signature-type" data-tsd-kind="Interface">KValueEntry</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abstraction_adapter_base.KValueEntry.html" class="tsd-signature-type" data-tsd-kind="Interface">KValueEntry</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -294,20 +389,23 @@
 					<a name="_validate" class="tsd-anchor"></a>
 					<h3>_validate</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">_validate<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">_validate<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, zeroFill<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="abstraction_adapter.Adapter.html">Adapter</a>.<a href="abstraction_adapter.Adapter.html#_validate">_validate</a></p>
+								<p>Inherited from <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#_validate">_validate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/f1f923f/lib/abstraction/adapter.ts#L50">abstraction/adapter.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/abstraction/adapter/base.ts#L70">abstraction/adapter/base.ts:70</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>id: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> zeroFill: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -323,9 +421,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="abstraction_adapter.Adapter.html">Adapter</a>.<a href="abstraction_adapter.Adapter.html#clear">clear</a></p>
+								<p>Overrides <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#clear">clear</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/f1f923f/lib/adapters/sqlite.ts#L49">adapters/sqlite.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/adapters/sqlite.ts#L47">adapters/sqlite.ts:47</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -346,9 +444,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="abstraction_adapter.Adapter.html">Adapter</a>.<a href="abstraction_adapter.Adapter.html#close">close</a></p>
+								<p>Overrides <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#close">close</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/f1f923f/lib/adapters/sqlite.ts#L42">adapters/sqlite.ts:42</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/adapters/sqlite.ts#L40">adapters/sqlite.ts:40</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -369,9 +467,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="abstraction_adapter.Adapter.html">Adapter</a>.<a href="abstraction_adapter.Adapter.html#configure">configure</a></p>
+								<p>Overrides <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#configure">configure</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/f1f923f/lib/adapters/sqlite.ts#L27">adapters/sqlite.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/adapters/sqlite.ts#L25">adapters/sqlite.ts:25</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -392,9 +490,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="abstraction_adapter.Adapter.html">Adapter</a>.<a href="abstraction_adapter.Adapter.html#delete">delete</a></p>
+								<p>Overrides <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#delete">delete</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/f1f923f/lib/adapters/sqlite.ts#L61">adapters/sqlite.ts:61</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/adapters/sqlite.ts#L56">adapters/sqlite.ts:56</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -424,9 +522,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="abstraction_adapter.Adapter.html">Adapter</a>.<a href="abstraction_adapter.Adapter.html#entries">entries</a></p>
+								<p>Overrides <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#entries">entries</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/f1f923f/lib/adapters/sqlite.ts#L245">adapters/sqlite.ts:245</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/adapters/sqlite.ts#L188">adapters/sqlite.ts:188</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -457,9 +555,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="abstraction_adapter.Adapter.html">Adapter</a>.<a href="abstraction_adapter.Adapter.html#get">get</a></p>
+								<p>Overrides <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#get">get</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/f1f923f/lib/adapters/sqlite.ts#L83">adapters/sqlite.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/adapters/sqlite.ts#L74">adapters/sqlite.ts:74</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -496,9 +594,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="abstraction_adapter.Adapter.html">Adapter</a>.<a href="abstraction_adapter.Adapter.html#has">has</a></p>
+								<p>Overrides <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#has">has</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/f1f923f/lib/adapters/sqlite.ts#L144">adapters/sqlite.ts:144</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/adapters/sqlite.ts#L121">adapters/sqlite.ts:121</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -529,9 +627,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="abstraction_adapter.Adapter.html">Adapter</a>.<a href="abstraction_adapter.Adapter.html#keys">keys</a></p>
+								<p>Overrides <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#keys">keys</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/f1f923f/lib/adapters/sqlite.ts#L176">adapters/sqlite.ts:176</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/adapters/sqlite.ts#L151">adapters/sqlite.ts:151</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -561,9 +659,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="abstraction_adapter.Adapter.html">Adapter</a>.<a href="abstraction_adapter.Adapter.html#set">set</a></p>
+								<p>Overrides <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#set">set</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/f1f923f/lib/adapters/sqlite.ts#L198">adapters/sqlite.ts:198</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/adapters/sqlite.ts#L162">adapters/sqlite.ts:162</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -602,9 +700,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="abstraction_adapter.Adapter.html">Adapter</a>.<a href="abstraction_adapter.Adapter.html#values">values</a></p>
+								<p>Overrides <a href="abstraction_adapter_sql.SQLAdapter.html">SQLAdapter</a>.<a href="abstraction_adapter_sql.SQLAdapter.html#values">values</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/f1f923f/lib/adapters/sqlite.ts#L275">adapters/sqlite.ts:275</a></li>
+									<li>Defined in <a href="https://github.com/amethyst-studio/k-value/blob/8691663/lib/adapters/sqlite.ts#L209">adapters/sqlite.ts:209</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -635,7 +733,10 @@
 						<a href="../modules.html">Modules</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/abstraction_adapter.html">abstraction/adapter</a>
+						<a href="../modules/abstraction_adapter_base.html">abstraction/adapter/base</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/abstraction_adapter_sql.html">abstraction/adapter/sql</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/abstraction_base.html">abstraction/base</a>
@@ -682,14 +783,17 @@
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 								<a href="adapters_sqlite.SQLiteAdapter.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="adapters_sqlite.SQLiteAdapter.html#driver" class="tsd-kind-icon">driver</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="adapters_sqlite.SQLiteAdapter.html#memcache" class="tsd-kind-icon">memcache</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
 								<a href="adapters_sqlite.SQLiteAdapter.html#options" class="tsd-kind-icon">options</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+								<a href="adapters_sqlite.SQLiteAdapter.html#_apply_limit" class="tsd-kind-icon">_apply_<wbr>limit</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="adapters_sqlite.SQLiteAdapter.html#_export" class="tsd-kind-icon">_export</a>
@@ -702,6 +806,12 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="adapters_sqlite.SQLiteAdapter.html#_make" class="tsd-kind-icon">_make</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="adapters_sqlite.SQLiteAdapter.html#_merge" class="tsd-kind-icon">_merge</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="adapters_sqlite.SQLiteAdapter.html#_upsert" class="tsd-kind-icon">_upsert</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="adapters_sqlite.SQLiteAdapter.html#_validate" class="tsd-kind-icon">_validate</a>
@@ -765,7 +875,7 @@
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
 			</ul>
 		</div>
 	</div>
