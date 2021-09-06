@@ -2,6 +2,7 @@ import { fromJSON, toJSON } from 'javascript-serializer'
 import { DateTime, Duration } from 'luxon'
 import type { EncoderOptions, InternalMapper, SetOptions } from './base'
 import { MapLikeAPI } from './base'
+import type { CacheOptions } from './cache'
 import { MemcacheTimeout } from './cache'
 import type { Encoding } from 'crypto'
 
@@ -26,8 +27,8 @@ export abstract class Adapter extends MapLikeAPI {
     }
   }
 
-  public _import (state: KValueTable | undefined): InternalMapper | undefined {
-    if (state === undefined || state.value === undefined) return undefined
+  public _import (state: KValueEntry | undefined): InternalMapper | undefined {
+    if (state === undefined || state.value === undefined || state.value === null) return undefined
     const context: InternalMapper = fromJSON(JSON.parse(state.value)) as InternalMapper
 
     if (context.encoder?.use === true) {
@@ -78,16 +79,16 @@ export abstract class Adapter extends MapLikeAPI {
 }
 
 /** The representation of the KValue Table */
-export interface KValueTable {
+export interface KValueEntry {
   key: string
-  value: string | undefined
+  value: string | undefined | null
 }
 
 /** The representation of the PostgreSQL Adapter Options */
-export interface PostgreSQLOptions {
+export interface PostgreSQLOptions extends CacheOptions {
   client: 'pg'
   connection: string
-  table: string | undefined | 'kv_global'
+  table: string | 'kv_global'
   searchPath?: string[]
   pool: {
     min: number
@@ -101,9 +102,9 @@ export interface PostgreSQLOptions {
 }
 
 /** The representation of the MySQL Adapter Options */
-export interface MySQL2Options {
+export interface MySQL2Options extends CacheOptions {
   client: 'mysql' | 'mysql2'
-  table: string | undefined | 'kv_global'
+  table: string | 'kv_global'
   connection: {
     host: string
     user: string
@@ -122,11 +123,11 @@ export interface MySQL2Options {
 }
 
 /** The representation of the SQLite Adapter Options */
-export interface SQLite3Options {
+export interface SQLite3Options extends CacheOptions {
   client: 'sqlite3'
   connection: {
     filename: string
-    table: string | undefined | 'kv_global'
+    table: string | 'kv_global'
   }
   encoder?: EncoderOptions
 }

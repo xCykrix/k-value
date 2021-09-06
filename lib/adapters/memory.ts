@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/require-await */
 
+import { recursive } from 'merge'
 import { Adapter } from '../abstraction/adapter'
 import type { GetOptions, InternalMapper, LimiterOptions, SetOptions } from '../abstraction/base'
 import { shuffle } from '../util/shuffle'
-import { recursive } from 'merge'
 
 export class MemoryAdapter extends Adapter {
   private readonly state = new Map<string, InternalMapper>()
@@ -11,117 +11,185 @@ export class MemoryAdapter extends Adapter {
   public async close (): Promise<void> { /* Noop */ }
   public async configure (): Promise<void> { /* Noop */ }
 
+  /**
+   * Remove all entries from the database.
+   */
   public async clear (): Promise<void> {
     this.state.clear()
   }
 
-  public async delete (id: string | string[]): Promise<void> {
-    super._validate(id)
+  /**
+   * Remove the specified sigular or list of entries from the database.
+   *
+   * @param key The key or keys to remove.
+   */
+  public async delete (key: string | string[]): Promise<void> {
+    super._validate(key)
 
-    if (Array.isArray(id)) {
-      // Delete ID List
-      for (const i of id) this.state.delete(i)
-      // Delete Single ID
-    } else this.state.delete(id)
+    // Delete List of IDs
+    if (Array.isArray(key)) key.forEach((k) => { this.state.delete(k) })
+    // Delete Single ID
+    else this.state.delete(key)
   }
 
-  public async get (id: string | string[], options?: GetOptions): Promise<unknown | unknown[]> {
-    super._validate(id)
+  /**
+   * Get the specified sigular or list of entries from the database.
+   *
+   * @param key The key or keys to get.
+   * @param options [Optional] The (GetOptions & CacheOptions) to use for the request.
+   *
+   * @returns The value or values from the database.
+   */
+  public async get (key: string | string[], options?: GetOptions): Promise<unknown | unknown[]> {
+    super._validate(key)
 
-    if (Array.isArray(id)) {
+    if (Array.isArray(key)) {
+      // Fetch List of IDs with Specified Options
       const result: unknown[] = []
-      for (const i of id) {
-        const context = this.state.get(i)
+      for (const k of key) {
+        const context = this.state.get(k)
+        // Default Invalid or Undefined Contexts
         if (context === undefined || context.ctx === undefined) {
-          result.push({ key: i, value: options?.default ?? undefined })
+          result.push({ key: k, value: options?.default ?? undefined })
           continue
         }
-        if (await super._lifetime(i, context)) {
-          result.push({ key: i, value: options?.default ?? undefined })
+        // Check Expiration
+        if (await super._lifetime(k, context)) {
+          result.push({ key: k, value: options?.default ?? undefined })
           continue
         }
-        result.push({ key: i, value: context.ctx })
+        result.push({ key: k, value: context.ctx })
       }
       return result
     } else {
-      const context = this.state.get(id)
+      // Fetch Single ID with Specific Options
+      const context = this.state.get(key)
+      // Default Invalid or Undefined Contexts
       if (context === undefined || context.ctx === undefined) return options?.default ?? undefined
-      if (await super._lifetime(id, context)) return options?.default ?? undefined
+      // Check Expiration
+      if (await super._lifetime(key, context)) return options?.default ?? undefined
       return context.ctx
     }
   }
 
-  public async has (id: string | string[]): Promise<boolean | Array<{ key: string; has: boolean; }>> {
-    super._validate(id)
+  /**
+   * Check if the specified sigular or list of entries exist in the database.
+   *
+   * @param key The key or keys to check.
+   *
+   * @returns The existence of the specified key or keys.
+   */
+  public async has (key: string | string[]): Promise<boolean | Array<{ key: string; has: boolean; }>> {
+    super._validate(key)
 
-    if (Array.isArray(id)) {
+    if (Array.isArray(key)) {
+      // Check List of IDS Existence
       const result: Array<{ key: string; has: boolean; }> = []
-      for (const i of id) {
-        result.push({ key: i, has: this.state.has(i) })
-      }
+      // Propogate Results
+      key.forEach((k) => {
+        result.push({ key: k, has: this.state.has(k) })
+      })
       return result
-    } else return this.state.has(id)
+      // Check Single ID Existence
+    } else return this.state.has(key)
   }
 
+  /**
+   * The list of keys from the database.
+   *
+   * @param limits [Optional] The limits to apply to the list.
+   */
   public async keys (limits?: LimiterOptions): Promise<string[]> {
-    let keys = Array.from(this.state.keys())
+    let kValueTables = Array.from(this.state.keys())
 
-    // Randomize and Limiter
+    // Apply Limiter
     if (limits?.randomize === true) {
-      keys = shuffle(keys)
+      kValueTables = shuffle(kValueTables)
     }
     if (limits?.limit !== undefined) {
       if (!isNaN(parseInt(limits.limit as unknown as string | undefined ?? 'NaN'))) {
-        keys = keys.slice(0, limits.limit)
+        kValueTables = kValueTables.slice(0, limits.limit)
       }
     }
 
-    return Array.from(keys)
+    return kValueTables
   }
 
-  public async set (id: string | string[], value: unknown, options?: SetOptions): Promise<void> {
-    super._validate(id)
+  /**
+   * Updates a key or list of keys in the database to the specified value.
+   *
+   * @param key The key(s) to set the value of.
+   * @param value The value of the specified key(s).
+   */
+  public async set (key: string | string[], value: unknown, options?: SetOptions): Promise<void> {
+    super._validate(key)
 
-    if (Array.isArray(id)) {
-      for (const i of id) {
+    if (Array.isArray(key)) {
+      // Set List of Keys
+      for (const k of key) {
         if (options?.merge === true) {
-          const current = await this.get(i)
+          // Merge if Applicable
+          const current = await this.get(k)
           if (current !== null && typeof current === 'object' && value !== null && typeof value === 'object') {
             value = recursive(true, current, value) as unknown
           }
         }
-        this.state.set(i, super._make(value, options, { use: false, parse: 'utf-8', store: 'utf-8' }))
+        // Inset to Internal Memory
+        this.state.set(k, super._make(value, options, { use: false, parse: 'utf-8', store: 'utf-8' }))
       }
     } else {
+      // Set Single Key
       if (options?.merge === true) {
-        const current = await this.get(id)
+        // Merge if Applicable
+        const current = await this.get(key)
         if (current !== null && typeof current === 'object' && value !== null && typeof value === 'object') {
           value = recursive(true, current, value) as unknown
         }
       }
-      this.state.set(id, super._make(value, options, { use: false, parse: 'utf-8', store: 'utf-8' }))
+      // Inset to Internal Memory
+      this.state.set(key, super._make(value, options, { use: false, parse: 'utf-8', store: 'utf-8' }))
     }
   }
 
+  /**
+   * The list of [key, value] pairs in the database.
+   *
+   * @param limits [Optional] The limits to apply to the list.
+   *
+   * @returns List of [key, value] pairs from the database.
+   */
   public async entries (limits?: LimiterOptions): Promise<Array<[string, unknown]>> {
-    const ids = await this.keys(limits)
-
     const result: Array<[string, unknown]> = []
-    for (const id of ids) {
-      result.push([id, await this.get(id)])
+    let kValueEntries = await this.keys(limits)
+
+    // Apply Limiter
+    if (limits?.randomize === true) {
+      kValueEntries = shuffle(kValueEntries)
     }
+    if (limits?.limit !== undefined) {
+      if (!isNaN(parseInt(limits.limit as unknown as string | undefined ?? 'NaN'))) {
+        kValueEntries = kValueEntries.slice(0, limits.limit)
+      }
+    }
+
+    // Index Entries
+    const kValuePairs = await this.get(kValueEntries) as Array<{ key: string; value: unknown; }>
+    kValuePairs.forEach((kValuePair) => {
+      result.push([kValuePair.key, kValuePair.value])
+    })
 
     return result
   }
 
+  /**
+   * The list of value(s) in the database.
+   *
+   * @param limits [Optional] The limits to apply to the list.
+   *
+   * @returns The list of values from the database.
+   */
   public async values (limits?: LimiterOptions): Promise<unknown[]> {
-    const ids = await this.keys(limits)
-
-    const result: unknown[] = []
-    for (const id of ids) {
-      result.push(await this.get(id))
-    }
-
-    return result
+    // Return just the values of #entries()
+    return (await this.entries(limits)).map((v) => v[1])
   }
 }

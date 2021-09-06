@@ -1,4 +1,5 @@
 import type { Encoding } from 'crypto'
+import type { CacheOptions } from './cache'
 
 export abstract class MapLikeAPI {
   /**
@@ -50,13 +51,6 @@ export abstract class MapLikeAPI {
   }
 }
 
-/** The representation of the Encoder Options */
-export interface EncoderOptions {
-  parse: Encoding | undefined
-  store: Encoding | undefined
-  use: boolean | undefined
-}
-
 /** The representation of the Generic Setter Options */
 export interface SetOptions {
   lifetime?: number
@@ -64,7 +58,7 @@ export interface SetOptions {
 }
 
 /** The representation of the Get Options */
-export interface GetOptions {
+export interface GetOptions extends CacheOptions {
   default?: unknown
 }
 
@@ -72,6 +66,13 @@ export interface GetOptions {
 export interface LimiterOptions {
   limit?: number
   randomize?: boolean
+}
+
+/** The representation of the Encoder Options */
+export interface EncoderOptions {
+  parse: Encoding | undefined
+  store: Encoding | undefined
+  use: boolean | undefined
 }
 
 /** The representation of the Internal Mapping Instance */
