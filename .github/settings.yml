@@ -2,7 +2,7 @@
 repository:
   name: k-value
   description: Node.js Map-like API based key-value storage with multiple persistent backend adapters.
-  homepage: https://invite-to.amethyst.live
+  homepage: https://www.npmjs.com/package/k-value
 
   security_and_analysis:
     advanced_security:

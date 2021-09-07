@@ -7,9 +7,14 @@ import type { SQLite3Options } from '../abstraction/adapter/sql'
 import { SQLAdapter } from '../abstraction/adapter/sql'
 import { KnexHandler } from '../builder/knex'
 
+/** SQLIte k-value Adapter */
 export class SQLiteAdapter extends SQLAdapter {
   protected readonly options: SQLite3Options
 
+  /**
+   * Initialize k-value SQLite Adapter.
+   *
+  */
   public constructor (options: SQLite3Options & { useNullAsDefault: boolean; }) {
     super()
     options.client = options.client as 'sqlite3' | null ?? 'sqlite3'

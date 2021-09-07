@@ -6,6 +6,10 @@
 
 Node.js Map-like API based key-value storage with multiple persistent backend adapters.
 
+https://github.com/amethyst-studio/k-value/wiki/Fundamental-v1-to-v2-Changes
+
+https://github.com/amethyst-studio/k-value/wiki/Examples v2.0 Examples
+
 
 ## Installation
 
