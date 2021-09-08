@@ -21,7 +21,7 @@ $ npm install k-value # Library
 ## Usage/Examples
 
 ```javascript
-const kvalue = require('k-value')
+const { MemoryAdapter, MySQLAdapter, PostgreSQLAdapter, SQLiteAdapter } = require('k-value')
 ```
 
 You can visit our [Internal Wiki](https://github.com/amethyst-studio/k-value/wiki) for additional information and examples of using our software.
@@ -31,20 +31,15 @@ Automatically Generated API Documentation: [Documentation for API](https://ameth
 
 ## Run Locally
 
-Clone the project
-
 ```bash
 $ git clone https://github.com/amethyst-studio/k-value.git
 $ cd k-value
 $ npm install
 $ npm run build # default build:dev alternative build:production
-$ npm run start # default start:dev alternative start:production
 ```
 
 
 ## Running Tests
-
-To run tests, run the following command
 
 ```bash
   npm run test # default test:dev alternative test:production

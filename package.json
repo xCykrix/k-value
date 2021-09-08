@@ -23,10 +23,13 @@
     "/LICENSE.md"
   ],
   "scripts": {
-    "husky": "husky install",
+    "prepare": "husky install",
+    "prepack": "npm run build:production",
     "format": "eslint .",
-    "build": "(npm run husky) && (npm run format) && (npx tsc --build) && (mocha './tests/**/*.js')",
-    "prepack": "npm run build",
+    "test": "mocha './tests/**/*.js'",
+    "build": "npm run format && npm run build:dev",
+    "build:dev": "npx tsc --build && npm run test",
+    "build:production": "npx tsc --build && npm run test:production",
     "upgrade": "npx npm-check-updates -u --target latest --peer && wget https://www.toptal.com/developers/gitignore/api/node,yarn,webstorm+all,visualstudiocode,visualstudio -O ./origin.gitignore && echo '' > .gitignore && echo '# MANAGED FILE: PLEASE MAKE MODIFICATIONS TO ./user.gitignore' >> .gitignore && cat ./user.gitignore >> .gitignore && cat ./origin.gitignore >> .gitignore",
     "docs": "typedoc --out ./docs/ ./lib/"
   },
