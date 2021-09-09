@@ -15,7 +15,7 @@ export class SQLiteAdapter extends SQLAdapter {
    * Initialize k-value SQLite Adapter.
    *
   */
-  public constructor (options: SQLite3Options & { useNullAsDefault: boolean; }) {
+  public constructor (options: SQLite3Options & { useNullAsDefault?: boolean; }) {
     super()
     options.client = options.client as 'sqlite3' | null ?? 'sqlite3'
     options.useNullAsDefault = true

@@ -14,7 +14,6 @@ https://github.com/amethyst-studio/k-value/wiki/Examples v2.0 Examples
 ## Installation
 
 ```bash
-$ git clone https://github.com/amethyst-studio/k-value.git # Application
 $ npm install k-value # Library
 ```
 
@@ -42,7 +41,7 @@ $ npm run build # default build:dev alternative build:production
 ## Running Tests
 
 ```bash
-  npm run test # default test:dev alternative test:production
+$ npm run test # default test:dev alternative test:production
 ```
 
 

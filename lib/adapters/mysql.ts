@@ -10,7 +10,7 @@ import { KnexHandler } from '../builder/knex'
 export class MySQLAdapter extends SQLAdapter {
   protected readonly options: MySQL2Options
 
-  public constructor (options: MySQL2Options & { useNullAsDefault: boolean; }) {
+  public constructor (options: MySQL2Options & { useNullAsDefault?: boolean; }) {
     super()
     options.client = options.client as 'mysql2' | null ?? 'mysql2'
     options.useNullAsDefault = true

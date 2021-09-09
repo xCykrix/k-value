@@ -10,7 +10,7 @@ import { KnexHandler } from '../builder/knex'
 export class PostgreSQLAdapter extends SQLAdapter {
   protected readonly options: PostgreSQLOptions
 
-  public constructor (options: PostgreSQLOptions & { useNullAsDefault: boolean; }) {
+  public constructor (options: PostgreSQLOptions & { useNullAsDefault?: boolean; }) {
     super()
     options.cache = options.cache ?? false
     options.client = options.client as 'pg' | null ?? 'pg'
