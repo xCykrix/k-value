@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/require-await */
-
 import type { GetOptions, LimiterOptions, SetOptions } from '../abstraction/base'
 import type { InternalMapper } from '../abstraction/adapter/base'
 import { BaseAdapter } from '../abstraction/adapter/base'

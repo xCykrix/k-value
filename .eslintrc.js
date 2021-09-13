@@ -71,6 +71,7 @@ module.exports = {
     "@typescript-eslint/prefer-ts-expect-error": "error",
     "@typescript-eslint/promise-function-async": "error",
     "@typescript-eslint/require-array-sort-compare": "warn",
+    "@typescript-eslint/require-await": "off",
     "@typescript-eslint/strict-boolean-expressions": "warn",
     "@typescript-eslint/switch-exhaustiveness-check": "warn",
     "@typescript-eslint/type-annotation-spacing": "warn",

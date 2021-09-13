@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/require-await */
-
 import type { GetOptions, LimiterOptions, SetOptions } from '../abstraction/base'
 import type { KValueEntry } from '../abstraction/adapter/base'
 import type { CacheOptions } from '../abstraction/cache'

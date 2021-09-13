@@ -19,7 +19,7 @@
   "files": ["/dist/", "/package.json", "/README.md", "/LICENSE.md"],
   "scripts": {
     "prepare": "husky install",
-    "prepack": "npm run build:production",
+    "prepack": "npm run build",
     "format": "eslint .",
     "test": "mocha './tests/**/*.js'",
     "build": "npx tsc --build && npm run test",
