@@ -34,14 +34,14 @@ Automatically Generated API Documentation: [Documentation for API](https://ameth
 $ git clone https://github.com/amethyst-studio/k-value.git
 $ cd k-value
 $ npm install
-$ npm run build # default build:dev alternative build:production
+$ npm run build
 ```
 
 
 ## Running Tests
 
 ```bash
-$ npm run test # default test:dev alternative test:production
+$ npm run test
 ```
 
 
