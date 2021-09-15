@@ -79,7 +79,7 @@ export class PostgreSQLAdapter extends SQLAdapter {
 
     where.forEach((k) => {
       if ((this.options.cache === true || options?.cache === true) && this.memcache.has(k)) {
-        return partials.set(k, this.memcache.get(k)!)
+        return partials.set(k, this.memcache.get(k) ?? { key: k, value: undefined })
       }
       return partials.set(k, { key: k, value: undefined })
     })

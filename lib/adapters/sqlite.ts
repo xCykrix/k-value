@@ -82,13 +82,16 @@ export class SQLiteAdapter extends SQLAdapter {
     const partials: Map<string, KValueEntry> = new Map()
 
     where.forEach((k) => {
-      if ((this.options.cache === true || options?.cache === true) && this.memcache.has(k)) {
-        return partials.set(k, this.memcache.get(k)!)
+      const has = this.memcache.has(k)
+      if ((this.options.cache === true || options?.cache === true) && has) {
+        return partials.set(k, this.memcache.get(k) ?? { key: k, value: undefined })
       }
       return partials.set(k, { key: k, value: undefined })
     })
 
-    const index = Array.from(partials).filter(p => p[1].value === undefined).map(p => p[0])
+    const index = Array.from(partials).filter(p => {
+      return p[1].value === undefined
+    }).map(p => p[0])
     const pair = await this.driver.knex(this.options.connection.table).select('key', 'value').whereIn('key', index) as KValueEntry[]
 
     pair.forEach((kValueEntry) => {

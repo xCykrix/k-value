@@ -115,6 +115,10 @@ describe("Adapter::SQLiteAdapter", function() {
     expect(await kv.get("read-test-2", { cache: true })).to.deep.equal({
       val: false
     });
+    await kv.set("cache-test-1", "hello, world");
+    await kv.get("cache-test-1", { cache: true, cacheExpire: 50 });
+    await new Promise(r => setTimeout(r, 150));
+    await kv.get("cache-test-1", { cache: true, cacheExpire: 50 });
     expect(
       await kv.get(["read-test-1", "read-test-2"], { cache: true })
     ).to.deep.equal([
