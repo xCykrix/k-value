@@ -8,7 +8,7 @@ export abstract class SQLAdapter extends BaseAdapter {
   protected driver: KnexHandler
   protected readonly options: PostgreSQLOptions | MySQL2Options | SQLite3Options
 
-  public async _upsert (kValueEntries: KValueEntry | KValueEntry[]): Promise<void> {
+  protected async _upsert (kValueEntries: KValueEntry | KValueEntry[]): Promise<void> {
     const idTable = this.options as unknown as {
       table: string | undefined
       connection: {

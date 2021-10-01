@@ -9,7 +9,7 @@ import { MemcacheTimeout } from '../cache'
 export abstract class BaseAdapter extends MapLikeAPI {
   protected readonly memcache = new MemcacheTimeout()
 
-  public _make (value: unknown, options?: SetOptions, encoding?: EncoderOptions): InternalMapper {
+  protected _make (value: unknown, options?: SetOptions, encoding?: EncoderOptions): InternalMapper {
     encoding = encoding ?? {
       use: true,
       store: 'base64',
@@ -27,7 +27,7 @@ export abstract class BaseAdapter extends MapLikeAPI {
     }
   }
 
-  public async _merge (use: boolean | undefined, key: string, next: unknown): Promise<unknown> {
+  protected async _merge (use: boolean | undefined, key: string, next: unknown): Promise<unknown> {
     if (use === undefined || !use) return next
     if (next === null || typeof next !== 'object') return next
     const current = await this.get(key, { cache: false })
@@ -35,7 +35,7 @@ export abstract class BaseAdapter extends MapLikeAPI {
     return recursive(true, current, next) as unknown
   }
 
-  public _apply_limit<T> (value: T[], options: LimiterOptions | undefined): T[] {
+  protected _apply_limit<T> (value: T[], options: LimiterOptions | undefined): T[] {
     if (options?.randomize === true) {
       value = shuffle(value)
     }
@@ -45,7 +45,7 @@ export abstract class BaseAdapter extends MapLikeAPI {
     return value
   }
 
-  public async _import (key: string, state: KValueEntry | undefined): Promise<InternalMapper | undefined> {
+  protected async _import (key: string, state: KValueEntry | undefined): Promise<InternalMapper | undefined> {
     if (state === undefined || state.value === undefined || state.value === null) return undefined
     const context: InternalMapper = fromJSON(JSON.parse(state.value)) as InternalMapper
 
@@ -59,7 +59,7 @@ export abstract class BaseAdapter extends MapLikeAPI {
     return context
   }
 
-  public _export (state: InternalMapper): string {
+  protected _export (state: InternalMapper): string {
     if (state.encoder?.use === true) {
       state.ctx = { save: Buffer.from(JSON.stringify(toJSON(state.ctx))).toString(state.encoder.store ?? 'base64') }
     }
@@ -67,7 +67,7 @@ export abstract class BaseAdapter extends MapLikeAPI {
     return JSON.stringify(toJSON(state))
   }
 
-  public _validate (id: string | string[], zeroFill?: boolean): void {
+  protected _validate (id: string | string[], zeroFill?: boolean): void {
     if (Array.isArray(id)) {
       if (id.length === 0 && zeroFill !== true) throw new Error('ValidationError - id must contain at least one entry as an Array.')
       for (const i of id) {
@@ -80,7 +80,7 @@ export abstract class BaseAdapter extends MapLikeAPI {
     }
   }
 
-  public async _lifetime (id: string, state: InternalMapper | undefined): Promise<boolean> {
+  protected async _lifetime (id: string, state: InternalMapper | undefined): Promise<boolean> {
     if (state === undefined) return true
     if (state.lifetime === undefined || state.lifetime === null) return false
 
