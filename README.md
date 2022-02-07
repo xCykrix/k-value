@@ -127,7 +127,7 @@ Finally, open a pull request and fill out the supplied template. After that, one
 
 ## License
 
-Distributed under the MIT License. See [LICENSE](https://github.com/amethyst-studio/k-value/blob/main/LICENSE.md) for more information.
+Distributed under the MIT License. See [LICENSE](https://github.com/amethyst-studio/k-value/blob/main/LICENSE) for more information.
 
 ## Authors
 
