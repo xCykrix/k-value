@@ -1,7 +1,7 @@
 import { fromJSON, toJSON } from 'javascript-serializer';
 import { DateTime, Duration } from 'luxon';
 import { recursive } from 'merge';
-import { shuffle } from '../../util/shuffle';
+import { shuffle } from '../../utils/shuffle';
 import type { EncoderOptions, LimiterOptions, SetOptions } from '../base';
 import { MapLikeAPI } from '../base';
 import { MemcacheTimeout } from '../cache';
