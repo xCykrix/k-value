@@ -17,10 +17,14 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "/dist/",
-    "/package.json",
-    "/README.md",
-    "/LICENSE.md"
+    "dist",
+    "lib",
+    "index.ts",
+    "LICENSE",
+    "package-lock.json",
+    "package.json",
+    "README.md",
+    "tsconfig.json"
   ],
   "scripts": {
     "start": "launch",
