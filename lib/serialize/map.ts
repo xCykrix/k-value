@@ -1,17 +1,22 @@
-import { addDataType } from 'javascript-serializer'
+import { addDataType } from 'javascript-serializer';
 
-/** Serializable Map Instance */
+/**
+ * Transparent type-specific serialization kit.
+ *
+ * @category Serialization Utility
+ * @internal
+ */
 class SerializableMap {
-  public constructor (public map: Map<unknown, unknown>) {}
+  public constructor(public map: Map<unknown, unknown>) {}
 
-  public toJSON (): SerialMap {
+  public toJSON(): SerialMap {
     return {
-      i: Array.from(this.map.entries())
-    }
+      i: Array.from(this.map.entries()),
+    };
   }
 
-  public static fromJSON (map: SerialMap): Map<unknown, unknown> {
-    return new Map([...map.i])
+  public static fromJSON(map: SerialMap): Map<unknown, unknown> {
+    return new Map([...map.i]);
   }
 }
 
@@ -19,6 +24,6 @@ interface SerialMap {
   i: Iterable<[unknown, unknown]>
 }
 
-export function hook (): void {
-  addDataType(SerializableMap, Map)
+export function hook(): void {
+  addDataType(SerializableMap, Map);
 }

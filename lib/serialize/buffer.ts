@@ -1,17 +1,22 @@
-import { addDataType } from 'javascript-serializer'
+import { addDataType } from 'javascript-serializer';
 
-/** Serializable Buffer Instance */
+/**
+ * Transparent type-specific serialization kit.
+ *
+ * @category Serialization Utility
+ * @internal
+ */
 class SerializableBuffer {
-  public constructor (public buffer: Buffer) {}
+  public constructor(public buffer: Buffer) {}
 
-  public toJSON (): SerialBuffer {
+  public toJSON(): SerialBuffer {
     return {
-      i: this.buffer.toString('base64')
-    }
+      i: this.buffer.toString('base64'),
+    };
   }
 
-  public static fromJSON (buffer: SerialBuffer): Buffer {
-    return Buffer.from(buffer.i, 'base64')
+  public static fromJSON(buffer: SerialBuffer): Buffer {
+    return Buffer.from(buffer.i, 'base64');
   }
 }
 
@@ -19,6 +24,6 @@ interface SerialBuffer {
   i: string
 }
 
-export function hook (): void {
-  addDataType(SerializableBuffer, Buffer)
+export function hook(): void {
+  addDataType(SerializableBuffer, Buffer);
 }
